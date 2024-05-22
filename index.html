@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="ro">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Calendar 2024</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+    }
+
+    th,
+    td {
+      border: 1px solid #ddd;
+      padding: 8px;
+      text-align: center;
+    }
+
+    th {
+      background-color: #f2f2f2;
+    }
+
+    /* CSS for background colors based on doy % 4 */
+    td.doy0 {
+      background-color: white;
+    }
+
+    td.doy1 {
+      background-color: white;
+    }
+
+    td.doy2 {
+      background-color: green;
+    }
+
+    td.doy3 {
+      background-color: blue;
+    }
+  </style>
+</head>
+
+<body>
+
+  <h2>Calendar 2024</h2>
+
+  <label for="monthSelector">Selectează luna:</label>
+  <select id="monthSelector" onchange="generateCalendar(2024, Math.floor(this.value))">
+    <option value="0">Ianuarie</option>
+    <option value="1">Februarie</option>
+    <option value="2">Martie</option>
+    <option value="3">Aprilie</option>
+    <option value="4">Mai</option>
+    <option value="5">Iunie</option>
+    <option value="6">Iulie</option>
+    <option value="7">August</option>
+    <option value="8">Septembrie</option>
+    <option value="9">Octombrie</option>
+    <option value="10">Noiembrie</option>
+    <option value="11">Decembrie</option>
+  </select>
+
+  <div id="calendarContainer"></div>
+
+  <script>
+    function generateCalendar(year, month) {
+      const daysInMonth = new Date(year, month + 1, 0).getDate();
+      const firstDay = new Date(year, month, 1).getDay();
+const queryString = window.location.search;
+const urlParams = new URLSearchParams(queryString);
+
+let tura = null;
+
+if (urlParams.has('tura')) {
+  const turaValue = urlParams.get('tura');
+  if (!isNaN(turaValue) && parseInt(turaValue) >= 1 && parseInt(turaValue) <= 4) {
+    tura = parseInt(turaValue);
+    if (tura % 2 == 0)
+      tura = 6 - tura;
+  }
+}
+
+// Rest of your code can use the `tura` variable here
+      var date1 = new Date(year, month, 1)
+      var date0 = new Date(year, 0, 1);
+      var doy = Math.ceil((date1 - date0) / 86400000);
+
+      let calendarHTML = '<table><tr><th>Dum</th><th>Lun</th><th>Mar</th><th>Mie</th><th>Joi</th><th>Vin</th><th>Sâm</th></tr><tr>';
+
+      let dayCount = 1;
+
+      for (let i = 0; i < 42; i++) {
+        if (i >= firstDay && dayCount <= daysInMonth) {
+          let doyClass = `doy${(doy + tura) % 4}`;
+          calendarHTML += `<td class="${doyClass}">${dayCount}</td>`;
+          doy++;
+          dayCount++;
+        } else {
+          calendarHTML += '<td></td>';
+        }
+
+        if (i % 7 === 6) {
+          calendarHTML += '</tr><tr>';
+        }
+      }
+
+      calendarHTML += '</tr></table>';
+      document.getElementById('calendarContainer').innerHTML = calendarHTML;
+    }
+
+    generateCalendar(2024, 0); // Afișează inițial luna ianuarie 2024
+  </script>
+
+</body>
+
+</html>
