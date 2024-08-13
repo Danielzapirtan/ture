@@ -11,6 +11,7 @@ monthSelector.min = 1;
 monthSelector.max = 12;
 monthSelector.step = 1;
 let year = 2024;
+let month = 8;
 generateCalendar();
 
 function generateCalendar() {
@@ -18,7 +19,6 @@ function generateCalendar() {
     year = new Date().getFullYear();
     document.getElementById("yearSelector").value = year;
   }
-  let month = Math.floor(document.getElementById("monthSelector").value - 1);
   if (month < 0 || month > 11 || !month) {
     month = new Date().getMonth();
     document.getElementById("monthSelector").value = month + 1;
