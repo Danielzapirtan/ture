@@ -1,11 +1,6 @@
-body,
-label,
-select,
-#yearSelector,
-#monthSelector,
-table,
-th,
-td {
+body, label,
+select, #yearSelector, #monthSelector,
+table, th, td {
   font-family: Arial, sans-serif;
   font-size: 34px;
   margin: 20px;
