@@ -1,0 +1,47 @@
+body,
+label,
+select,
+#yearSelector,
+#monthSelector,
+table,
+th,
+td {
+  font-family: Arial, sans-serif;
+  font-size: 34px;
+  margin: 20px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+th,
+td {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: center;
+  width: 80px;
+}
+
+th {
+  background-color: #f2f2f2;
+}
+
+/* CSS for background colors based on doy % 4 */
+td.doy0 {
+  background-color: white;
+}
+
+td.doy1 {
+  background-color: white;
+}
+
+td.doy2 {
+  background-color: #aaffaa;
+}
+
+td.doy3 {
+  background-color: #aaaaff;
+}
