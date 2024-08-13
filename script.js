@@ -11,15 +11,17 @@ monthSelector.min = 1;
 monthSelector.max = 12;
 monthSelector.step = 1;
 let year = 2024;
-let month = 8;
+let month = 7;
 generateCalendar();
 
 function generateCalendar() {
-  if (year < minYear || year > maxYear || !year) {
+  year = yearSelector.value;
+  if (year < minYear || year > maxYear) {
     year = new Date().getFullYear();
     document.getElementById("yearSelector").value = year;
   }
-  if (month < 0 || month > 11 || !month) {
+  month = monthSelector.value - 1;
+  if (month < 0 || month > 11) {
     month = new Date().getMonth();
     document.getElementById("monthSelector").value = month + 1;
   }
