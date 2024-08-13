@@ -10,11 +10,10 @@ monthSelector.value = 8;
 monthSelector.min = 1;
 monthSelector.max = 12;
 monthSelector.step = 1;
-
+let year = 2024;
 generateCalendar();
 
 function generateCalendar() {
-  let year = Math.floor(document.getElementById("yearSelector").value);
   if (year < minYear || year > maxYear || !year) {
     year = new Date().getFullYear();
     document.getElementById("yearSelector").value = year;
