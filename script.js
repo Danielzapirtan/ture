@@ -1,12 +1,12 @@
 const yearSelector = document.getElementById("yearSelector");
 const minYear = new Date().getFullYear();
 const maxYear = minYear + 13;
-yearSelector.value = minYear;
+yearSelector.value = 2024;
 yearSelector.mim = minYear;
 yearSelector.max = maxYear;
 yearSelector.step = 1;
 const monthSelector = document.getElementById("monthSelector");
-monthSelector.value = new Date().getMonth() + 1;
+monthSelector.value = 8;
 monthSelector.min = 1;
 monthSelector.max = 12;
 monthSelector.step = 1;
