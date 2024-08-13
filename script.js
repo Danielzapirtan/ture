@@ -15,6 +15,7 @@ let month = 8;
 generateCalendar();
 
 function generateCalendar() {
+  year = yearSelector.value;
   if (year < minYear || year > maxYear || !year) {
     year = new Date().getFullYear();
     document.getElementById("yearSelector").value = year;
