@@ -15,12 +15,12 @@ generateCalendar();
 
 function generateCalendar() {
   let year = Math.floor(document.getElementById("yearSelector").value);
-  if (year < minYear || year > maxYear) {
+  if (year < minYear || year > maxYear || !year) {
     year = new Date().getFullYear();
     document.getElementById("yearSelector").value = year;
   }
   let month = Math.floor(document.getElementById("monthSelector").value - 1);
-  if (month < 0 || month > 11) {
+  if (month < 0 || month > 11 || !month) {
     month = new Date().getMonth();
     document.getElementById("monthSelector").value = month + 1;
   }
