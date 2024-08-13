@@ -20,6 +20,7 @@ function generateCalendar() {
     year = new Date().getFullYear();
     document.getElementById("yearSelector").value = year;
   }
+  month = monthSelector.value;
   if (month < 0 || month > 11 || !month) {
     month = new Date().getMonth();
     document.getElementById("monthSelector").value = month + 1;
