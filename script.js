@@ -10,15 +10,17 @@ monthSelector.value = new Date().getMonth() + 1;
 monthSelector.min = 1;
 monthSelector.max = 12;
 monthSelector.step = 1;
-let year = 2024;
-let month = 7;
+let year = yearSelector.value;
+let month = monthSelector.value;
 generateCalendar();
 
 function generateCalendar() {
   year = yearSelector.value;
   month = monthSelector.value - 1;
+  try {
   if (!year || !month || parseInt(year) < 2024 || parseInt(year) > 2037 || parseInt(month) > 11)
     document.getElementById("calendarContainer").value = ``;
+  } catch { }
   const daysInMonth = new Date(year, month + 1, 0).getDate();
   const firstDay = (new Date(year, month, 1).getDay() + 6) % 7;
   const queryString = window.location.search;
