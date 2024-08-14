@@ -16,15 +16,7 @@ generateCalendar();
 
 function generateCalendar() {
   year = yearSelector.value;
-//  if (year < minYear || year > maxYear) {
-  //  year = new Date().getFullYear();
-    //document.getElementById("yearSelector").value = year;
- //s }
   month = monthSelector.value - 1;
-//  if (month < 0 || month > 11) {
-  //  month = new Date().getMonth();
-    //document.getElementById("monthSelector").value = month + 1;
-  //}
   const daysInMonth = new Date(year, month + 1, 0).getDate();
   const firstDay = (new Date(year, month, 1).getDay() + 6) % 7;
   const queryString = window.location.search;
