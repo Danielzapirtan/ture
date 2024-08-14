@@ -15,13 +15,13 @@ let month = monthSelector.value;
 generateCalendar();
 
 function generateCalendar() {
-  year = yearSelector.value;
-  month = monthSelector.value - 1;
-  if (parseInt(year) < 2024 || parseInt(year) > 2037) {
+  year = parseInt(yearSelector.value);
+  month = parseInt(monthSelector.value) - 1;
+  if (year < 2024 || year > 2037) {
     year = new Date().getFullYear();
     yearSelector.value = year;
   }
-  if (parseInt(month) + 1 > 12) {
+  if (month + 1 > 12) {
     month = new Date().getMonth();
     monthSelector.value = month + 1;
   }
