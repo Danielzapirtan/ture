@@ -19,7 +19,7 @@ function generateCalendar() {
   month = monthSelector.value - 1;
 	if (!year || !month)
 		return;
-	if (year < 1000 || year > 9999 || month < 0 || month > 11)
+	if (year < 1000 || year > 9999 || month > 11)
 		return;
   const daysInMonth = new Date(year, month + 1, 0).getDate();
   const firstDay = (new Date(year, month, 1).getDay() + 6) % 7;
