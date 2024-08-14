@@ -17,6 +17,8 @@ generateCalendar();
 function generateCalendar() {
   year = yearSelector.value;
   month = monthSelector.value - 1;
+  if (!year || !month || parseInt(year) < 2024 || parseInt(year) > 2037 || parseInt(month) > 11)
+    document.getElementById("calendarContainer").innerHTML = ``;
   const daysInMonth = new Date(year, month + 1, 0).getDate();
   const firstDay = (new Date(year, month, 1).getDay() + 6) % 7;
   const queryString = window.location.search;
