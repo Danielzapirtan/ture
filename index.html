@@ -11,12 +11,11 @@
 <body>
   <h2>Calendar ture</h2>
   <label for="yearSelector">Introduceți anul:</label>
-  <input type="number" id="yearSelector" onchange="generateCalendar()">
+  <input type="number" id="yearSelector" oninput="generateCalendar()">
   <br>
   <label for="monthSelector">Introduceți luna (1..12):</label>
-  <input type="number" id="monthSelector" onchange="generateCalendar()">
+  <input type="number" id="monthSelector" oninput="generateCalendar()">
   <br>
-  <button onclick="generateCalendar()">Actualizare calendar</button>
   <div id="calendarContainer"></div>
   <script src="script.js"></script>
 </body>
