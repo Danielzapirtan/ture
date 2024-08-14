@@ -17,7 +17,7 @@ generateCalendar();
 function generateCalendar() {
   year = yearSelector.value;
   month = monthSelector.value - 1;
-  if (!year || !month)
+  if (year === "" || month === "")
     return;
   if (parseInt(year) < 2024 || parseInt(year) > 2037) {
     year = new Date().getFullYear();
