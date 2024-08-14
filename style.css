@@ -2,10 +2,10 @@ body, label,
 select, #yearSelector, #monthSelector,
 table, th, td {
   font-family: Arial, sans-serif;
-  font-size: 34px;
+  font-size: 17px;
   margin: 20px;
 }
-How 
+
 table {
   width: 100%;
   border-collapse: collapse;
