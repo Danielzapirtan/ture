@@ -21,7 +21,7 @@ function generateCalendar() {
     year = new Date().getFullYear();
     yearSelector.value = year;
   }
-  if (parseInt(month) + 1 < 1 || parseInt(month) + 1 > 12) {
+  if (parseInt(month) + 1 > 12) {
     month = new Date().getMonth();
     monthSelector.value = month + 1;
   }
