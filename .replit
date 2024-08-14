@@ -1,2 +1,8 @@
 run = "node script.js"
-modules = ["nodejs-20"]
+modules = ["nodejs-20", "web"]
+
+[nix]
+channel = "stable-24_05"
+
+[deployment]
+run = ["sh", "-c", "node script.js"]
