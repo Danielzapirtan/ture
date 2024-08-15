@@ -1,17 +1,17 @@
 const yearSelector = document.getElementById("yearSelector");
 const minYear = new Date().getFullYear();
 const maxYear = minYear + 13;
-yearSelector.value = 2024;
+yearSelector.value = minYear;
 yearSelector.mim = minYear;
 yearSelector.max = maxYear;
 yearSelector.step = 1;
 const monthSelector = document.getElementById("monthSelector");
-monthSelector.value = 8;
+monthSelector.value = new Date().getMonth() + 1;
 monthSelector.min = 1;
 monthSelector.max = 12;
 monthSelector.step = 1;
-let year = 2024;
-let month = 7;
+let year = yearSelector.value;
+let month = monthSelector.value - 1;
 generateCalendar();
 
 function generateCalendar() {
