@@ -2,7 +2,7 @@ const yearSelector = document.getElementById("yearSelector");
 const minYear = new Date().getFullYear();
 const maxYear = minYear + 13;
 yearSelector.value = minYear;
-yearSelector.mim = minYear;
+yearSelector.min = minYear;
 yearSelector.max = maxYear;
 yearSelector.step = 1;
 const monthSelector = document.getElementById("monthSelector");
@@ -11,19 +11,19 @@ monthSelector.min = 1;
 monthSelector.max = 12;
 monthSelector.step = 1;
 let year = yearSelector.value;
-let month = monthSelector.value - 1;
+let month = monthSelector.value;
 generateCalendar();
 
 function generateCalendar() {
-  year = yearSelector.value;
-  if (year < minYear || year > maxYear) {
+  year = parseInt(yearSelector.value);
+  month = parseInt(monthSelector.value) - 1;
+  if (year < 2024 || year > 2037) {
     year = new Date().getFullYear();
-    document.getElementById("yearSelector").value = year;
+    yearSelector.value = year;
   }
-  month = monthSelector.value - 1;
-  if (month < 0 || month > 11) {
+  if (month + 1 > 12) {
     month = new Date().getMonth();
-    document.getElementById("monthSelector").value = month + 1;
+    monthSelector.value = month + 1;
   }
   const daysInMonth = new Date(year, month + 1, 0).getDate();
   const firstDay = (new Date(year, month, 1).getDay() + 6) % 7;
