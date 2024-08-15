@@ -2,21 +2,22 @@
 <html lang="ro">
 
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Calendar ture</title>
-  <link rel="stylesheet" type="text/css" href="style.css">
+  <link rel="stylesheet" type="text/css" href="style.css" />
 </head>
 
 <body>
   <h2>Calendar ture</h2>
   <label for="yearSelector">Introduceți anul:</label>
-  <input type="number" id="yearSelector" onchange="generateCalendar()">
-  <br>
+
+  <input type="number" id="yearSelector" onchange="generateCalendar()" />
+  <br />
   <label for="monthSelector">Introduceți luna (1..12):</label>
-  <input type="number" id="monthSelector" onchange="generateCalendar()">
-  <br>
+  <input type="number" id="monthSelector" onchange="generateCalendar()" />
   <div id="calendarContainer"></div>
   <script src="script.js"></script>
 </body>
+
 </html>

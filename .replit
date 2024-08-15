@@ -1,8 +1,10 @@
-run = "node script.js"
-modules = ["nodejs-20", "web"]
+entrypoint = "index.html"
+hidden = [".config"]
+modules = ["web:v2-20230623-0b7a606"]
 
 [nix]
-channel = "stable-24_05"
+channel = "stable-23_11"
 
 [deployment]
-run = ["sh", "-c", "node script.js"]
+publicDir = "/"
+deploymentTarget = "static"
