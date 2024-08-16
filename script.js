@@ -17,11 +17,11 @@ generateCalendar();
 function generateCalendar() {
   year = parseInt(yearSelector.value);
   month = parseInt(monthSelector.value) - 1;
-  if (year < 2024 || year > 2037) {
+  if (year < 2024 || year > 2037 || !year) {
     year = new Date().getFullYear();
     yearSelector.value = year;
   }
-  if (month + 1 > 12) {
+  if (month + 1 > 12 || !monthSelector.value) {
     month = new Date().getMonth();
     monthSelector.value = month + 1;
   }
