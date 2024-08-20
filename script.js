@@ -3,9 +3,8 @@ let month = new Date().getMonth() + 1;
 updateCalendar();
 
 const monthButtons = document.querySelectorAll('.month-buttons button');
-const yearButtons = document.querySelectorAll('.year-buttons button');
 
-monthButtons.forEach((button) => {
+monthButtons.forEach(button => {
 	button.addEventListener('click', () => {
 		const selectedMonth = parseInt(button.textContent);
 		month = selectedMonth;
@@ -13,7 +12,8 @@ monthButtons.forEach((button) => {
 	});
 });
 
-yearButtons.forEach((button) => {
+const yearButtons = document.querySelectorAll('.year-buttons button');
+yearButtons.forEach(button => {
 	button.addEventListener('click', () => {
 		const selectedYear = parseInt(button.textContent);
 		year = selectedYear;
@@ -27,7 +27,7 @@ function updateCalendar() {
 	const queryString = window.location.search;
 	const urlParams = new URLSearchParams(queryString);
 
-	let tura = null;
+	let tura = 4;
 
 	if (urlParams.has("tura")) {
 		const turaValue = urlParams.get("tura");
