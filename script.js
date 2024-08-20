@@ -19,9 +19,9 @@ const yearButtons = document.querySelectorAll('.year-buttons button');
 
 // Assuming you have a function to update the calendar based on selected month and year
 
-monthButtons.forEach((button, index) => {
+monthButtons.forEach(button => {
   button.addEventListener('click', () => {
-    const selectedMonth = index + 1; // Months are 1-based
+    const selectedMonth = parseInt(button.textContent) + 1; // Months are 1-based
     // Update calendar with selectedMonth and currentYear
     updateCalendar(selectedMonth, currentYear);
   });
@@ -30,10 +30,6 @@ monthButtons.forEach((button, index) => {
 yearButtons.forEach(button => {
   button.addEventListener('click', () => {
     const selectedYear = parseInt(button.textContent);
-    if (button.textContent === 'More') {
-      // Handle "More" button logic, e.g., show a year picker
-    } else {
-      // Update calendar with selectedYear and currentMonth
       updateCalendar(currentMonth, selectedYear);
     }
   });
