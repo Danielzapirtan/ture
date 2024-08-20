@@ -1,5 +1,4 @@
 body, label,
-select,
 table, th, td {
   font-family: Arial, sans-serif;
   font-size: 17px;
@@ -24,7 +23,6 @@ th {
   background-color: #f2f2f2;
 }
 
-/* CSS for background colors based on doy % 4 */
 td.doy0 {
   background-color: white;
 }
