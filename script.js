@@ -23,11 +23,7 @@ const yearButtons = document.querySelectorAll('.year-buttons button');
 monthButtons.forEach(button => {
   button.addEventListener('click', () => {
     const selectedMonth = parseInt(button.textContent); // Months are 1-based
-    monthButtons.forEach(button1 => {
-      if (parseInt(button1, TextContent) != selectedMonth)
-        button1.classList.remove('darkgreen-button');
-      else
-        button1.classList.add('darkgreen-button');
+    button.classList.add('darkgreen-button');
     });
     monthSelector.value = selectedMonth;
     updateCalendar();
