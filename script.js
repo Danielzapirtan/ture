@@ -8,7 +8,7 @@ const yearButtons = document.querySelectorAll('.year-buttons button');
 monthButtons.forEach((button) => {
 	button.addEventListener('click', () => {
 		const selectedMonth = parseInt(button.textContent);
-		monthSelector.value = selectedMonth;
+		month = selectedMonth;
 		updateCalendar();
 	});
 });
@@ -16,7 +16,7 @@ monthButtons.forEach((button) => {
 yearButtons.forEach((button) => {
 	button.addEventListener('click', () => {
 		const selectedYear = parseInt(button.textContent);
-		yearSelector.value = selectedYear;
+		year = selectedYear;
 		updateCalendar();
 	});
 });
