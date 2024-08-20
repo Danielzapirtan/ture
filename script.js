@@ -23,7 +23,7 @@ monthButtons.forEach((button, index) => {
   button.addEventListener('click', () => {
     const selectedMonth = index + 1; // Months are 1-based
     // Update calendar with selectedMonth and currentYear
-    generateCalendar(selectedMonth, currentYear);
+    updateCalendar(selectedMonth, currentYear);
   });
 });
 
@@ -34,10 +34,16 @@ yearButtons.forEach(button => {
       // Handle "More" button logic, e.g., show a year picker
     } else {
       // Update calendar with selectedYear and currentMonth
-      generateCalendar(currentMonth, selectedYear);
+      updateCalendar(currentMonth, selectedYear);
     }
   });
 });
+
+function updateCalendar(pmonth, pyear) {
+  yearSelector.value = pyear;
+  monthSelector.value = pmonth;
+  generateCalendar();
+}
 
 function generateCalendar() {
   year = parseInt(yearSelector.value);
