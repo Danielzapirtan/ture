@@ -18,7 +18,7 @@ generateCalendar();
 const monthButtons = document.querySelectorAll('.month-buttons button');
 const yearButtons = document.querySelectorAll('.year-buttons button');
 
-monthButtons.forEach(button => {
+monthButtons.forEach((button) => {
   button.addEventListener('click', () => {
     const selectedMonth = parseInt(button.textContent);
     monthSelector.value = selectedMonth;
@@ -26,7 +26,7 @@ monthButtons.forEach(button => {
   });
 });
 
-yearButtons.forEach(button => {
+yearButtons.forEach((button) => {
   button.addEventListener('click', () => {
     const selectedYear = parseInt(button.textContent);
     yearSelector.value = selectedYear;
