@@ -6,10 +6,6 @@ table, th, td {
   margin: 20px;
 }
 
-.darkgreen-button {
-  background-color: #55ff55;
-}
-
 table {
   width: 100%;
   border-collapse: collapse;
