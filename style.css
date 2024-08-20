@@ -1,5 +1,5 @@
 body, label,
-select, #yearSelector, #monthSelector,
+select,
 table, th, td {
   font-family: Arial, sans-serif;
   font-size: 17px;
