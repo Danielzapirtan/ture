@@ -22,22 +22,21 @@ const yearButtons = document.querySelectorAll('.year-buttons button');
 monthButtons.forEach(button => {
   button.addEventListener('click', () => {
     const selectedMonth = parseInt(button.textContent) + 1; // Months are 1-based
-    // Update calendar with selectedMonth and currentYear
-    updateCalendar(selectedMonth, currentYear);
+    monthSelector.value = pmonth;
+    updateCalendar();
   });
 });
 
 yearButtons.forEach(button => {
   button.addEventListener('click', () => {
     const selectedYear = parseInt(button.textContent);
-      updateCalendar(currentMonth, selectedYear);
+    yearSelector.value = pyear;
+    updateCalendar();
     }
   });
 });
 
-function updateCalendar(pmonth, pyear) {
-  yearSelector.value = pyear;
-  monthSelector.value = pmonth;
+function updateCalendar() {
   generateCalendar();
 }
 
