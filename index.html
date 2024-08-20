@@ -1,32 +1,42 @@
-/<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="ro">
 
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Calendar ture</title>
-  <link rel="stylesheet" type="text/css" href="style.css" />
+  <link rel="stylesheet" type="text/css" href="style.css">
 </head>
 
 <body>
   <h2>Calendar ture</h2>
 <div class="month-buttons">
-  <button>1</button>
-  <button>2</button>
-  <button>12</button>
+  <button>I</button>
+  <button>F</button>
+  <button>M</button>
+  <button>A</button>
+  <button>M</button>
+  <button>I</button>
+  <button>I</button>
+  <button>A</button>
+  <button>S</button>
+  <button>O</button>
+  <button>N</button>
+  <button>D</button>
 </div>
 
 <div class="year-buttons">
   <button>2024</button>
   <button>2025</button>
   <button>2026</button>
-  <button>More</button>
 </div>
+<div style="display: none;">
   <label for="yearSelector">Introduceți anul:</label>
-  <input type="number" id="yearSelector" onchange="generateCalendar()" />
-  <br />
+  <input type="number" id="yearSelector" onchange="generateCalendar()">
+  <br>
   <label for="monthSelector">Introduceți luna (1..12):</label>
-  <input type="number" id="monthSelector" onchange="generateCalendar()" />
+  <input type="number" id="monthSelector" onchange="generateCalendar()">
+</div>
   <div id="calendarContainer"></div>
   <script src="script.js"></script>
 </body>
