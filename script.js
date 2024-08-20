@@ -18,12 +18,9 @@ generateCalendar();
 const monthButtons = document.querySelectorAll('.month-buttons button');
 const yearButtons = document.querySelectorAll('.year-buttons button');
 
-// Assuming you have a function to update the calendar based on selected month and year
-
 monthButtons.forEach(button => {
   button.addEventListener('click', () => {
-    const selectedMonth = parseInt(button.textContent); // Months are 1-based
-    //button.classList.add("darkgreen-button");
+    const selectedMonth = parseInt(button.textContent);
     monthSelector.value = selectedMonth;
     updateCalendar();
   });
