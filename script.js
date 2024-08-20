@@ -6,66 +6,66 @@ const monthButtons = document.querySelectorAll('.month-buttons button');
 const yearButtons = document.querySelectorAll('.year-buttons button');
 
 monthButtons.forEach((button) => {
-  button.addEventListener('click', () => {
-    const selectedMonth = parseInt(button.textContent);
-    monthSelector.value = selectedMonth;
-    updateCalendar();
-  });
+	button.addEventListener('click', () => {
+		const selectedMonth = parseInt(button.textContent);
+		monthSelector.value = selectedMonth;
+		updateCalendar();
+	});
 });
 
 yearButtons.forEach((button) => {
-  button.addEventListener('click', () => {
-    const selectedYear = parseInt(button.textContent);
-    yearSelector.value = selectedYear;
-    updateCalendar();
-  });
+	button.addEventListener('click', () => {
+		const selectedYear = parseInt(button.textContent);
+		yearSelector.value = selectedYear;
+		updateCalendar();
+	});
 });
 
 function updateCalendar() {
-  const daysInMonth = new Date(year, month + 1, 0).getDate();
-  const firstDay = (new Date(year, month, 1).getDay() + 6) % 7;
-  const queryString = window.location.search;
-  const urlParams = new URLSearchParams(queryString);
+	const daysInMonth = new Date(year, month + 1, 0).getDate();
+	const firstDay = (new Date(year, month, 1).getDay() + 6) % 7;
+	const queryString = window.location.search;
+	const urlParams = new URLSearchParams(queryString);
 
-  let tura = null;
+	let tura = null;
 
-  if (urlParams.has("tura")) {
-    const turaValue = urlParams.get("tura");
-    if (
-      !isNaN(turaValue) &&
-      parseInt(turaValue) >= 1 &&
-      parseInt(turaValue) <= 4
-    ) {
-      tura = parseInt(turaValue);
-      if (tura % 2 === 0) tura = 6 - tura;
-    }
-  }
-  var date1 = new Date(year, month, 1);
-  var date0 = new Date(2024, 0, 1);
-  var doy = Math.ceil((date1 - date0) / 86400000);
-  let calendarHTML =
-    "<table><tr><th>lun</th><th>mar</th><th>mie</th><th>joi</th><th>vin</th><th>sâm</th><th>dum</th></tr><tr>";
-  let dayCount = 1;
-  for (let i = 0; i < 42; i++) {
-    if (i >= firstDay && dayCount <= daysInMonth) {
-      let dt = (doy + tura) % 4;
-      let doyClass = `doy${dt}`;
-      calendarHTML += `<td class="${doyClass}">${dayCount}</td>`;
-      doy++;
-      dayCount++;
-    } else {
-      calendarHTML += "<td></td>";
-    }
+	if (urlParams.has("tura")) {
+		const turaValue = urlParams.get("tura");
+		if (
+			!isNaN(turaValue) &&
+			parseInt(turaValue) >= 1 &&
+			parseInt(turaValue) <= 4
+		) {
+			tura = parseInt(turaValue);
+			if (tura % 2 === 0) tura = 6 - tura;
+		}
+	}
+	var date1 = new Date(year, month, 1);
+	var date0 = new Date(2024, 0, 1);
+	var doy = Math.ceil((date1 - date0) / 86400000);
+	let calendarHTML =
+		`<table><tr><th>lun</th><th>mar</th><th>mie</th><th>joi</th><th>vin</th><th>sâm</th><th>dum</th></tr><tr>`;
+	let dayCount = 1;
+	for (let i = 0; i < 42; i++) {
+		if (i >= firstDay && dayCount <= daysInMonth) {
+			let dt = (doy + tura) % 4;
+			let doyClass = `doy${dt}`;
+			calendarHTML += `<td class="${doyClass}">${dayCount}</td>`;
+			doy++;
+			dayCount++;
+		} else {
+			calendarHTML += `<td></td>`;
+		}
 
-    if (i % 7 === 6 && dayCount <= daysInMonth) {
-      calendarHTML += "</tr><tr>";
-    }
+		if (i % 7 === 6 && dayCount <= daysInMonth) {
+			calendarHTML += `</tr><tr>`;
+		}
 
-    if (dayCount > daysInMonth && i % 7 == 6) {
-      break;
-    }
-  }
+		if (dayCount > daysInMonth && i % 7 == 6) {
+			break;
+		}
+	}
 
-  calendarHTML += "</tr></table>";
-  document.getElementById("calendarContainer").innerHTML = calendarHTML;
+	calendarHTML += `</tr></table>`;
+	document.getElementById("calendarContainer").innerHTML = calendarHTML;
 }
