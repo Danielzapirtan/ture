@@ -1,12 +1,8 @@
-let year = new Date().getFullYear();
-let month = new Date().getMonth() + 1;
-updateCalendar();
-
 const monthButtons = document.querySelectorAll('.month-buttons button');
 
 monthButtons.forEach(button => {
 	button.addEventListener('click', () => {
-		month = parseInt(button.textContent);
+		const month = parseInt(button.textContent);
 		updateCalendar();
 	});
 });
@@ -14,7 +10,7 @@ monthButtons.forEach(button => {
 const yearButtons = document.querySelectorAll('.year-buttons button');
 yearButtons.forEach(button => {
 	button.addEventListener('click', () => {
-		year = parseInt(button.textContent);
+		const year = parseInt(button.textContent);
 		updateCalendar();
 	});
 });
@@ -38,9 +34,9 @@ function updateCalendar() {
 			if (tura % 2 === 0) tura = 6 - tura;
 		}
 	}
-	var date1 = new Date(year, month, 1);
-	var date0 = new Date(2024, 0, 1);
-	var doy = Math.ceil((date1 - date0) / 86400000);
+	const date1 = new Date(year, month, 1);
+	const date0 = new Date(2024, 0, 1);
+	let doy = Math.ceil((date1 - date0) / 86400000);
 	let calendarHTML = `<table><tr><th>lun</th><th>mar</th><th>mie</th><th>joi</th><th>vin</th><th>sâm</th><th>dum</th></tr><tr>`;
 	let dayCount = 1;
 	for (let i = 0; i < 42; i++) {
