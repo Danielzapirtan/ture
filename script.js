@@ -32,7 +32,6 @@ yearButtons.forEach(button => {
     const selectedYear = parseInt(button.textContent);
     yearSelector.value = pyear;
     updateCalendar();
-    }
   });
 });
 
