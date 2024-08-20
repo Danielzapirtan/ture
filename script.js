@@ -3,7 +3,7 @@ const minYear = new Date().getFullYear();
 const maxYear = minYear + 13;
 yearSelector.value = minYear;
 yearSelector.min = minYear;
-yearSelector.max = maxYear;
+/yearSelector.max = maxYear;
 yearSelector.step = 1;
 const monthSelector = document.getElementById("monthSelector");
 monthSelector.value = new Date().getMonth() + 1;
@@ -13,6 +13,31 @@ monthSelector.step = 1;
 let year = yearSelector.value;
 let month = monthSelector.value;
 generateCalendar();
+
+const monthButtons = document.querySelectorAll('.month-buttons button');
+const yearButtons = document.querySelectorAll('.year-buttons button');
+
+// Assuming you have a function to update the calendar based on selected month and year
+
+monthButtons.forEach((button, index) => {
+  button.addEventListener('click', () => {
+    const selectedMonth = index + 1; // Months are 1-based
+    // Update calendar with selectedMonth and currentYear
+    generateCalendar(selectedMonth, currentYear);
+  });
+});
+
+yearButtons.forEach(button => {
+  button.addEventListener('click', () => {
+    const selectedYear = parseInt(button.textContent);
+    if (button.textContent === 'More') {
+      // Handle "More" button logic, e.g., show a year picker
+    } else {
+      // Update calendar with selectedYear and currentMonth
+      generateCalendar(currentMonth, selectedYear);
+    }
+  });
+});
 
 function generateCalendar() {
   year = parseInt(yearSelector.value);
