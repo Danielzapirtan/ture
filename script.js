@@ -25,6 +25,9 @@ monthButtons.forEach(button => {
     const selectedMonth = parseInt(button.textContent); // Months are 1-based
     monthButtons.forEach(button => {
       if (parseInt(button, TextContent) != selectedMonth)
+        button.classList.remove('darkgreen-button');
+      else
+        button.classList.add('darkgreen-button');
     });
     monthSelector.value = selectedMonth;
     updateCalendar();
