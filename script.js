@@ -1,6 +1,7 @@
 const yearSelector = document.getElementById("yearSelector");
 const minYear = new Date().getFullYear();
-const maxYear = minYear + 3;
+const nYears = 3;
+const maxYear = minYear + nYears - 1;
 yearSelector.value = minYear;
 yearSelector.min = minYear;
 yearSelector.max = maxYear;
