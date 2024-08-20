@@ -24,7 +24,6 @@ monthButtons.forEach(button => {
   button.addEventListener('click', () => {
     const selectedMonth = parseInt(button.textContent); // Months are 1-based
     button.classList.add('darkgreen-button');
-    });
     monthSelector.value = selectedMonth;
     updateCalendar();
   });
