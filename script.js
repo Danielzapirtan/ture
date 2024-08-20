@@ -42,7 +42,7 @@ function updateCalendar() {
 function generateCalendar() {
   year = parseInt(yearSelector.value);
   month = parseInt(monthSelector.value) - 1;
-  if (year < 2024 || year > 2037 || !year) {
+  if (year < minYear || year > maxYear || !year) {
     year = new Date().getFullYear();
     yearSelector.value = year;
   }
