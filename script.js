@@ -1,19 +1,6 @@
-const yearSelector = document.getElementById("yearSelector");
-const minYear = new Date().getFullYear();
-const nYears = 3;
-const maxYear = minYear + nYears - 1;
-yearSelector.value = minYear;
-yearSelector.min = minYear;
-yearSelector.max = maxYear;
-yearSelector.step = 1;
-const monthSelector = document.getElementById("monthSelector");
-monthSelector.value = new Date().getMonth() + 1;
-monthSelector.min = 1;
-monthSelector.max = 12;
-monthSelector.step = 1;
-let year = yearSelector.value;
-let month = monthSelector.value;
-generateCalendar();
+let year = new Date().getFullYear();
+let month = new Date().getMonth() + 1;
+updateCalendar();
 
 const monthButtons = document.querySelectorAll('.month-buttons button');
 const yearButtons = document.querySelectorAll('.year-buttons button');
@@ -35,20 +22,6 @@ yearButtons.forEach((button) => {
 });
 
 function updateCalendar() {
-  generateCalendar();
-}
-
-function generateCalendar() {
-  year = parseInt(yearSelector.value);
-  month = parseInt(monthSelector.value) - 1;
-  if (year < minYear || year > maxYear || !year) {
-    year = new Date().getFullYear();
-    yearSelector.value = year;
-  }
-  if (month + 1 > 12 || !monthSelector.value) {
-    month = new Date().getMonth();
-    monthSelector.value = month + 1;
-  }
   const daysInMonth = new Date(year, month + 1, 0).getDate();
   const firstDay = (new Date(year, month, 1).getDay() + 6) % 7;
   const queryString = window.location.search;
