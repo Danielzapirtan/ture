@@ -1,6 +1,6 @@
 let year = new Date().getFullYear();
 let month = new Date().getMonth() + 1;
-updateCalenndar();
+updateCalendar();
 
 const monthButtons = document.querySelectorAll('.month-buttons button');
 monthButtons.forEach(button => {
