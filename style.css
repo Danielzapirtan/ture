@@ -17,8 +17,8 @@ button, .interactive-element {
 button {
   padding: 10px 20px;
   font-size: 16px;
-  background-color: #ddffbb;
-  color: #d0f;
+  background-color: #ffffff;
+  color: #f00;
   border: none;
   cursor: pointer;
 }
