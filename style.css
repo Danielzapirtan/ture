@@ -4,7 +4,7 @@ body, table, th, td {
   margin: 20px;
 }
 
-.interactive-element {
+button, .interactive-element {
   animation: pulse 1s infinite;
 }
 
