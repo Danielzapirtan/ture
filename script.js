@@ -1,8 +1,11 @@
-const monthButtons = document.querySelectorAll('.month-buttons button');
+let year = new Date().getFullYear();
+let month = new Date().getMonth() + 1;
+updateCalenndar();
 
+const monthButtons = document.querySelectorAll('.month-buttons button');
 monthButtons.forEach(button => {
 	button.addEventListener('click', () => {
-		const month = parseInt(button.textContent);
+		month = parseInt(button.textContent);
 		updateCalendar();
 	});
 });
@@ -10,7 +13,7 @@ monthButtons.forEach(button => {
 const yearButtons = document.querySelectorAll('.year-buttons button');
 yearButtons.forEach(button => {
 	button.addEventListener('click', () => {
-		const year = parseInt(button.textContent);
+		year = parseInt(button.textContent);
 		updateCalendar();
 	});
 });
