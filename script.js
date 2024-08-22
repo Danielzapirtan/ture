@@ -5,7 +5,21 @@ updateCalendar();
 const monthButtons = document.querySelectorAll('.month-buttons button');
 monthButtons.forEach(button => {
 	button.addEventListener('click', () => {
-    month = button.textContent;
+    const monthName = button.textContent;
+		const monthNames = [
+			"Ian",
+			"Feb",
+			"Mar",
+			"Apr",
+			"Mai",
+			"Iun",
+			"Iul",
+			"Aug",
+			"Sep",
+			"Oct",
+			"Noi",
+			"Dec"
+		];
 		updateCalendar();
 	});
 });
