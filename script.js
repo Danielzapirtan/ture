@@ -20,6 +20,14 @@ monthButtons.forEach(button => {
 			"Noi",
 			"Dec"
 		];
+		let ix = 0;
+		monthNames.forEach(currMonthName => {
+			if (monthName == currMonthName) {
+				month = ix;
+				break;
+			}
+			ix++;
+		});
 		updateCalendar();
 	});
 });
