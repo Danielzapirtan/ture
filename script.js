@@ -24,7 +24,6 @@ monthButtons.forEach(button => {
 		monthNames.forEach(currMonthName => {
 			if (monthName == currMonthName) {
 				month = ix;
-				break;
 			}
 			ix++;
 		});
