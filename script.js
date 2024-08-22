@@ -5,7 +5,7 @@ updateCalendar();
 const monthButtons = document.querySelectorAll('.month-buttons button');
 monthButtons.forEach(button => {
 	button.addEventListener('click', () => {
-    month = parseInt(button.textContent) - 1;
+    month = button.textContent;
 		updateCalendar();
 	});
 });
