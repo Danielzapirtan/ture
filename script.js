@@ -28,8 +28,6 @@ monthButtons.forEach(button => {
 			}
 			ix++;
 		});
-		button.classList.add("selected");
-		button.classList.remove("unselected");
 		updateCalendar();
 	});
 });
@@ -38,8 +36,6 @@ const yearButtons = document.querySelectorAll('.year-buttons button');
 yearButtons.forEach(button => {
 	button.addEventListener('click', () => {
 		year = parseInt(button.textContent);
-		button.classList.add("selected");
-		button.classList.remove("unselected");
 		updateCalendar();
 	});
 });

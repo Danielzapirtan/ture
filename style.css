@@ -4,14 +4,6 @@ body, table, th, td {
   margin: 20px;
 }
 
-.unselected {
-  background-color: olivedrab;
-}
-
-.selected {
-  background-color: beige;
-}
-
 button {
   padding: 6px 14px;
   font-size: 12px;
