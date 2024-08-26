@@ -4,6 +4,10 @@ body, table, th, td {
   margin: 20px;
 }
 
+.selected {
+  background-color: beige;
+}
+
 button {
   padding: 6px 14px;
   font-size: 12px;
