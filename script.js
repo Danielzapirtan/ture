@@ -19,8 +19,8 @@ updateCalendar();
 
 const monthButtons = document.querySelectorAll('.month-buttons button');
 monthButtons.forEach(button => {
-	button.classList.remove("selected");
 	button.addEventListener('click', () => {
+	button.classList.remove("selected");
     const monthName = button.textContent;
 		let ix = 0;
 		monthNames.forEach(currMonthName => {
@@ -36,8 +36,8 @@ monthButtons.forEach(button => {
 
 const yearButtons = document.querySelectorAll('.year-buttons button');
 yearButtons.forEach(button => {
-	button.classList.remove("selected");
 	button.addEventListener('click', () => {
+		button.classList.remove("selected");
 		year = parseInt(button.textContent);
 		button.classList.add("selected");
 		updateCalendar();
