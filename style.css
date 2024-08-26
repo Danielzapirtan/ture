@@ -4,12 +4,12 @@ body, table, th, td {
   margin: 20px;
 }
 
-.selected {
-  background-color: beige;
-}
-
 .unselected {
   background-color: olivedrab;
+}
+
+.selected {
+  background-color: beige;
 }
 
 button {
