@@ -1,19 +1,26 @@
-body, label,
-select, #yearSelector, #monthSelector,
-table, th, td {
+body, table, th, td {
   font-family: Arial, sans-serif;
   font-size: 17px;
   margin: 20px;
+}
+
+button {
+  padding: 6px 14px;
+  font-size: 12px;
+  background-color: #ddffee;
+  color: #f00;
+  border: none;
+  cursor: pointer;
 }
 
 table {
   width: 100%;
   border-collapse: collapse;
   margin-top: 20px;
+  pointer-events: none;
 }
 
-th,
-td {
+th, td {
   border: 1px solid #ddd;
   padding: 8px;
   text-align: center;
@@ -24,13 +31,12 @@ th {
   background-color: #f2f2f2;
 }
 
-/* CSS for background colors based on doy % 4 */
 td.doy0 {
-  background-color: white;
+  background-color: lightyellow;
 }
 
 td.doy1 {
-  background-color: white;
+  background-color: lightyellow;
 }
 
 td.doy2 {
