@@ -4,19 +4,9 @@ body, table, th, td {
   margin: 20px;
 }
 
-button, .interactive-element {
-  animation: pulse 1s infinite;
-}
-
-@keyframes pulse {
-  0% { transform: scale(1); }
-  50% { transform: scale(1.1); }
-  100% { transform: scale(1); }
-}
-
 button {
-  padding: 10px 20px;
-  font-size: 16px;
+  padding: 7px 14px;
+  font-size: 12px;
   background-color: #ddffee;
   color: #f00;
   border: none;
