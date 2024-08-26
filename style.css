@@ -8,6 +8,10 @@ body, table, th, td {
   background-color: beige;
 }
 
+.unselected {
+  background-color: olivedrab;
+}
+
 button {
   padding: 6px 14px;
   font-size: 12px;
