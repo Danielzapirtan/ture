@@ -30,14 +30,12 @@ updateCalendar();
 
 const monthButtons = document.querySelectorAll('.month-buttons button');
 monthButtons.forEach(button => {
-	monthName = monthNames[month];
-	let ix = 0;
+	monthName = button.textContent;
 	monthNames.forEach(currMonthName => {
 		if (monthName === currMonthName) {
 			lowlight(monthButtons);
 			highlight(button);
 		}
-		ix++;
 	});
 });
 
