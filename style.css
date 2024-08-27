@@ -1,9 +1,5 @@
-main {
-	background-color: #ffeeff;
-}
-
 header, footer {
-	background-color: #ffccff;
+	background-color: white;
 }
 
 .input {
@@ -13,7 +9,7 @@ header, footer {
 table, th, td {
 	font-family: Arial, sans-serif;
 	font-size: 17px;
-	background: #eeffdd;
+	background-color: #ffeeff;
 }
 
 button {
