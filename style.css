@@ -1,61 +1,61 @@
 header, footer {
-	background-color: white;
+  background-color: white;
 }
 
 .input {
-	background-color: beige;
+  background-color: beige;
 }
 
 table, th, td {
-	font-family: Arial, sans-serif;
-	font-size: 17px;
-	background-color: #ffeeff;
+  font-family: Arial, sans-serif;
+  font-size: 17px;
+  background-color: #ffeeff;
 }
 
 button {
-	padding: 6px 14px;
-	font-size: 12px;
-	background-color: #0ff;
-	color: #f00;
-	border: none;
-	cursor: pointer;
+  padding: 6px 14px;
+  font-size: 12px;
+  background-color: #0ff;
+  color: #f00;
+  border: none;
+  cursor: pointer;
 }
 
 button.highlight {
-	background-color: olive;
-	color: #fff;
+  background-color: olive;
+  color: #fff;
 }
 
 table {
-	width: 100%;
-	border-collapse: collapse;
-	margin-top: 20px;
-	pointer-events: none;
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+  pointer-events: none;
 }
 
 th, td {
-	border: 1px solid #ddd;
-	padding: 8px;
-	text-align: center;
-	width: 80px;
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: center;
+  width: 80px;
 }
 
 th {
-	background-color: #f2f2f2;
+  background-color: #f2f2f2;
 }
 
 td.doy0 {
-	background-color: lightyellow;
+  background-color: lightyellow;
 }
 
 td.doy1 {
-	background-color: lightyellow;
+  background-color: lightyellow;
 }
 
 td.doy2 {
-	background-color: #aaffaa;
+  background-color: #aaffaa;
 }
 
 td.doy3 {
-	background-color: #aaaaff;
+  background-color: #aaaaff;
 }
