@@ -34,7 +34,7 @@ monthButtons.forEach(button => {
 	if (monthName === button.textContent) {
 		lowlight(monthButtons);
 		highlight(button);
-	{
+	}
 });
 
 const yearButtons = document.querySelectorAll('.year-buttons button');
