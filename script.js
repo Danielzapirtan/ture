@@ -1,6 +1,12 @@
 const currentYear = new Date().getFullYear();
 let year = currentYear;
 let month = new Date().getMonth();
+const yearButtons = document.querySelectorAll('.year-buttons button');
+let iear = currentYear;
+yearButtons.forEach(button => {
+	button.textContent = iear;
+	iear++;
+});
 const monthNames = [
 	"ian",
 	"feb",
@@ -35,7 +41,6 @@ monthButtons.forEach(button => {
 	}
 });
 
-const yearButtons = document.querySelectorAll('.year-buttons button');
 yearButtons.forEach(button => {
 	const year1 = parseInt(button.textContent);
 	if (year1 == currentYear) {
