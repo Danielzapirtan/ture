@@ -39,7 +39,6 @@ monthButtons.forEach(button => {
 		}
 		ix++;
 	});
-	updateCalendar();
 });
 
 const yearButtons = document.querySelectorAll('.year-buttons button');
@@ -49,7 +48,6 @@ yearButtons.forEach(button => {
 		lowlight(yearButtons);
 		highlight(button);
 	}
-	updateCalendar();
 });
 
 monthButtons.forEach(button => {
