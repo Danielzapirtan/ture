@@ -4,9 +4,9 @@ let month = new Date().getMonth();
 const yearButtons = document.querySelectorAll('.year-buttons button');
 let iear = currentYear;
 yearButtons.forEach(button => {
-  button.textContent = iear;
-  iear++;
-});
+    button.textContent = iear;
+    iear++;
+    });
 const monthNames = [
   "ian",
   "feb",
@@ -28,51 +28,51 @@ function highlight(button1) {
 
 function lowlight(buttons) {
   buttons.forEach(button1 => {
-    button1.classList.remove("highlight");
-  });
+      button1.classList.remove("highlight");
+      });
 }
 
 const monthButtons = document.querySelectorAll('.month-buttons button');
 const monthName = monthNames[month];
 monthButtons.forEach(button => {
-  if (monthName === button.textContent) {
+    if (monthName === button.textContent) {
     lowlight(monthButtons);
     highlight(button);
-  }
-});
+    }
+    });
 
 yearButtons.forEach(button => {
-  const year1 = parseInt(button.textContent);
-  if (year1 == currentYear) {
+    const year1 = parseInt(button.textContent);
+    if (year1 == currentYear) {
     lowlight(yearButtons);
     highlight(button);
-  }
-});
+    }
+    });
 
 monthButtons.forEach(button => {
-  button.addEventListener('click', () => {
-    const monthName = button.textContent;
-    let ix = 0;
-    monthNames.forEach(currMonthName => {
-      if (monthName == currMonthName) {
-        month = ix;
-      }
-      ix++;
+    button.addEventListener('click', () => {
+        const monthName = button.textContent;
+        let ix = 0;
+        monthNames.forEach(currMonthName => {
+            if (monthName == currMonthName) {
+            month = ix;
+            }
+            ix++;
+            });
+        lowlight(monthButtons);
+        highlight(button);
+        updateCalendar();
+        });
     });
-    lowlight(monthButtons);
-    highlight(button);
-    updateCalendar();
-  });
-});
 
 yearButtons.forEach(button => {
-  button.addEventListener('click', () => {
-    year = parseInt(button.textContent);
-    lowlight(yearButtons);
-    highlight(button);
-    updateCalendar();
-  });
-});
+    button.addEventListener('click', () => {
+        year = parseInt(button.textContent);
+        lowlight(yearButtons);
+        highlight(button);
+        updateCalendar();
+        });
+    });
 
 updateCalendar();
 
@@ -87,10 +87,10 @@ function updateCalendar() {
   if (urlParams.has("tura")) {
     const turaValue = urlParams.get("tura");
     if (
-      !isNaN(turaValue) &&
-      parseInt(turaValue) >= 1 &&
-      parseInt(turaValue) <= 4
-    ) {
+        !isNaN(turaValue) &&
+        parseInt(turaValue) >= 1 &&
+        parseInt(turaValue) <= 4
+       ) {
       tura = parseInt(turaValue);
       if (tura % 2 === 0) tura = 6 - tura;
     }
