@@ -12,6 +12,10 @@ button {
   cursor: pointer;
 }
 
+button.highlight {
+	background-color: olive;
+}
+
 table {
   width: 100%;
   border-collapse: collapse;

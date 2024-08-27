@@ -15,6 +15,16 @@ const monthNames = [
 	"dec"
 ];
 
+function highlight(button) {
+	button.classList.add("highlight");
+}
+
+function unhiglight(buttons) {
+	buttons.forEach(button => {
+		button.classList.remove("highlight");
+	});
+}
+
 updateCalendar();
 
 const monthButtons = document.querySelectorAll('.month-buttons button');
@@ -28,6 +38,8 @@ monthButtons.forEach(button => {
 			}
 			ix++;
 		});
+		unhighlight(monthButtons);
+		highlight(button);
 		updateCalendar();
 	});
 });
@@ -36,6 +48,8 @@ const yearButtons = document.querySelectorAll('.year-buttons button');
 yearButtons.forEach(button => {
 	button.addEventListener('click', () => {
 		year = parseInt(button.textContent);
+		unhighlight(yearButtons);
+		highlight(button);
 		updateCalendar();
 	});
 });
