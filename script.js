@@ -26,8 +26,6 @@ function lowlight(buttons) {
 	});
 }
 
-updateCalendar();
-
 const monthButtons = document.querySelectorAll('.month-buttons button');
 const monthName = monthNames[month];
 monthButtons.forEach(button => {
@@ -70,6 +68,8 @@ yearButtons.forEach(button => {
 		updateCalendar();
 	});
 });
+
+updateCalendar();
 
 function updateCalendar() {
 	document.getElementById("monthyear").innerHTML = `luna ${monthNames[month]} anul ${year}`;
