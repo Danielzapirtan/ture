@@ -1,4 +1,5 @@
-let year = new Date().getFullYear();
+const currentYear = new Date().getFullYear();
+let year = currentYear;
 let month = new Date().getMonth();
 const monthNames = [
 	"ian",
@@ -29,6 +30,29 @@ updateCalendar();
 
 const monthButtons = document.querySelectorAll('.month-buttons button');
 monthButtons.forEach(button => {
+	const monthName = button.textContent;
+	let ix = 0;
+	monthNames.forEach(currMonthName => {
+		if (monthName == currMonthName) {
+			lowlight(monthButtons);
+			highlight(button);
+		}
+		ix++;
+	});
+	updateCalendar();
+});
+
+const yearButtons = document.querySelectorAll('.year-buttons button');
+yearButtons.forEach(button => {
+	year = parseInt(button.textContent);
+	if (year == currentYear) {
+		lowlight(yearButtons);
+		highlight(button);
+	}
+	updateCalendar();
+});
+
+monthButtons.forEach(button => {
 	button.addEventListener('click', () => {
 		const monthName = button.textContent;
 		let ix = 0;
@@ -44,7 +68,6 @@ monthButtons.forEach(button => {
 	});
 });
 
-const yearButtons = document.querySelectorAll('.year-buttons button');
 yearButtons.forEach(button => {
 	button.addEventListener('click', () => {
 		year = parseInt(button.textContent);
