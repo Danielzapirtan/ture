@@ -15,13 +15,13 @@ const monthNames = [
 	"dec"
 ];
 
-function highlight(button) {
-	button.classList.add("highlight");
+function highlight(button1) {
+	button1.classList.add("highlight");
 }
 
 function unhiglight(buttons) {
-	buttons.forEach(button => {
-		button.classList.remove("highlight");
+	buttons.forEach(button1 => {
+		button1.classList.remove("highlight");
 	});
 }
 
@@ -30,7 +30,7 @@ updateCalendar();
 const monthButtons = document.querySelectorAll('.month-buttons button');
 monthButtons.forEach(button => {
 	button.addEventListener('click', () => {
-	const monthName = button.textContent;
+		const monthName = button.textContent;
 		let ix = 0;
 		monthNames.forEach(currMonthName => {
 			if (monthName == currMonthName) {
@@ -55,8 +55,8 @@ yearButtons.forEach(button => {
 });
 
 function updateCalendar() {
-  document.getElementById("monthyear").innerHTML = `luna ${monthNames[month]} anul ${year}`;
-  const daysInMonth = new Date(year, month + 1, 0).getDate();
+	document.getElementById("monthyear").innerHTML = `luna ${monthNames[month]} anul ${year}`;
+	const daysInMonth = new Date(year, month + 1, 0).getDate();
 	const firstDay = (new Date(year, month, 1).getDay() + 6) % 7;
 	const queryString = window.location.search;
 	const urlParams = new URLSearchParams(queryString);
