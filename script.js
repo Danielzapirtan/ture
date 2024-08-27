@@ -19,7 +19,7 @@ function highlight(button1) {
 	button1.classList.add("highlight");
 }
 
-function unhiglight(buttons) {
+function lowlight(buttons) {
 	buttons.forEach(button1 => {
 		button1.classList.remove("highlight");
 	});
@@ -38,7 +38,7 @@ monthButtons.forEach(button => {
 			}
 			ix++;
 		});
-		unhighlight(monthButtons);
+		lowlight(monthButtons);
 		highlight(button);
 		updateCalendar();
 	});
@@ -48,7 +48,7 @@ const yearButtons = document.querySelectorAll('.year-buttons button');
 yearButtons.forEach(button => {
 	button.addEventListener('click', () => {
 		year = parseInt(button.textContent);
-		unhighlight(yearButtons);
+		lowlight(yearButtons);
 		highlight(button);
 		updateCalendar();
 	});
