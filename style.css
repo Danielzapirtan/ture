@@ -2,10 +2,6 @@ header, footer {
   background-color: white;
 }
 
-.input {
-  background-color: beige;
-}
-
 table, th, td {
   font-family: Arial, sans-serif;
   font-size: 17px;
