@@ -81,7 +81,7 @@ updateCalendar();
 
 function updateCalendar() {
 	const daysInMonth = new Date(year, month + 1, 0).getDate();
-	const firstDay = new Date(year, month, 1).getDay();
+	const firstDay = new Date(year, month, 1).getDay() - sundayDayOfWeek;
 	const queryString = window.location.search;
 	const urlParams = new URLSearchParams(queryString);
 
@@ -106,8 +106,11 @@ function updateCalendar() {
 	const refDate = new Date(2024, 0, 1);
 	let fakeDayOfYear = Math.ceil((firstDayOfMonthDate - refDate) / 86400000);
 
+	if (sundayDayOfWeek === 1)
 	let calendarHTML = `<table><tr><th>dum</th><th>lun</th><th>mar</th><th>mie</th><th>joi</th><th>vin</th><th>sâm</th></tr><tr>`;
 
+	else
+	let calendarHTML = `<table><tr><th>lun</th><th>mar</th><th>mie</th><th>joi</th><th>vin</th><th>sâm</th><th>dum</th></tr><tr>`;
 	let dayCount = 1;
 
 	for (let i = 0; i < 42; i++) {
