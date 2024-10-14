@@ -1,4 +1,4 @@
-const sundayDayOfWeek = 0;
+let sundayDayOfWeek = 0;
 const currentYear = new Date().getFullYear();
 let year = currentYear;
 let month = new Date().getMonth();
@@ -80,30 +80,34 @@ yearButtons.forEach(button => {
 updateCalendar();
 
 function updateCalendar() {
-	const daysInMonth = new Date(year, month + 1, 0).getDate();
-	let firstDay = new Date(year, month, 1).getDay() - sundayDayOfWeek;
-	if (firstDay === -1) firstDay = 6;
-	const queryString = window.location.search;
-	const urlParams = new URLSearchParams(queryString);
-
 	let tura = 4;
 
-	if (sundayDayOfWeek < 2) {
-		if (urlParams.has("tura")) {
-			const turaValue = urlParams.get("tura");
-			if (
-				!isNaN(turaValue) &&
-				parseInt(turaValue) >= 1 &&
-				parseInt(turaValue) <= 4
-			) {
-				tura = parseInt(turaValue);
-				if (tura % 2 == 0) tura = 6 - tura;
-			}
-		}
-	} else {
-		tura = 4;
+	const queryString = window.location.search;
+	const urlParams = new URLSearchParams(queryString);
+	if (urlParams.has("sabat")) {
+		const sabatValue = urlParams.get("sabat");
+		if (!isNaN(sabatValue) &&
+			parseInt(sabatValue) >= 0 &&
+			parseInt(sabatValue) <= 1
+		)
+			sundayDayOfWeek = parseInt(sabatValue);
 	}
-	const firstDayOfMonthDate = new Date(year, month, 1);
+	if (urlParams.has("tura")) {
+		const turaValue = urlParams.get("tura");
+		if (
+			!isNaN(turaValue) &&
+			parseInt(turaValue) >= 1 &&
+			parseInt(turaValue) <= 4
+		) {
+			tura = parseInt(turaValue);
+			if (tura % 2 == 0) tura = 6 - tura;
+		}
+	}
+	const daysInMonth = new Date(year, month + 1, 0).getDate();
+	let firstDay = new Date(year, month, 1).getDay() - 1 + sundayDayOfWeek;
+	if (firstDay === -1) firstDay = 6;
+
+	const firstDayOfMonthDate = new Date(year, month, sundayDayOfWeek);
 	const refDate = new Date(2024, 0, 1);
 	let fakeDayOfYear = Math.ceil((firstDayOfMonthDate - refDate) / 86400000);
 
@@ -113,10 +117,10 @@ function updateCalendar() {
 
 	else
 		calendarHTML += `<table><tr><th>lun</th><th>mar</th><th>mie</th><th>joi</th><th>vin</th><th>sâm</th><th>dum</th></tr><tr>`;
-	let dayCount = 1 + sundayDayOfWeek;
+	let dayCount = 1;
 
 	for (let i = 0; i < 42; i++) {
-		let fakeDayOfYearClass = `fakeDayOfYear${(fakeDayOfYear + tura + 1) % 4}`;
+		let fakeDayOfYearClass = `fakeDayOfYear${(fakeDayOfYear + tura + 1 - sundayDayOfWeek) % 4}`;
 		if (i >= firstDay && dayCount <= daysInMonth) {
 			if (sundayDayOfWeek === 1) {
 				if (i % 7 === 5) if ((fakeDayOfYear + tura) % 4 === 3) fakeDayOfYearClass = `fakeDayOfYear2`;
