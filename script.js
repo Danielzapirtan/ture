@@ -1,12 +1,15 @@
+let sundayDayOfWeek = 0;
 const currentYear = new Date().getFullYear();
 let year = currentYear;
 let month = new Date().getMonth();
 const yearButtons = document.querySelectorAll('.year-buttons button');
-let iear = currentYear;
+let indexYear = currentYear;
+
 yearButtons.forEach(button => {
-	button.textContent = iear;
-	iear++;
+	button.textContent = indexYear;
+	indexYear++;
 });
+
 const monthNames = [
 	"ian",
 	"feb",
@@ -42,8 +45,8 @@ monthButtons.forEach(button => {
 });
 
 yearButtons.forEach(button => {
-	const year1 = parseInt(button.textContent);
-	if (year1 == currentYear) {
+	const buttonYear = parseInt(button.textContent);
+	if (buttonYear == currentYear) {
 		lowlight(yearButtons);
 		highlight(button);
 	}
@@ -52,12 +55,12 @@ yearButtons.forEach(button => {
 monthButtons.forEach(button => {
 	button.addEventListener('click', () => {
 		const monthName = button.textContent;
-		let ix = 0;
+		let index = 0;
 		monthNames.forEach(currMonthName => {
 			if (monthName == currMonthName) {
-				month = ix;
+				month = index;
 			}
-			ix++;
+			index++;
 		});
 		lowlight(monthButtons);
 		highlight(button);
@@ -77,13 +80,18 @@ yearButtons.forEach(button => {
 updateCalendar();
 
 function updateCalendar() {
-	const daysInMonth = new Date(year, month + 1, 0).getDate();
-	const firstDay = (new Date(year, month, 1).getDay() + 6) % 7;
-	const queryString = window.location.search;
-	const urlParams = new URLSearchParams(queryString);
-
 	let tura = 4;
 
+	const queryString = window.location.search;
+	const urlParams = new URLSearchParams(queryString);
+	if (urlParams.has("sabat")) {
+		const sabatValue = urlParams.get("sabat");
+		if (!isNaN(sabatValue) &&
+			parseInt(sabatValue) >= 0 &&
+			parseInt(sabatValue) <= 1
+		)
+			sundayDayOfWeek = parseInt(sabatValue);
+	}
 	if (urlParams.has("tura")) {
 		const turaValue = urlParams.get("tura");
 		if (
@@ -92,20 +100,34 @@ function updateCalendar() {
 			parseInt(turaValue) <= 4
 		) {
 			tura = parseInt(turaValue);
-			if (tura % 2 === 0) tura = 6 - tura;
+			if (tura % 2 == 0) tura = 6 - tura;
 		}
 	}
-	const date1 = new Date(year, month, 1);
-	const date0 = new Date(2024, 0, 1);
-	let doy = Math.ceil((date1 - date0) / 86400000);
-	let calendarHTML = `<table><tr><th>lun</th><th>mar</th><th>mie</th><th>joi</th><th>vin</th><th>sâm</th><th>dum</th></tr><tr>`;
+	const daysInMonth = new Date(year, month + 1, 0).getDate();
+	let firstDay = new Date(year, month, 1).getDay() - 1 + sundayDayOfWeek;
+	if (firstDay === -1) firstDay = 6;
+
+	const firstDayOfMonthDate = new Date(year, month, sundayDayOfWeek);
+	const refDate = new Date(2024, 0, 1);
+	let fakeDayOfYear = Math.ceil((firstDayOfMonthDate - refDate) / 86400000);
+
+	let calendarHTML = ``;
+	if (sundayDayOfWeek === 1)
+		calendarHTML += `<table><tr><th>dum</th><th>lun</th><th>mar</th><th>mie</th><th>joi</th><th>vin</th><th>sâm</th></tr><tr>`;
+
+	else
+		calendarHTML += `<table><tr><th>lun</th><th>mar</th><th>mie</th><th>joi</th><th>vin</th><th>sâm</th><th>dum</th></tr><tr>`;
 	let dayCount = 1;
+
 	for (let i = 0; i < 42; i++) {
+		let fakeDayOfYearClass = `fakeDayOfYear${(fakeDayOfYear + tura + 1 - sundayDayOfWeek) % 4}`;
 		if (i >= firstDay && dayCount <= daysInMonth) {
-			let dt = (doy + tura) % 4;
-			let doyClass = `doy${dt}`;
-			calendarHTML += `<td class="${doyClass}">${dayCount}</td>`;
-			doy++;
+			if (sundayDayOfWeek === 1) {
+				if (i % 7 === 5) if ((fakeDayOfYear + tura) % 4 === 3) fakeDayOfYearClass = `fakeDayOfYear2`;
+				if (i % 7 === 6) if ((fakeDayOfYear + tura) % 4 === 2) fakeDayOfYearClass = `fakeDayOfYear3`;
+			}
+			calendarHTML += `<td class="${fakeDayOfYearClass}">${dayCount}</td>`;
+			fakeDayOfYear++;
 			dayCount++;
 		} else {
 			calendarHTML += `<td></td>`;
