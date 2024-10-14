@@ -82,8 +82,7 @@ updateCalendar();
 function updateCalendar() {
 	const daysInMonth = new Date(year, month + 1, 0).getDate();
 	let firstDay = new Date(year, month, 1).getDay() - sundayDayOfWeek;
-	if (firstDay == -1)
-		firstDay = 6;
+	if (firstDay === -1) firstDay = 6;
 	const queryString = window.location.search;
 	const urlParams = new URLSearchParams(queryString);
 
@@ -114,12 +113,12 @@ function updateCalendar() {
 
 	else
 		calendarHTML += `<table><tr><th>lun</th><th>mar</th><th>mie</th><th>joi</th><th>vin</th><th>sâm</th><th>dum</th></tr><tr>`;
-	let dayCount = 1;
+	let dayCount = 1 + sundayDayOfWeek;
 
 	for (let i = 0; i < 42; i++) {
-		let fakeDayOfYearClass = `fakeDayOfYear${(fakeDayOfYear + tura) % 4}`;
+		let fakeDayOfYearClass = `fakeDayOfYear${(fakeDayOfYear + tura + 1) % 4}`;
 		if (i >= firstDay && dayCount <= daysInMonth) {
-			if (sundayDayOfWeek == 1) {
+			if (sundayDayOfWeek === 1) {
 				if (i % 7 === 5) if ((fakeDayOfYear + tura) % 4 === 3) fakeDayOfYearClass = `fakeDayOfYear2`;
 				if (i % 7 === 6) if ((fakeDayOfYear + tura) % 4 === 2) fakeDayOfYearClass = `fakeDayOfYear3`;
 			}
