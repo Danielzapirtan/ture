@@ -1,4 +1,5 @@
 let sundayDayOfWeek = 0;
+
 const currentYear = new Date().getFullYear();
 let year = currentYear;
 let month = new Date().getMonth();
