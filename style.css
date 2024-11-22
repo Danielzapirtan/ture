@@ -14,17 +14,17 @@
 }
 
 body {
-	font-family: Arial, sans-serif;
-	font-size: var(--font-size);
-	margin-left: var(--margin);
+  font-family: Arial, sans-serif;
+  font-size: var(--font-size);
+  margin-left: var(--margin);
   margin-right: var(--margin);
 }
 
 table {
-	width: var(--width);
-	border-collapse: collapse;
-	margin-top: 0.17in;
-	pointer-events: none;
+  width: var(--width);
+  border-collapse: collapse;
+  margin-top: 0.17in;
+  pointer-events: none;
 }
 
 th, td {
@@ -52,53 +52,4 @@ td.fakeDayOfYear2 {
 
 td.fakeDayOfYear3 {
 	background-color: #aaaaff;
-}
-
-.month-buttons button {
-	background-color: #ccccff;
-	color: #002;
-	border: none;
-	font-size: var(--font-size);
-	cursor: pointer;
-	border-radius: 4px;
-	box-shadow: 0 4px #0056b3;
-	transition: all 0.4s ease-in-out;
-	margin-right: var(--button-gap);
-  width: var(--button-width);
-  height: var(--button-height);
-}
-
-.year-buttons button {
-	background-color: #ccccff;
-	color: #002;
-	border: none;
-	font-size: var(--font-size);
-	cursor: pointer;
-	border-radius: 4px;
-	box-shadow: 0 4px #0056b3;
-	transition: all 0.4s ease-in-out;
-	margin-right: var(--button-gap);
-  width: var(--large-button-width);
-  height: var(--button-height);
-}
-
-@media (hover: hover) {
-	/* Hover styles for non-touch devices */
-	button:hover {
-		background-color: lightblue;
-	}
-}
-
-button:active {
-    box-shadow: 0 5px #0056b3;
-	transform: translateY(5px);
-}
-
-button.highlight {
-	background-color: #ccffcc; /* Highlight the active button */
-	box-shadow: 0 4px #1e7e34;
-}
-
-.button-spacing {
-  height: var(--button-spacing);
 }
