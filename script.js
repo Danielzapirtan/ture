@@ -1,81 +1,44 @@
 let sundayDayOfWeek = 0;
+const date = new Date();
+let year = date.getFullYear();
+let month = date.getMonth();
 
-const currentYear = new Date().getFullYear();
-let year = currentYear;
-let month = new Date().getMonth();
-const yearButtons = document.querySelectorAll('.year-buttons button');
-let indexYear = currentYear;
+function createMonthYearSelect() {
+  const selectElement = document.createElement('select');
 
-yearButtons.forEach(button => {
-	button.textContent = indexYear;
-	indexYear++;
-});
+  // Get the current date
+  const currentDate = new Date();
 
-const monthNames = [
-	"ian",
-	"feb",
-	"mar",
-	"apr",
-	"mai",
-	"iun",
-	"iul",
-	"aug",
-	"sep",
-	"oct",
-	"noi",
-	"dec"
-];
+  // Iterate through the next 18 months
+  for (let i = 0; i < 18; i++) {
+    const month = currentDate.getMonth();
+    const year = currentDate.getFullYear();
 
-function highlight(button1) {
-	button1.classList.add("highlight");
+    // Create an option for the current month and year
+    const option = document.createElement('option');
+    option.value = `${year}-${month + 1}`; // Format: YYYY-MM
+    option.text = `${new Intl.DateTimeFormat('ro-Ro', { month: 'long', year: 'numeric' }).format(currentDate)}`;
+
+    selectElement.appendChild(option);
+
+    // Increment the date by one month
+    currentDate.setMonth(month + 1);
+  }
+
+  return selectElement;
 }
 
-function lowlight(buttons) {
-	buttons.forEach(button1 => {
-		button1.classList.remove("highlight");
-	});
-}
+// Add the select element to your HTML (replace 'your-container-id' with your actual container ID)
+const container = document.getElementById('selectContainer');
 
-const monthButtons = document.querySelectorAll('.month-buttons button');
-const monthName = monthNames[month];
-monthButtons.forEach(button => {
-	if (monthName === button.textContent) {
-		lowlight(monthButtons);
-		highlight(button);
-	}
-});
+const monthYearSelect = createMonthYearSelect();
+container.appendChild(monthYearSelect);
 
-yearButtons.forEach(button => {
-	const buttonYear = parseInt(button.textContent);
-	if (buttonYear == currentYear) {
-		lowlight(yearButtons);
-		highlight(button);
-	}
-});
-
-monthButtons.forEach(button => {
-	button.addEventListener('click', () => {
-		const monthName = button.textContent;
-		let index = 0;
-		monthNames.forEach(currMonthName => {
-			if (monthName == currMonthName) {
-				month = index;
-			}
-			index++;
-		});
-		lowlight(monthButtons);
-		highlight(button);
-		updateCalendar();
-	});
-});
-
-yearButtons.forEach(button => {
-	button.addEventListener('click', () => {
-		year = parseInt(button.textContent);
-		lowlight(yearButtons);
-		highlight(button);
-		updateCalendar();
-	});
+monthYearSelect.addEventListener('change', () => {
+  const selectedValue = monthYearSelect.value;
+  [year, month] = selectedValue.split('-');
+  month--;
+  updateCalendar();
 });
 
 updateCalendar();
