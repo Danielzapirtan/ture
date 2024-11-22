@@ -5,12 +5,6 @@
   --whole-width: 100vw;
   --width: calc(var(--whole-width) - 2 * var(--margin));
   --cell-width: calc(var(--width) * 0.143);
-  --button-room: calc(var(--width) * 0.143);
-  --button-width: calc(var(--button-room) * 0.9);
-  --button-height: calc(var(--button-width) * 0.618);
-  --button-gap: calc(var(--button-room) * 0.1);
-  --large-button-room: calc(var(--width) * 0.25);
-  --large-button-width: calc(var(--large-button-room) - var(--button-gap));
 }
 
 body {
