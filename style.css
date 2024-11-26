@@ -1,10 +1,27 @@
 :root {
-  --font-size: 0.137in;
+  --font-size: 0.167in;
   --margin: 0.39in;
   --button-spacing: 0.17in;
   --whole-width: 100vw;
   --width: calc(var(--whole-width) - 2 * var(--margin));
   --cell-width: calc(var(--width) * 0.143);
+}
+.attention {
+  color: red;
+  font-size: 0.222in;
+  animation: flash 1s infinite;
+}
+
+@keyframes flash {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
 }
 
 body {
@@ -21,29 +38,30 @@ table {
   pointer-events: none;
 }
 
-th, td {
-	border: 0.0137in solid #ddd;
-	padding: 0.053in;
-	text-align: center;
-	width: var(--cell-width);
+th,
+td {
+  border: 0.0137in solid #ddd;
+  padding: 0.053in;
+  text-align: center;
+  width: var(--cell-width);
 }
 
 th {
-	background-color: #f2f2f2;
+  background-color: #f2f2f2;
 }
 
 td.fakeDayOfYear0 {
-	background-color: lightyellow;
+  background-color: lightyellow;
 }
 
 td.fakeDayOfYear1 {
-	background-color: lightyellow;
+  background-color: lightyellow;
 }
 
 td.fakeDayOfYear2 {
-	background-color: #aaffaa;
+  background-color: #aaffaa;
 }
 
 td.fakeDayOfYear3 {
-	background-color: #aaaaff;
+  background-color: #aaaaff;
 }
