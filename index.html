@@ -3,27 +3,133 @@
 
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Calendar ture</title>
-  <link rel="stylesheet" type="text/css" href="style.css">
+  <title>Calendar de Ture</title>
+  <style>
+    table {
+      border-collapse: collapse;
+      width: 100%;
+    }
+
+    th,
+    td {
+      border: 1px solid black;
+      padding: 8px;
+      text-align: center;
+    }
+
+    th {
+      background-color: #f2f2f2;
+    }
+
+    .myShift {
+      color: red;
+    }
+
+    .weekend {
+      background-color: yellow;
+    }
+  </style>
 </head>
 
 <body>
-  <header>
-    <h2>Calendar ture</h2>
-  </header>
-  <main>
-    <span id="selectContainer"></span>
-    <span class="attention">⇦ Alegeți luna și anul.</span>
-    <div id="calendarContainer"></div>
-  </main>
-  <div class="button-spacing"></div>
-  <div class="button-spacing"></div>
-  <footer>
-    &copy; Antoniu-Daniel Zăpîrțan<br>
-    antoniudanielzapirtan@gmail.com
-  </footer>
-  <script src="script.js"></script>
+  <h1>Calendar de Ture</h1>
+  <label for="month">Alege luna:</label>
+  <select id="month" onchange="generateCalendar()">
+    <option value="1">Ianuarie</option>
+    <option value="2">Februarie</option>
+    <option value="3">Martie</option>
+    <option value="4">Aprilie</option>
+    <option value="5">Mai</option>
+    <option value="6">Iunie</option>
+    <option value="7">Iulie</option>
+    <option value="8">August</option>
+    <option value="9">Septembrie</option>
+    <option value="10">Octombrie</option>
+    <option value="11">Noiembrie</option>
+    <option value="12">Decembrie</option>
+  </select>
+
+  <label for="year">Alege anul:</label>
+  <select id="year" onchange="generateCalendar()"></select>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Angajat</th>
+        <th colspan="31">Zile</th>
+      </tr>
+      <tr id="days">
+        <th></th>
+        <!-- Days will be filled dynamically -->
+      </tr>
+    </thead>
+    <tbody id="calendarBody">
+      <!-- Calendar body will be filled dynamically -->
+    </tbody>
+  </table>
+
+  <script>
+      const queryString = window.location.search;
+      const urlParams = new URLSearchParams(queryString);
+      let tura = 0;
+      if (urlParams.has("tura")) {
+        const turaValue = urlParams.get("tura");
+        if (
+          !isNaN(turaValue) &&
+          parseInt(turaValue) >= 1 &&
+          parseInt(turaValue) <= 4
+        ) {
+          tura = parseInt(turaValue) % 4;
+        }
+      }
+
+      function generateCalendar() {
+        const month = document.getElementById('month').value;
+        const year = document.getElementById('year').value;
+        const daysInMonth = new Date(year, month, 0).getDate();
+        const daysRow = document.getElementById('days');
+        daysRow.innerHTML = '<th></th>';
+        for (let i = 1; i <= daysInMonth; i++) {
+          daysRow.innerHTML += `<th>${i}</th>`;
+        }
+        const calendarBody = document.getElementById('calendarBody');
+        calendarBody.innerHTML = '';
+        const employees = ['asMR', 'asMC', 'asFR', 'asCC'];
+        const shifts = ['Z', 'N', '-', '-'];
+        const referenceDate = new Date(2024, 11, 30);
+        const monthBegin = new Date(year, month - 1, 1);
+        const fakeDayOfYear = parseInt(Math.round((monthBegin - referenceDate) / 86400 / 1000)) % 4;
+        for (let shift = 0; shift < 4; shift++) {
+          const row = document.createElement('tr');
+            if (tura === shift) {
+              row.classList.add('myShift');
+            }
+          row.innerHTML = `<td>${employees[shift]}</td>`;
+          for (let day = 1; day <= daysInMonth; day++) {
+            const cell = document.createElement('td');
+            const shiftIndex = (day + 7 - shift + fakeDayOfYear) % 4;
+            cell.innerHTML = shifts[shiftIndex];
+            // Apply yellow background to weekends and holidays (for simplicity, considering weekends only here)
+            const date = new Date(year, month - 1, day);
+            if (date.getDay() === 6 || date.getDay() === 0) {
+              cell.classList.add('weekend');
+            }
+            row.appendChild(cell);
+          }
+          calendarBody.appendChild(row);
+        }
+      }
+      // Populate year options dynamically
+      const currentYear = new Date().getFullYear();
+      const yearSelect = document.getElementById('year');
+      for (let i = currentYear; i <= currentYear + 10; i++) {
+        const option = document.createElement('option');
+        option.value = i;
+        option.innerText = i;
+        yearSelect.appendChild(option);
+      }
+      generateCalendar();
+  </script>
 </body>
 
 </html>
