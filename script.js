@@ -19,7 +19,13 @@ function generateCalendar() {
 	const daysRow = document.getElementById('days');
 	daysRow.innerHTML = '<th></th>';
 	for (let i = 1; i <= daysInMonth; i++) {
-		daysRow.innerHTML += `<th>${i}</th>`;
+		const date = new Date(year, month - 1, i);
+		if (date.getDay() === 6 || date.getDay() === 0) {
+			daysRow.innerHTML += `<th class="weekend">${i}</th>`;
+		}
+		else {
+			daysRow.innerHTML += `<th>${i}</th>`;
+		}
 	}
 	const calendarBody = document.getElementById('calendarBody');
 	calendarBody.innerHTML = '';
