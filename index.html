@@ -1,56 +1,45 @@
 <!DOCTYPE html>
 <html lang="ro">
 
-	<head>
-		<meta charset="UTF-8">
-		<title>Calendar de Ture</title>
-		<meta name="viewport" content="width: device-width, initial-scale=1.0">
-		<link rel="stylesheet" type="text/css", href="styles.css">
-	</head>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Calendar ture</title>
+  <link rel="stylesheet" type="text/css" href="style.css">
+</head>
 
-	<body>
-		<header>
-			<h1>Calendar de Ture</h1>
-		</header>
-		<main>
-			<label for="month">Alege luna:</label>
-			<select id="month" onchange="generateCalendar()">
-				<option value="1">Ianuarie</option>
-				<option value="2">Februarie</option>
-				<option value="3">Martie</option>
-				<option value="4">Aprilie</option>
-				<option value="5">Mai</option>
-				<option value="6">Iunie</option>
-				<option value="7">Iulie</option>
-				<option value="8">August</option>
-				<option value="9">Septembrie</option>
-				<option value="10">Octombrie</option>
-				<option value="11">Noiembrie</option>
-				<option value="12">Decembrie</option>
-			</select>
-
-			<label for="year">Alege anul:</label>
-			<select id="year" onchange="generateCalendar()"></select>
-
-			<table>
-				<thead>
-					<tr>
-						<th>Angajat</th>
-						<th colspan="31">Zile</th>
-					</tr>
-					<tr id="days">
-						<th></th>
-						<!-- Days will be filled dynamically -->
-					</tr>
-				</thead>
-				<tbody id="calendarBody">
-					<!-- Calendar body will be filled dynamically -->
-				</tbody>
-			</table>
-		</main>
-		<footer>
-			<script src="script.js"></script>
-		</footer>
-	</body>
+<body>
+  <header>
+  <h2>Calendar ture</h2>
+  </header>
+  <main>
+  <div class="month-buttons">
+    <button>Ian</button>
+    <button>Feb</button>
+    <button>Mar</button>
+    <button>Apr</button>
+    <button>Mai</button>
+    <button>Iun</button><br>
+    <button>Iul</button>
+    <button>Aug</button>
+    <button>Sep</button>
+    <button>Oct</button>
+    <button>Noi</button>
+    <button>Dec</button>
+  </div>
+  <div class="year-buttons">
+    <button>2024</button>
+    <button>2025</button>
+    <button>2026</button>
+  </div>
+  <div id="monthyear"></div>
+  <div id="calendarContainer"></div>
+    </main>
+  <footer>
+    &copy Antoniu-Daniel Zăpîrțan<br>
+    antoniudanielzapirtan@gmail.com
+  </footer>
+  <script src="script.js"></script>
+</body>
 
 </html>

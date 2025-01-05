@@ -1,66 +1,89 @@
-const queryString = window.location.search;
-const urlParams = new URLSearchParams(queryString);
-let tura = 0;
-if (urlParams.has("tura")) {
-	const turaValue = urlParams.get("tura");
-	if (
-		!isNaN(turaValue) &&
-		parseInt(turaValue) >= 1 &&
-		parseInt(turaValue) <= 4
-	) {
-		tura = parseInt(turaValue) % 4;
-	}
-}
+let year = new Date().getFullYear();
+let month = new Date().getMonth();
+updateCalendar();
 
-function generateCalendar() {
-	const month = document.getElementById('month').value;
-	const year = document.getElementById('year').value;
-	const daysInMonth = new Date(year, month, 0).getDate();
-	const daysRow = document.getElementById('days');
-	daysRow.innerHTML = '<th></th>';
-	for (let i = 1; i <= daysInMonth; i++) {
-		const date = new Date(year, month - 1, i);
-		if (date.getDay() === 6 || date.getDay() === 0) {
-			daysRow.innerHTML += `<th class="weekend">${i}</th>`;
-		}
-		else {
-			daysRow.innerHTML += `<th>${i}</th>`;
-		}
-	}
-	const calendarBody = document.getElementById('calendarBody');
-	calendarBody.innerHTML = '';
-	const employees = ['asMR', 'asMC', 'asFR', 'asCC'];
-	const shifts = ['Z', 'N', '-', '-'];
-	const referenceDate = new Date(2024, 11, 30);
-	const monthBegin = new Date(year, month - 1, 1);
-	const fakeDayOfYear = parseInt(Math.round((monthBegin - referenceDate) / 86400 / 1000)) % 4;
-	for (let shift = 0; shift < 4; shift++) {
-		const row = document.createElement('tr');
-		if (tura === shift) {
-			row.classList.add('myShift');
-		}
-		row.innerHTML = `<td>${employees[shift]}</td>`;
-		for (let day = 1; day <= daysInMonth; day++) {
-			const cell = document.createElement('td');
-			const shiftIndex = (day + 7 - shift + fakeDayOfYear) % 4;
-			cell.innerHTML = shifts[shiftIndex];
-			// Apply yellow background to weekends and holidays (for simplicity, considering weekends only here)
-			const date = new Date(year, month - 1, day);
-			if (date.getDay() === 6 || date.getDay() === 0) {
-				cell.classList.add('weekend');
+const monthButtons = document.querySelectorAll('.month-buttons button');
+monthButtons.forEach(button => {
+	button.addEventListener('click', () => {
+    const monthName = button.textContent;
+		const monthNames = [
+			"Ian",
+			"Feb",
+			"Mar",
+			"Apr",
+			"Mai",
+			"Iun",
+			"Iul",
+			"Aug",
+			"Sep",
+			"Oct",
+			"Noi",
+			"Dec"
+		];
+		let ix = 0;
+		monthNames.forEach(currMonthName => {
+			if (monthName == currMonthName) {
+				month = ix;
 			}
-			row.appendChild(cell);
+			ix++;
+		});
+		updateCalendar();
+	});
+});
+
+const yearButtons = document.querySelectorAll('.year-buttons button');
+yearButtons.forEach(button => {
+	button.addEventListener('click', () => {
+		year = parseInt(button.textContent);
+		updateCalendar();
+	});
+});
+
+function updateCalendar() {
+  document.getElementById("monthyear").innerHTML = `luna ${month + 1} anul ${year}`;
+  const daysInMonth = new Date(year, month + 1, 0).getDate();
+	const firstDay = (new Date(year, month, 1).getDay() + 6) % 7;
+	const queryString = window.location.search;
+	const urlParams = new URLSearchParams(queryString);
+
+	let tura = 4;
+
+	if (urlParams.has("tura")) {
+		const turaValue = urlParams.get("tura");
+		if (
+			!isNaN(turaValue) &&
+			parseInt(turaValue) >= 1 &&
+			parseInt(turaValue) <= 4
+		) {
+			tura = parseInt(turaValue);
+			if (tura % 2 === 0) tura = 6 - tura;
 		}
-		calendarBody.appendChild(row);
 	}
+	const date1 = new Date(year, month, 1);
+	const date0 = new Date(2024, 0, 1);
+	let doy = Math.ceil((date1 - date0) / 86400000);
+	let calendarHTML = `<table><tr><th>lun</th><th>mar</th><th>mie</th><th>joi</th><th>vin</th><th>sâm</th><th>dum</th></tr><tr>`;
+	let dayCount = 1;
+	for (let i = 0; i < 42; i++) {
+		if (i >= firstDay && dayCount <= daysInMonth) {
+			let dt = (doy + tura) % 4;
+			let doyClass = `doy${dt}`;
+			calendarHTML += `<td class="${doyClass}">${dayCount}</td>`;
+			doy++;
+			dayCount++;
+		} else {
+			calendarHTML += `<td></td>`;
+		}
+
+		if (i % 7 === 6 && dayCount <= daysInMonth) {
+			calendarHTML += `</tr><tr>`;
+		}
+
+		if (dayCount > daysInMonth && i % 7 == 6) {
+			break;
+		}
+	}
+
+	calendarHTML += `</tr></table>`;
+	document.getElementById("calendarContainer").innerHTML = calendarHTML;
 }
-// Populate year options dynamically
-const currentYear = new Date().getFullYear();
-const yearSelect = document.getElementById('year');
-for (let i = currentYear; i <= currentYear + 10; i++) {
-	const option = document.createElement('option');
-	option.value = i;
-	option.innerText = i;
-	yearSelect.appendChild(option);
-}
-generateCalendar();
