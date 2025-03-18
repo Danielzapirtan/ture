@@ -27,6 +27,20 @@ monthButtons.forEach(button => {
 	button.addEventListener('click', () => {
 		const monthName = button.textContent;
 		let ix = 0;
+		const monthNames = [
+			"Ian",
+			"Feb",
+			"Mar",
+			"Apr",
+			"Mai",
+			"Iun",
+			"Iul",
+			"Aug",
+			"Sep",
+			"Oct",
+			"Noi",
+			"Dec"
+		];
 		monthNames.forEach(currMonthName => {
 			if (monthName == currMonthName) {
 				month = ix;
