@@ -48,7 +48,7 @@ yearButtons.forEach(button => {
 });
 
 function updateCalendar() {
-	document.getElementById("monthyear").innerHTML = `luna ${monthName1} anul ${year}`;
+	document.getElementById("monthyear").innerHTML = `luna ${month + 1} anul ${year}`;
 	const daysInMonth = new Date(year, month + 1, 0).getDate();
 	const firstDay = (new Date(year, month, 1).getDay() + 6) % 7;
 	const queryString = window.location.search;
