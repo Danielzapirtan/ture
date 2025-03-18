@@ -8,33 +8,33 @@ for (let year1 = year; year1 <= year + 4; year1++) {
 let month = new Date().getMonth();
 updateCalendar();
 
-const monthNames = [
-	"Ian",
-	"Feb",
-	"Mar",
-	"Apr",
-	"Mai",
-	"Iun",
-	"Iul",
-	"Aug",
-	"Sep",
-	"Oct",
-	"Noi",
-	"Dec"
-];
+function getMonthName(ix) {
+	const monthNames = [
+		"Ian",
+		"Feb",
+		"Mar",
+		"Apr",
+		"Mai",
+		"Iun",
+		"Iul",
+		"Aug",
+		"Sep",
+		"Oct",
+		"Noi",
+		"Dec"
+	];
+	return monthNames[ix];
+}
 let monthName1;
 const monthButtons = document.querySelectorAll('.month-buttons button');
 monthButtons.forEach(button => {
 	button.addEventListener('click', () => {
 		const monthName = button.textContent;
-		let ix = 0;
-		monthNames.forEach(currMonthName => {
-			if (monthName === currMonthName) {
+		for (let ix = 0; ix < 12; ix++) {
+			if (monthName === getMonthName(ix)) {
 				month = ix;
-				monthName1 = currMonthName;
 			}
-			ix++;
-		});
+		}
 		updateCalendar();
 	});
 });
@@ -48,7 +48,7 @@ yearButtons.forEach(button => {
 });
 
 function updateCalendar() {
-	document.getElementById("monthyear").innerHTML = `luna ${month + 1} anul ${year}`;
+	document.getElementById("monthyear").innerHTML = `luna ${getMonthName(month)} anul ${year}`;
 	const daysInMonth = new Date(year, month + 1, 0).getDate();
 	const firstDay = (new Date(year, month, 1).getDay() + 6) % 7;
 	const queryString = window.location.search;
