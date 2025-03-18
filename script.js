@@ -1,7 +1,7 @@
 let year = new Date().getFullYear();
 for (let year1 = year; year1 <= year + 10; year1++) {
 	const year_button = document.createElement("button");
-	const year_buttons = document.querySelectorAll("year-buttons");
+	const year_buttons = document.querySelectorAll(".year-buttons");
 	year_button.textContent = year1;
 	year_buttons.appendChild(year_button);
 }
