@@ -10,18 +10,18 @@ updateCalendar();
 
 function getMonthName(ix) {
 	const monthNames = [
-		"Ian",
-		"Feb",
-		"Mar",
-		"Apr",
-		"Mai",
-		"Iun",
-		"Iul",
-		"Aug",
-		"Sep",
-		"Oct",
-		"Noi",
-		"Dec"
+		"ian",
+		"feb",
+		"mar",
+		"apr",
+		"mai",
+		"iun",
+		"iul",
+		"aug",
+		"sep",
+		"oct",
+		"noi",
+		"dec"
 	];
 	return monthNames[ix];
 }
