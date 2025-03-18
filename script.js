@@ -27,20 +27,6 @@ monthButtons.forEach(button => {
 	button.addEventListener('click', () => {
 		const monthName = button.textContent;
 		let ix = 0;
-		const monthNames = [
-			"Ian",
-			"Feb",
-			"Mar",
-			"Apr",
-			"Mai",
-			"Iun",
-			"Iul",
-			"Aug",
-			"Sep",
-			"Oct",
-			"Noi",
-			"Dec"
-		];
 		monthNames.forEach(currMonthName => {
 			if (monthName == currMonthName) {
 				month = ix;
@@ -60,7 +46,7 @@ yearButtons.forEach(button => {
 });
 
 function updateCalendar() {
-	document.getElementById("monthyear").innerHTML = `luna ${monthNames[month]} anul ${year}`;
+	document.getElementById("monthyear").innerHTML = `luna ${month + 1} anul ${year}`;
 	const daysInMonth = new Date(year, month + 1, 0).getDate();
 	const firstDay = (new Date(year, month, 1).getDay() + 6) % 7;
 	const queryString = window.location.search;
