@@ -28,7 +28,7 @@ monthButtons.forEach(button => {
 		const monthName = button.textContent;
 		let ix = 0;
 		monthNames.forEach(currMonthName => {
-			if (monthName == currMonthName) {
+			if (monthName === currMonthName) {
 				month = ix;
 			}
 			ix++;
@@ -46,7 +46,7 @@ yearButtons.forEach(button => {
 });
 
 function updateCalendar() {
-	document.getElementById("monthyear").innerHTML = `luna ${month + 1} anul ${year}`;
+	document.getElementById("monthyear").innerHTML = `luna ${monthNames[month]} anul ${year}`;
 	const daysInMonth = new Date(year, month + 1, 0).getDate();
 	const firstDay = (new Date(year, month, 1).getDay() + 6) % 7;
 	const queryString = window.location.search;
