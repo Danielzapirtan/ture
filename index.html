@@ -13,28 +13,28 @@
 			<h2>Calendar ture</h2>
 		</header>
 		<main>
-<a id="altAranjamentLink" href="https://ture-s.vercel.app">Alt aranjament</a>
+			<a id="altAranjamentLink" href="https://ture-s.vercel.app">Alt aranjament</a>
 
-<script>
-  // Function to get the value of a URL parameter
-  function getParameterByName(name, url = window.location.href) {
-    name = name.replace(/[\[\]]/g, '\\$&');
-    let regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)'),
-        results = regex.exec(url);
-    if (!results) return null;
-    if (!results[2]) return '';
-    return decodeURIComponent(results[2].replace(/\+/g, ' '));
-  }
+			<script>
+				// Function to get the value of a URL parameter
+				function getParameterByName(name, url = window.location.href) {
+									name = name.replace(/[\[\]]/g, '\\$&');
+									let regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)'),
+										results = regex.exec(url);
+									if (!results) return null;
+									if (!results[2]) return '';
+									return decodeURIComponent(results[2].replace(/\+/g, ' '));
+								}
 
-  // Get the 'tura' parameter value
-  let turaValue = getParameterByName('tura');
+				// Get the 'tura' parameter value
+				let turaValue = getParameterByName('tura');
 
-  // If 'tura' parameter exists, append it to the new URL
-  if (turaValue) {
-    let linkElement = document.getElementById('altAranjamentLink');
-    linkElement.href += '?tura=' + turaValue;
-  }
-</script>
+				// If 'tura' parameter exists, append it to the new URL
+				if (turaValue) {
+									let linkElement = document.getElementById('altAranjamentLink');
+									linkElement.href += '?tura=' + turaValue;
+								}
+			</script>
 			<div class="month-buttons">
 				<button>Ian</button>
 				<button>Feb</button>
@@ -60,7 +60,7 @@
 		<footer>
 			&copy Antoniu-Daniel Zăpîrțan<br>
 			antoniudanielzapirtan@gmail.com
-		<script src="script.js"></script>
+			<script src="script.js"></script>
 		</footer>
 	</body>
 
