@@ -31,7 +31,7 @@ monthButtons.forEach(button => {
 		monthNames.forEach(currMonthName => {
 			if (monthName === currMonthName) {
 				month = ix;
-				monthName1 = monthName;
+				monthName1 = currMonthName;
 			}
 			ix++;
 		});
