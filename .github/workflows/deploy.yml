@@ -1,15 +1,16 @@
-name: Deploy to Vercel
+name: Trigger Vercel Deployment
 
 on:
-  push:
-    branches: ["main"]
+  workflow_dispatch:  # Manual trigger only
 
 jobs:
-  deploy:
+  notify-vercel:
     runs-on: ubuntu-latest
-    environment: production  # Requires manual approval
     steps:
-      - uses: actions/checkout@v4
-      - uses: amondnet/vercel-action@v25
-        with:
-          vercel-token: ${{ secrets.VERCEL_TOKEN }}
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Ping Vercel (Optional)
+        run: |
+          # Just a dummy step to ensure workflow runs
+          echo "Triggering Vercel deployment via GitHub integration..."
