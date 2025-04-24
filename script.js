@@ -39,11 +39,12 @@ function updateCalendar() {
   if (urlParams.has("user")) {
     const userValue = urlParams.get("user");
     const users = [ "ljc1q", "xxtoo", "fras0", "l3hb4"];
-    users.forEach((index, user) => {
-      if (user === userValue)
-	    tura = index;
+    for (let user = 0; user < 4; user++) {
+      if (users[user] === userValue) {
+	      tura = user + 1;
+      }
       if (tura % 2 === 0) tura = 6 - tura;
-    });
+    };
   }
   const date1 = new Date(year, month, 1);
   const date0 = new Date(2024, 0, 1);
