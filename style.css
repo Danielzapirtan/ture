@@ -1,7 +1,6 @@
 body, table, th, td {
   font-family: Arial, sans-serif;
   font-size: 17px;
-  margin: 20px;
 }
 
 button {
@@ -16,7 +15,6 @@ button {
 table {
   width: 100%;
   border-collapse: collapse;
-  margin-top: 20px;
   pointer-events: none;
 }
 

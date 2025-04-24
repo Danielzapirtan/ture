@@ -1,1 +1,1 @@
-Work shift frontend web app.
+Work shift calendar frontend web app.
