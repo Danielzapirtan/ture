@@ -15,16 +15,19 @@ for (let l = 0; l < 18; l++) {
   const year = futureDate.getFullYear();
   const monthName = monthNamesRo[month];
   const option = document.createElement('option');
-  option.value = `${year}-${String(month + 1).padStart(2, '0')}`;
-    option.textContent = `${monthName} ${year}`;
-    select.appendChild(option);
-  }
+  option.value = l;
+  option.textContent = `${monthName} ${year}`;
+  select.appendChild(option);
 }
 
 select.addEventListener('change', updateCalendar);
 
 function updateCalendar() {
-  document.getElementById("monthyear").innerHTML = `luna ${month + 1} anul ${year}`;
+  const l = select.value;
+  const futureDate = new Date(now);
+  futureDate.setMonth(futureDate.getMonth() + l);
+  const year = futureDate.getFullYear();
+  const month = futureDate.getMonth();
   const daysInMonth = new Date(year, month + 1, 0).getDate();
   const firstDay = (new Date(year, month, 1).getDay() + 6) % 7;
   const queryString = window.location.search;
