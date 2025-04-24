@@ -29,7 +29,7 @@ function updateCalendar() {
   const futureDate = new Date(now);
   futureDate.setMonth(futureDate.getMonth() + l);
   const year = futureDate.getFullYear();
-  const month = futureDate.getMonth() + 1;
+  const month = futureDate.getMonth();
   const daysInMonth = new Date(year, month + 1, 0).getDate();
   const firstDay = (new Date(year, month, 1).getDay() + 6) % 7;
   const queryString = window.location.search;
