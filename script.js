@@ -9,10 +9,12 @@ const monthNamesRo = [
 	"Noiembrie", "Decembrie"
 ];
 for (let l = 0; l < 18; l++) {
-  const futureDate = new Date(now);
-  futureDate.setMonth(now.getMonth() + l);
-  const month = futureDate.getMonth();
-  const year = futureDate.getFullYear();
+  let futureDate = new Date(now);
+  let month = futureDate.getMonth();
+  let year = futureDate.getFullYear();
+  futureDate = new Date(year, month + l, 1);
+  month = futureDate.getMonth();
+  year = futureDate.getFullYear();
   const monthName = monthNamesRo[month];
   const option = document.createElement('option');
   option.value = l;
@@ -26,10 +28,12 @@ updateCalendar();
 
 function updateCalendar() {
   const l = select.value;
-  const futureDate = new Date(now);
-  futureDate.setMonth(futureDate.getMonth() + l - 1);
-  const year = futureDate.getFullYear();
-  const month = futureDate.getMonth();
+  let futureDate = new Date(now);
+  let month = futureDate.getMonth();
+  let year = futureDate.getFullYear();
+  futureDate = new Date(year, month + l, 1);
+  year = futureDate.getFullYear();
+  month = futureDate.getMonth();
   const daysInMonth = new Date(year, month + 1, 0).getDate();
   const firstDay = (new Date(year, month, 1).getDay() + 6) % 7;
   const queryString = window.location.search;
