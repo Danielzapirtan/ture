@@ -12,6 +12,7 @@ jobs:
 
       - name: Ping Vercel (Optional)
         run: |
+          npm i -g vercel@latest
           vercel --prod
           echo "Deployed ok"
 
