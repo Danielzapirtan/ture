@@ -12,5 +12,9 @@ jobs:
 
       - name: Ping Vercel (Optional)
         run: |
-          # Just a dummy step to ensure workflow runs
-          echo "Triggering Vercel deployment via GitHub integration..."
+          git pull -f
+          git add .
+          git commit -m"Deploy to vercel"
+          git push
+          echo "Deployed ok"
+
