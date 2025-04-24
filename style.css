@@ -6,6 +6,8 @@ body, table, th, td {
 table {
   margin-top: 20px;
   width: 100%;
+  margin-left: 20px;
+  margin-right: 20px;
   border-collapse: collapse;
   pointer-events: none;
 }
