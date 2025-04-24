@@ -3,15 +3,6 @@ body, table, th, td {
   font-size: 17px;
 }
 
-button {
-  padding: 6px 14px;
-  font-size: 12px;
-  background-color: #ddffee;
-  color: #f00;
-  border: none;
-  cursor: pointer;
-}
-
 table {
   width: 100%;
   border-collapse: collapse;

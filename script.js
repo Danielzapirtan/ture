@@ -1,50 +1,23 @@
-let year = new Date().getFullYear();
-
-for (let year1 = year; year1 <= year + 4; year1++) {
-  const year_button = document.createElement("button");
-  const year_buttons = document.querySelectorAll(".year-buttons");
-  year_button.textContent = year1;
-  year_buttons[0].appendChild(year_button);
-}
-
-let month = new Date().getMonth();
-updateCalendar();
-
-const monthButtons = document.querySelectorAll('.month-buttons button');
-monthButtons.forEach(button => {
-  button.addEventListener('click', () => {
-    const monthName = button.textContent;
-    const monthNames = [
-      "Ian",
-      "Feb",
-      "Mar",
-      "Apr",
-      "Mai",
-      "Iun",
-      "Iul",
-      "Aug",
-      "Sep",
-      "Oct",
-      "Noi",
-      "Dec"
-    ];
-    let ix = 0;
-    monthNames.forEach(currMonthName => {
-      if (monthName === currMonthName) {
-        month = ix;
-      }
-      ix++;
-    });
-    updateCalendar();
-  });
-});
-
-const yearButtons = document.querySelectorAll('.year-buttons button');
-yearButtons.forEach(button => {
-  button.addEventListener('click', () => {
-    year = parseInt(button.textContent);
-    updateCalendar();
-  });
+document.addEventListener('DOMContentLoaded', function() {
+	const select = document.getElementById('monthYearSelect');
+	const now = new Date();
+	const formatter = new Intl.DateTimeFormat('ro-RO', { month: 'long' });
+	const monthNamesRo = [];
+	for (let l = 0; l < 12; l++) {
+		monthNamesRo.push(formatter.format(date));
+	}
+	for (let l = 0; l < 18; l++) {
+		const futureDate = new Date(now);
+		futureDate.setMonth(now.getMonth() + l);
+		const month = futureDate.getMonth();
+		const year = futureDate.getFullYear();
+		const monthName = monthNamesRo[month];
+		const option = document.createElement('option');
+		option.value = `${year}-${{String(month + 1).padStart(2, '0')}`;
+		option.textContent = `${monthName} ${year}`;
+		select.appendChild(option);
+	}
+	select.addEventListener('change', updateCalendar);
 });
 
 function updateCalendar() {
