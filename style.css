@@ -1,22 +1,12 @@
 body, table, th, td {
   font-family: Arial, sans-serif;
   font-size: 17px;
-  margin: 20px;
-}
-
-button {
-  padding: 6px 14px;
-  font-size: 12px;
-  background-color: #ddffee;
-  color: #f00;
-  border: none;
-  cursor: pointer;
 }
 
 table {
+  margin-top: 20px;
   width: 100%;
   border-collapse: collapse;
-  margin-top: 20px;
   pointer-events: none;
 }
 
@@ -46,3 +36,8 @@ td.doy2 {
 td.doy3 {
   background-color: #aaaaff;
 }
+
+footer {
+  margin-top: 20px;
+}
+
