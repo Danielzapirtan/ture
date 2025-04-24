@@ -48,7 +48,6 @@ function updateCalendar() {
   }
   if (urlParams.has("tura")) {
     const turaValue = urlParams.get("tura");
-    let tura;
     try {
        tura = parseInt(turaValue);
     } catch {
