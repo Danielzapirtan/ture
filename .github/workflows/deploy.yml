@@ -12,9 +12,6 @@ jobs:
 
       - name: Ping Vercel (Optional)
         run: |
-          git pull -f
-          git add .
-          git commit -m"Deploy to vercel"
-          git push
+          vercel --prod
           echo "Deployed ok"
 
