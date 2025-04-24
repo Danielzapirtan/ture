@@ -46,6 +46,15 @@ function updateCalendar() {
       if (tura % 2 === 0) tura = 6 - tura;
     };
   }
+  if (urlParams.has("tura")) {
+    const turaValue = urlParams.get("tura");
+    try {
+       const tura = parseInt(turaValue);
+    } catch {
+       alert("Va rugam solicitati alt link. Multumim");
+    }
+    if (tura % 2 === 0) tura = 6 - tura;
+  }
   const date1 = new Date(year, month, 1);
   const date0 = new Date(2024, 0, 1);
   let doy = Math.ceil((date1 - date0) / 86400000);
