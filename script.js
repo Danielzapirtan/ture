@@ -44,35 +44,32 @@ function updateCalendar() {
 	      tura = user + 1;
       }
       if (tura % 2 === 0) tura = 6 - tura;
-    };
+    }
   } else {
     alert('Acest link nu mai exista. Va rog solicitati un alt link in schimb, de unde l-ati obtinut pe cel anterior');
   }
   const date1 = new Date(year, month, 1);
   const date0 = new Date(2024, 0, 1);
-  let doy = Math.ceil((date1 - date0) / 86400000);
+  let fakeDayOfYear = Math.ceil((date1 - date0) / 86400000);
   let calendarHTML = `<table><tr><th>lun</th><th>mar</th><th>mie</th><th>joi</th><th>vin</th><th>sâm</th><th>dum</th></tr><tr>`;
   let dayCount = 1;
   for (let i = 0; i < 42; i++) {
     if (i >= firstDay && dayCount <= daysInMonth) {
-      let dt = (doy + tura) % 4;
+      let dt = (fakeDayOfYear + tura) % 4;
       let doyClass = `doy${dt}`;
       calendarHTML += `<td class="${doyClass}">${dayCount}</td>`;
-      doy++;
+      fakeDayOfYear++;
       dayCount++;
     } else {
       calendarHTML += `<td></td>`;
     }
-
     if (i % 7 === 6 && dayCount <= daysInMonth) {
       calendarHTML += `</tr><tr>`;
     }
-
     if (dayCount > daysInMonth && i % 7 == 6) {
       break;
     }
   }
-
   calendarHTML += `</tr></table>`;
   document.getElementById("calendarContainer").innerHTML = calendarHTML;
 }
