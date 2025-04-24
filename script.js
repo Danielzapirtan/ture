@@ -16,7 +16,7 @@ for (let l = 0; l < 18; l++) {
   year = futureDate.getFullYear();
   const monthName = monthNamesRo[month];
   const option = document.createElement('option');
-  option.value = { year, month };
+  option.value = year * 100 + month;
   option.textContent = `${monthName} ${year}`;
   select.appendChild(option);
 }
@@ -26,7 +26,9 @@ select.addEventListener('change', updateCalendar);
 updateCalendar();
 
 function updateCalendar() {
-  const { year, month } = select.value;
+  const yearmonth = select.value;
+  const year = parseInt(yearmonth.slice(0,4));
+  const month = parseInt(yearmonth.slice(4));
   const daysInMonth = new Date(year, month + 1, 0).getDate();
   const firstDay = (new Date(year, month, 1).getDay() + 6) % 7;
   const queryString = window.location.search;
