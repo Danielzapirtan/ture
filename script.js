@@ -1,9 +1,7 @@
 const select = document.getElementById('monthYearSelect');
 const monthNamesRo = [
-	"Ianuarie", "Februarie",
-	"Martie", "Aprilie",
-	"Mai", "Iunie",
-	"Iulie", "August",
+	"Ianuarie", "Februarie", "Martie", "Aprilie",
+	"Mai", "Iunie", "Iulie", "August",
 	"Septembrie", "Octombrie",
 	"Noiembrie", "Decembrie"
 ];
@@ -33,9 +31,7 @@ function updateCalendar() {
   const firstDay = (new Date(year, month, 1).getDay() + 6) % 7;
   const queryString = window.location.search;
   const urlParams = new URLSearchParams(queryString);
-
   let tura = 4;
-
   if (urlParams.has("user")) {
     const userValue = urlParams.get("user");
     const users = [ "ljc1q", "xxtoo", "fras0", "l3hb4"];
