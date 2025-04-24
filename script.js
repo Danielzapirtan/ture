@@ -1,10 +1,13 @@
 const select = document.getElementById('monthYearSelect');
 const now = new Date();
-const formatter = new Intl.DateTimeFormat('ro-RO', { month: 'long' });
-const monthNamesRo = [];
-for (let l = 0; l < 12; l++) {
-  monthNamesRo.push(formatter.format(l));
-}
+const monthNamesRo = [
+	"Ianuarie", "Februarie",
+	"Martie", "Aprilie",
+	"Mai", "Iunie",
+	"Iulie", "August",
+	"Septembrie", "Octombrie",
+	"Noiembrie", "Decembrie"
+];
 for (let l = 0; l < 18; l++) {
   const futureDate = new Date(now);
   futureDate.setMonth(now.getMonth() + l);
@@ -12,7 +15,7 @@ for (let l = 0; l < 18; l++) {
   const year = futureDate.getFullYear();
   const monthName = monthNamesRo[month];
   const option = document.createElement('option');
-  option.value = `${year}-${{String(month + 1).padStart(2, '0')}`;
+  option.value = `${year}-${String(month + 1).padStart(2, '0')}`;
     option.textContent = `${monthName} ${year}`;
     select.appendChild(option);
   }
