@@ -48,8 +48,9 @@ function updateCalendar() {
   }
   if (urlParams.has("tura")) {
     const turaValue = urlParams.get("tura");
+    let tura;
     try {
-       const tura = parseInt(turaValue);
+       tura = parseInt(turaValue);
     } catch {
        alert("Va rugam solicitati alt link. Multumim");
     }
