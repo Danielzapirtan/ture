@@ -27,7 +27,7 @@ updateCalendar();
 function updateCalendar() {
   const l = select.value;
   const futureDate = new Date(now);
-  futureDate.setMonth(futureDate.getMonth() + l);
+  futureDate.setMonth(futureDate.getMonth() + l - 1);
   const year = futureDate.getFullYear();
   const month = futureDate.getMonth();
   const daysInMonth = new Date(year, month + 1, 0).getDate();
