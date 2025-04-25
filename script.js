@@ -1,9 +1,9 @@
 const select = document.getElementById('monthYearSelect');
 const monthNamesRo = [
-	"Ianuarie", "Februarie", "Martie", "Aprilie",
-	"Mai", "Iunie", "Iulie", "August",
-	"Septembrie", "Octombrie",
-	"Noiembrie", "Decembrie"
+  "Ianuarie", "Februarie", "Martie", "Aprilie",
+  "Mai", "Iunie", "Iulie", "August",
+  "Septembrie", "Octombrie",
+  "Noiembrie", "Decembrie"
 ];
 for (let l = 0; l < 18; l++) {
   let futureDate = new Date();
@@ -37,7 +37,7 @@ function updateCalendar() {
     const users = [ "ljc1q", "xxtoo", "fras0", "l3hb4"];
     for (let user = 0; user < 4; user++) {
       if (users[user] === userValue) {
-	      tura = user + 1;
+        tura = user + 1;
       }
       if (tura % 2 === 0) tura = 6 - tura;
     }
