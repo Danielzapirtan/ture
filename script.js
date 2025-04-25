@@ -41,8 +41,6 @@ function updateCalendar() {
       }
       if (tura % 2 === 0) tura = 6 - tura;
     }
-  } else {
-    alert('Acest link nu mai exista. Va rog solicitati un alt link in schimb, de unde l-ati obtinut pe cel anterior');
   }
   const date1 = new Date(year, month, 1);
   const date0 = new Date(2024, 0, 1);
