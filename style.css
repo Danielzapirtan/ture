@@ -5,16 +5,15 @@ body, table, th, td {
 
 table {
   margin-top: 20px;
-  width: 91%;
+  width: 94.5%;
   border-collapse: collapse;
   pointer-events: none;
 }
 
 th, td {
   border: 1px solid #ddd;
-  padding: 8px;
   text-align: center;
-  width: 13%;
+  width: 13.5%;
 }
 
 th {
