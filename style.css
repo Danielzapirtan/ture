@@ -5,7 +5,7 @@ body, table, th, td {
 
 table {
   margin-top: 20px;
-  width: 100%;
+  width: 91%;
   border-collapse: collapse;
   pointer-events: none;
 }
@@ -14,7 +14,7 @@ th, td {
   border: 1px solid #ddd;
   padding: 8px;
   text-align: center;
-  width: 14%;
+  width: 13%;
 }
 
 th {
