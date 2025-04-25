@@ -32,6 +32,9 @@ function updateCalendar() {
   const queryString = window.location.search;
   const urlParams = new URLSearchParams(queryString);
   let tura = 4;
+  if (urlParams.has("tura")) {
+	  alert("Acest link nu mai exista. Va rugam solicitati un link nou de unde l-ati obtinut pe cel vechi");
+  }
   if (urlParams.has("user")) {
     const userValue = urlParams.get("user");
     const users = [ "ljc1q", "xxtoo", "fras0", "l3hb4"];
