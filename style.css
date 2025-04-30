@@ -10,6 +10,7 @@ body, table, th, td {
 
 table {
   margin-top: 20px;
+  margin: var(--margin);
   width: calc(var(--width) - 2  * var(--margin));
   border-collapse: collapse;
   pointer-events: none;
@@ -18,6 +19,7 @@ table {
 th, td {
   border: 1px solid #ddd;
   text-align: center;
+  min-width: calc((var(--width) - 2 * var(--margin)) / 7);
 }
 
 th {
