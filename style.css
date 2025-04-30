@@ -1,6 +1,6 @@
 body {
   --width: 100%;
-  --margin: 20px;
+  --margin: 5%;
 }
 
 body, table, th, td {
@@ -19,7 +19,7 @@ table {
 th, td {
   border: 1px solid #ddd;
   text-align: center;
-  width: calc((var(--width) - 2 * var(--margin)) * 0.1);
+  width: calc((var(--width) - 2 * var(--margin)) * 0.142857)
 }
 
 th {
