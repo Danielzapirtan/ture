@@ -1,9 +1,9 @@
 const select = document.getElementById('monthYearSelect');
 const monthNamesRo = [
-  "Ianuarie", "Februarie", "Martie", "Aprilie",
-  "Mai", "Iunie", "Iulie", "August",
-  "Septembrie", "Octombrie",
-  "Noiembrie", "Decembrie"
+  "ianuarie", "februarie", "martie", "aprilie",
+  "mai", "iunie", "iulie", "august",
+  "septembrie", "octombrie",
+  "noiembrie", "decembrie"
 ];
 for (let l = 0; l < 18; l++) {
   let futureDate = new Date();
