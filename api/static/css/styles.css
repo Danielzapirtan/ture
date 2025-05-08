@@ -22,7 +22,7 @@ table td {
 }
 
 /* Sample classes for day styles; customize these as needed */
-.doy0 { background-color: #d1e7dd; }
-.doy1 { background-color: #f8d7da; }
-.doy2 { background-color: #cff4fc; }
-.doy3 { background-color: #fff3cd; }
+.doy0 { background-color: lightyellow; }
+.doy1 { background-color: lightyellow; }
+.doy2 { background-color: #aaffaa; }
+.doy3 { background-color: #aaaaff; }
