@@ -1,0 +1,28 @@
+body {
+  font-family: Arial, sans-serif;
+  margin: 20px;
+  background-color: #f4f4f4;
+}
+
+h1 {
+  text-align: center;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+table th,
+table td {
+  border: 1px solid #ccc;
+  padding: 10px;
+  text-align: center;
+}
+
+/* Sample classes for day styles; customize these as needed */
+.doy0 { background-color: #d1e7dd; }
+.doy1 { background-color: #f8d7da; }
+.doy2 { background-color: #cff4fc; }
+.doy3 { background-color: #fff3cd; }
