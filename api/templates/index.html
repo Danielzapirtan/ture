@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Workshift Calendar</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+</head>
+<body>
+  <h1>Workshift Calendar</h1>
+  <div>
+    <label for="monthYearSelect">Select Month and Year:</label>
+    <select id="monthYearSelect"></select>
+  </div>
+  <div id="calendarContainer"></div>
+  
+  <!-- Including the JavaScript logic. The 'defer' attribute ensures the DOM is loaded first. -->
+  <script src="{{ url_for('static', filename='js/calendar.js') }}" defer></script>
+</body>
+</html>
