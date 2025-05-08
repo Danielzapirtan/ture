@@ -21,9 +21,19 @@ document.addEventListener("DOMContentLoaded", function() {
     select.appendChild(option);
   }
 
-  select.addEventListener('change', updateCalendar);
+  // Check local storage for a stored default month/year selection.
+  const storedValue = localStorage.getItem('defaultMonthYear');
+  if (storedValue) {
+    select.value = storedValue;
+  }
 
-  // Initialize calendar on load
+  // When the selection changes, update both the calendar and local storage.
+  select.addEventListener('change', function() {
+    localStorage.setItem('defaultMonthYear', select.value);
+    updateCalendar();
+  });
+
+  // Initialize the calendar on page load
   updateCalendar();
 
   function updateCalendar() {
@@ -32,9 +42,6 @@ document.addEventListener("DOMContentLoaded", function() {
     const month = parseInt(yearmonth.slice(4));
     const daysInMonth = new Date(year, month + 1, 0).getDate();
     const firstDay = (new Date(year, month, 1).getDay() + 6) % 7;
-
-    // Process URL parameters (if any). This section can later be expanded,
-    // or moved to the backend to handle authorization or personalized settings.
     const queryString = window.location.search;
     const urlParams = new URLSearchParams(queryString);
     let tura = 4;
@@ -51,7 +58,6 @@ document.addEventListener("DOMContentLoaded", function() {
         if (tura % 2 === 0) tura = 6 - tura;
       }
     }
-
     const date1 = new Date(year, month, 1);
     const date0 = new Date(2024, 0, 1);
     let fakeDayOfYear = Math.ceil((date1 - date0) / 86400000);
