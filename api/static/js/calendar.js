@@ -7,7 +7,11 @@ document.addEventListener("DOMContentLoaded", function() {
   ];
 
   // Populate the month select with options for the next 18 months.
+<<<<<<< HEAD
   for (let l = -6; l < 18; l++) {
+=======
+  for (let l = -1; l < 18; l++) {
+>>>>>>> workspace
     let futureDate = new Date();
     let month = futureDate.getMonth();
     let year = futureDate.getFullYear();
