@@ -1,21 +1,15 @@
-const select = document.getElementById('monthYearSelect');
+const select = document.getElementById('monthSelect');
 const monthNamesRo = [
   "ianuarie", "februarie", "martie", "aprilie",
   "mai", "iunie", "iulie", "august",
   "septembrie", "octombrie",
   "noiembrie", "decembrie"
 ];
-for (let l = 0; l < 18; l++) {
-  let futureDate = new Date();
-  let month = futureDate.getMonth();
-  let year = futureDate.getFullYear();
-  futureDate = new Date(year, month + l, 1);
-  month = futureDate.getMonth();
-  year = futureDate.getFullYear();
-  const monthName = monthNamesRo[month];
+for (let l = 0; l < 12; l++) {
+  const monthName = monthNamesRo[l];
   const option = document.createElement('option');
-  option.value = year * 100 + month;
-  option.textContent = `${monthName} ${year}`;
+  option.value = l;
+  option.textContent = `${monthName}`;
   select.appendChild(option);
 }
 
@@ -24,9 +18,8 @@ select.addEventListener('change', updateCalendar);
 updateCalendar();
 
 function updateCalendar() {
-  const yearmonth = select.value;
-  const year = parseInt(yearmonth.slice(0,4));
-  const month = parseInt(yearmonth.slice(4));
+  const month = select.value;
+  const year = 2025;
   const daysInMonth = new Date(year, month + 1, 0).getDate();
   const firstDay = (new Date(year, month, 1).getDay() + 6) % 7;
   const queryString = window.location.search;
