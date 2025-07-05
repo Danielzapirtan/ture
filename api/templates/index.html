@@ -73,6 +73,7 @@
                     button.textContent = year;
                     button.onclick = function() {
                         selectedYear = year;
+                        saveToLocalStorage();
                         updateYearButtons();
                         updateCalendar();
                     };
@@ -148,16 +149,17 @@
                 let tura = 4;
                 
                 if (urlParams.has("tura")) {
-                    turaValue = urlParams.get("tura");
+                    const turaValue = urlParams.get("tura");
                     tura = parseInt(turaValue);
                 }
                 
                 if (urlParams.has("user")) {
                     const userValue = urlParams.get("user");
                     const users = [ "ljc1q", "xxtoo", "fras0", "l3hb4" ];
-                    for (let user = 0; user < users.length; user++) {
-                        if (users[user] === userValue) {
-                            tura = user + 1;
+                    for (let i = 0; i < users.length; i++) {
+                        if (users[i] === userValue) {
+                            tura = i + 1;
+                            break;
                         }
                     }
                 }
