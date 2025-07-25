@@ -61,7 +61,6 @@
             let selectedYear = currentYear;
             let selectedMonth = new Date().getMonth();
 
-            // Create year buttons
             function createYearButtons() {
                 yearButtonsContainer.innerHTML = '';
                 for (let year = currentYear - 1; year <= currentYear + 2; year++) {
@@ -81,7 +80,6 @@
                 }
             }
 
-            // Update active state of year buttons
             function updateYearButtons() {
                 const buttons = yearButtonsContainer.querySelectorAll('.year-btn');
                 buttons.forEach(button => {
@@ -93,7 +91,6 @@
                 });
             }
 
-            // Populate the month select
             function populateMonthSelect() {
                 monthSelect.innerHTML = '';
                 for (let month = 0; month < 12; month++) {
@@ -107,7 +104,6 @@
                 }
             }
 
-            // Check local storage for stored selections
             function loadFromLocalStorage() {
                 const storedYear = localStorage.getItem('selectedYear');
                 const storedMonth = localStorage.getItem('selectedMonth');
@@ -120,19 +116,16 @@
                 }
             }
 
-            // Save selections to local storage
             function saveToLocalStorage() {
                 localStorage.setItem('selectedYear', selectedYear);
                 localStorage.setItem('selectedMonth', selectedMonth);
             }
 
-            // Initialize the controls
             function initializeControls() {
                 loadFromLocalStorage();
                 createYearButtons();
                 populateMonthSelect();
                 
-                // Month select change handler
                 monthSelect.addEventListener('change', function() {
                     selectedMonth = parseInt(monthSelect.value);
                     saveToLocalStorage();
@@ -140,19 +133,16 @@
                 });
             }
 
-            // Update the calendar display
             function updateCalendar() {
                 const daysInMonth = new Date(selectedYear, selectedMonth + 1, 0).getDate();
                 const firstDay = (new Date(selectedYear, selectedMonth, 1).getDay() + 6) % 7;
                 const queryString = window.location.search;
                 const urlParams = new URLSearchParams(queryString);
                 let tura = 4;
-                
                 if (urlParams.has("tura")) {
                     const turaValue = urlParams.get("tura");
                     tura = parseInt(turaValue);
                 }
-                
                 if (urlParams.has("user")) {
                     const userValue = urlParams.get("user");
                     const users = [ "ljc1q", "xxtoo", "fras0", "l3hb4" ];
@@ -164,7 +154,6 @@
                     }
                 }
                 if (tura % 2 === 0) tura = 6 - tura;
-                
                 const date1 = new Date(selectedYear, selectedMonth, 1);
                 const date0 = new Date(2024, 0, 1);
                 let fakeDayOfYear = Math.ceil((date1 - date0) / 86400000);
@@ -179,7 +168,6 @@
                         <th>dum</th>
                     </tr>
                     <tr>`;
-                
                 let dayCount = 1;
                 for (let i = 0; i < 42; i++) {
                     if (i >= firstDay && dayCount <= daysInMonth) {
@@ -201,8 +189,6 @@
                 calendarHTML += `</tr></table>`;
                 document.getElementById("calendarContainer").innerHTML = calendarHTML;
             }
-
-            // Initialize everything
             initializeControls();
             updateCalendar();
         });
