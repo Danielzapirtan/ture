@@ -1,4 +1,4 @@
-#ture
+ture
 Work shift calendar frontend web app.
 
 The user passes to the url a user-param (5 characters) that they might recieve from Danielzapirtan.
