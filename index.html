@@ -346,7 +346,7 @@
       const closestWork = findClosestWorkShift(holidayDate, tura);
       let message;
       if (holiday === 'revelion') {
-        message = `De ${holidayName} ${targetYear + 1} sunt ${closestWork.shift} ${closestWork.dayName}, ${closestWork.date.getDate()} ${month[closestWork.date.getMonth()]} ${closestWork.date.getFullYear()}`;
+        message = `De ${holidayName} ${targetYear + 1} sunt ${closestWork.shift} ${closestWork.dayName}, ${closestWork.date.getDate()} ${closestWork.date.getDate() > 15 ? "decembrie" : "ianuarie"} ${closestWork.date.getFullYear()}`;
       } else {
         const months = ['ianuarie', 'februarie', 'martie', 'aprilie', 'mai', 'iunie',
           'iulie', 'august', 'septembrie', 'octombrie', 'noiembrie', 'decembrie'
