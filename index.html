@@ -1,68 +1,39 @@
 <!DOCTYPE html>
 <html lang="ro">
-
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Calendar</title>
   <style>
-    table {
-      border-collapse: collapse;
-      width: 100%;
-    }
-
-    th,
-    td {
+    table { border-collapse: collapse; width: 100%; }
+    th, td {
       border: 1px solid #ddd;
       padding: 8px;
       width: 14%;
       text-align: center;
     }
-
-    th {
-      background-color: #f2f2f2;
-    }
-
-    .doy0 {
-      background-color: lightyellow;
-    }
-
-    .doy1 {
-      background-color: lightyellow;
-    }
-
-    .doy2 {
-      background-color: #aaffaa;
-    }
-
-    .doy3 {
-      background-color: #aaaaff;
-    }
-
+    th { background-color: #f2f2f2; }
+    .doy0, .doy1 { background-color: lightyellow; }
+    .doy2 { background-color: #aaffaa; }
+    .doy3 { background-color: #aaaaff; }
     .year-btn {
-      padding: 5px 10px;
-      margin: 0 5px;
-      cursor: pointer;
+      padding: 5px 10px; margin: 0 5px; cursor: pointer;
     }
-
     .year-btn.active {
       font-weight: bold;
       background-color: #4CAF50;
       color: white;
     }
-
     .controls {
       margin-bottom: 15px;
       display: flex;
       justify-content: space-between;
       align-items: center;
     }
-
     .holiday-buttons {
       margin: 10px 0;
       text-align: center;
     }
-
     .holiday-btn {
       padding: 8px 15px;
       margin: 0 5px;
@@ -71,11 +42,7 @@
       border: 1px solid #ccc;
       border-radius: 4px;
     }
-
-    .holiday-btn:hover {
-      background-color: #e0e0e0;
-    }
-
+    .holiday-btn:hover { background-color: #e0e0e0; }
     .holiday-result {
       margin: 10px 0;
       padding: 10px;
@@ -86,6 +53,30 @@
       text-align: center;
       min-height: 20px;
     }
+    #feedback-section {
+      margin-top: 30px;
+      padding: 15px;
+      border-top: 1px solid #ccc;
+      text-align: center;
+    }
+    textarea {
+      width: 90%;
+      max-width: 500px;
+      height: 100px;
+    }
+    #copy-feedback {
+      margin-top: 10px;
+      padding: 8px 16px;
+      border: none;
+      background-color: #4CAF50;
+      color: white;
+      cursor: pointer;
+      border-radius: 4px;
+    }
+    #copy-status {
+      margin-top: 10px;
+      color: green;
+    }
   </style>
 </head>
 
@@ -94,36 +85,38 @@
     <div id="yearButtons"></div>
     <select id="monthSelect"></select>
   </div>
+
   <div class="holiday-buttons">
-    <button id="paste-btn" class="holiday-btn" onclick="checkHolidayPaste()">Paște</button>
-    <button id="craciun-btn" class="holiday-btn" onclick="checkHolidayCraciun()">Crăciun</button>
-    <button id="revelion-btn" class="holiday-btn" onclick="checkHolidayRevelion()">Revelion</button>
+    <button class="holiday-btn" onclick="checkHoliday('paste')">Paște</button>
+    <button class="holiday-btn" onclick="checkHoliday('craciun')">Crăciun</button>
+    <button class="holiday-btn" onclick="checkHoliday('revelion')">Revelion</button>
   </div>
+
   <div id="holidayResult" class="holiday-result"></div>
   <div id="calendarContainer"></div>
 
+  <div id="feedback-section">
+    <h3>Trimite feedback</h3>
+    <textarea id="feedback" placeholder="Scrieți părerea dumneavoastră aici..."></textarea><br>
+    <button id="copy-feedback" onclick="copyFeedback()">Copiază feedbackul</button>
+    <div id="copy-status"></div>
+  </div>
+
   <script>
-    const monthSelect = document.getElementById('monthSelect');
-    const yearButtonsContainer = document.getElementById('yearButtons');
-    const monthNamesRo = [
-      "ianuarie", "februarie", "martie", "aprilie",
-      "mai", "iunie", "iulie", "august",
-      "septembrie", "octombrie", "noiembrie", "decembrie"
-    ];
+    const monthNamesRo = ["ianuarie","februarie","martie","aprilie","mai","iunie","iulie","august","septembrie","octombrie","noiembrie","decembrie"];
     let currentYear = new Date().getFullYear();
     let selectedYear = currentYear;
     let selectedMonth = new Date().getMonth();
 
     function createYearButtons() {
+      const yearButtonsContainer = document.getElementById('yearButtons');
       yearButtonsContainer.innerHTML = '';
       for (let year = currentYear - 1; year <= currentYear + 2; year++) {
         const button = document.createElement('button');
         button.className = 'year-btn';
-        if (year === selectedYear) {
-          button.classList.add('active');
-        }
+        if (year === selectedYear) button.classList.add('active');
         button.textContent = year;
-        button.onclick = function() {
+        button.onclick = function () {
           selectedYear = year;
           saveToLocalStorage();
           updateYearButtons();
@@ -134,38 +127,37 @@
     }
 
     function updateYearButtons() {
-      const buttons = yearButtonsContainer.querySelectorAll('.year-btn');
+      const buttons = document.querySelectorAll('.year-btn');
       buttons.forEach(button => {
-        if (parseInt(button.textContent) === selectedYear) {
+        if (parseInt(button.textContent) === selectedYear)
           button.classList.add('active');
-        } else {
+        else
           button.classList.remove('active');
-        }
       });
     }
 
     function populateMonthSelect() {
+      const monthSelect = document.getElementById('monthSelect');
       monthSelect.innerHTML = '';
       for (let month = 0; month < 12; month++) {
         const option = document.createElement('option');
         option.value = month;
         option.textContent = monthNamesRo[month];
-        if (month === selectedMonth) {
-          option.selected = true;
-        }
+        if (month === selectedMonth) option.selected = true;
         monthSelect.appendChild(option);
       }
+      monthSelect.addEventListener('change', function () {
+        selectedMonth = parseInt(monthSelect.value);
+        saveToLocalStorage();
+        updateCalendar();
+      });
     }
 
     function loadFromLocalStorage() {
       const storedYear = localStorage.getItem('selectedYear');
       const storedMonth = localStorage.getItem('selectedMonth');
-      if (storedYear) {
-        selectedYear = parseInt(storedYear);
-      }
-      if (storedMonth) {
-        selectedMonth = parseInt(storedMonth);
-      }
+      if (storedYear) selectedYear = parseInt(storedYear);
+      if (storedMonth) selectedMonth = parseInt(storedMonth);
     }
 
     function saveToLocalStorage() {
@@ -177,105 +169,49 @@
       loadFromLocalStorage();
       createYearButtons();
       populateMonthSelect();
-      monthSelect.addEventListener('change', function() {
-        selectedMonth = parseInt(monthSelect.value);
-        saveToLocalStorage();
-        updateCalendar();
-      });
     }
 
     function updateCalendar() {
       const daysInMonth = new Date(selectedYear, selectedMonth + 1, 0).getDate();
       const firstDay = (new Date(selectedYear, selectedMonth, 1).getDay() + 6) % 7;
-      const queryString = window.location.search;
-      const urlParams = new URLSearchParams(queryString);
+      const urlParams = new URLSearchParams(window.location.search);
       let tura = 4;
-      if (urlParams.has("tura")) {
-        const turaValue = urlParams.get("tura");
-        tura = parseInt(turaValue);
-      }
+      if (urlParams.has("tura")) tura = parseInt(urlParams.get("tura"));
       if (urlParams.has("user")) {
-        const userValue = urlParams.get("user");
         const users = ["ljc1q", "xxtoo", "fras0", "l3hb4"];
-        for (let i = 0; i < users.length; i++) {
-          if (users[i] === userValue) {
-            tura = i + 1;
-            break;
-          }
-        }
+        const idx = users.indexOf(urlParams.get("user"));
+        if (idx >= 0) tura = idx + 1;
       }
       if (tura % 2 === 0) tura = 6 - tura;
-      const date1 = new Date(selectedYear, selectedMonth, 1);
+
       const date0 = new Date(2024, 0, 1);
-      let fakeDayOfYear = Math.ceil((date1 - date0) / 86400000);
-      let calendarHTML = `<table>
-                    <tr>
-                        <th>lun</th>
-                        <th>mar</th>
-                        <th>mie</th>
-                        <th>joi</th>
-                        <th>vin</th>
-                        <th>sâm</th>
-                        <th>dum</th>
-                    </tr>
-                    <tr>`;
+      let fakeDayOfYear = Math.ceil((new Date(selectedYear, selectedMonth, 1) - date0) / 86400000);
+      let html = `<table><tr><th>lun</th><th>mar</th><th>mie</th><th>joi</th><th>vin</th><th>sâm</th><th>dum</th></tr><tr>`;
       let dayCount = 1;
       for (let i = 0; i < 42; i++) {
         if (i >= firstDay && dayCount <= daysInMonth) {
           let dt = (fakeDayOfYear + tura) % 4;
-          let doyClass = `doy${dt}`;
-          calendarHTML += `<td class="${doyClass}">${dayCount}</td>`;
-          fakeDayOfYear++;
-          dayCount++;
+          html += `<td class="doy${dt}">${dayCount}</td>`;
+          fakeDayOfYear++; dayCount++;
         } else {
-          calendarHTML += `<td></td>`;
+          html += `<td></td>`;
         }
-        if (i % 7 === 6 && dayCount <= daysInMonth) {
-          calendarHTML += `</tr><tr>`;
-        }
-        if (dayCount > daysInMonth && i % 7 === 6) {
-          break;
-        }
+        if (i % 7 === 6 && dayCount <= daysInMonth) html += `</tr><tr>`;
+        if (dayCount > daysInMonth && i % 7 === 6) break;
       }
-      calendarHTML += `</tr></table>`;
-      document.getElementById("calendarContainer").innerHTML = calendarHTML;
-    }
-
-    function getTura() {
-      const queryString = window.location.search;
-      const urlParams = new URLSearchParams(queryString);
-      let tura = 4;
-      if (urlParams.has("tura")) {
-        const turaValue = urlParams.get("tura");
-        tura = parseInt(turaValue);
-      }
-      if (urlParams.has("user")) {
-        const userValue = urlParams.get("user");
-        const users = ["ljc1q", "xxtoo", "fras0", "l3hb4"];
-        for (let i = 0; i < users.length; i++) {
-          if (users[i] === userValue) {
-            tura = i + 1;
-            break;
-          }
-        }
-      }
-      if (tura % 2 === 0) tura = 6 - tura;
-      return tura;
+      html += `</tr></table>`;
+      document.getElementById("calendarContainer").innerHTML = html;
     }
 
     function getEasterDate(year) {
-      // Algorithm pentru calcularea Paștelui Ortodox
-      const a = year % 4;
-      const b = year % 7;
-      const c = year % 19;
+      const a = year % 4, b = year % 7, c = year % 19;
       const d = (19 * c + 15) % 30;
       const e = (2 * a + 4 * b - d + 34) % 7;
       const month = Math.floor((d + e + 114) / 31);
       const day = ((d + e + 114) % 31) + 1;
-      // Ajustare pentru calendarul Gregorian (Paștele Ortodox)
-      let easterDate = new Date(year, month - 1, day);
-      easterDate.setDate(easterDate.getDate() + 13); // Diferența de 13 zile pentru calendarul Iulian
-      return easterDate;
+      let date = new Date(year, month - 1, day);
+      date.setDate(date.getDate() + 13);
+      return date;
     }
 
     function getDayName(date) {
@@ -285,83 +221,82 @@
 
     function findClosestWorkShift(holidayDate, tura) {
       const date0 = new Date(2024, 0, 1);
-      const baseDaysDiff = Math.ceil((holidayDate - date0) / 86400000);
-      // Caută în jurul datei sărbătorii pentru cea mai apropiată tură de lucru
-      let closestShift = null;
-      let minDistance = Infinity;
+      let closest = null, minDistance = Infinity;
       for (let offset = -10; offset <= 10; offset++) {
-        const checkDate = new Date(holidayDate);
-        checkDate.setDate(checkDate.getDate() + offset);
-        const daysDiff = Math.ceil((checkDate - date0) / 86400000);
-        const shiftType = (daysDiff + tura) % 4;
-        // Doar turile de zi (2) și noapte (3)
-        if (shiftType === 2 || shiftType === 3) {
-          const distance = Math.abs(offset);
-          if (distance < minDistance) {
-            minDistance = distance;
-            closestShift = {
-              date: new Date(checkDate),
-              shift: shiftType === 2 ? 'de zi' : 'de noapte',
-              dayName: getDayName(checkDate)
+        let d = new Date(holidayDate);
+        d.setDate(d.getDate() + offset);
+        const daysDiff = Math.ceil((d - date0) / 86400000);
+        const shift = (daysDiff + tura) % 4;
+        if (shift === 2 || shift === 3) {
+          let dist = Math.abs(offset);
+          if (dist < minDistance) {
+            minDistance = dist;
+            closest = {
+              date: d,
+              shift: shift === 2 ? 'de zi' : 'de noapte',
+              dayName: getDayName(d)
             };
           }
         }
       }
-      return closestShift;
+      return closest;
     }
 
-    function checkHolidayPaste() {
-      checkHoliday('paste');
-    }
-
-    function checkHolidayCraciun() {
-      checkHoliday('craciun');
-    }
-
-    function checkHolidayRevelion() {
-      checkHoliday('revelion');
-    }
-
-    const months = ['ianuarie', 'februarie', 'martie', 'aprilie', 'mai', 'iunie',
-          'iulie', 'august', 'septembrie', 'octombrie', 'noiembrie', 'decembrie'
-        ];
-
-    function checkHoliday(holiday) {
+    function checkHoliday(type) {
       const currentDate = new Date();
       const currentYear = currentDate.getFullYear();
-      const tura = getTura();
-      let holidayDate, holidayName, targetYear;
+      const tura = (() => {
+        const urlParams = new URLSearchParams(window.location.search);
+        let tura = 4;
+        if (urlParams.has("tura")) tura = parseInt(urlParams.get("tura"));
+        if (urlParams.has("user")) {
+          const users = ["ljc1q", "xxtoo", "fras0", "l3hb4"];
+          const idx = users.indexOf(urlParams.get("user"));
+          if (idx >= 0) tura = idx + 1;
+        }
+        if (tura % 2 === 0) tura = 6 - tura;
+        return tura;
+      })();
+
+      let date, name;
       for (let year = currentYear; year <= currentYear + 10; year++) {
-        if (holiday === 'paste') {
-          holidayDate = getEasterDate(year);
-          holidayName = 'Paște';
-        } else if (holiday === 'craciun') {
-          holidayDate = new Date(year, 11, 25); // 25 decembrie
-          holidayName = 'Crăciun';
-        } else if (holiday === 'revelion') {
-          holidayDate = new Date(year, 0, 1); // 1 ianuarie
-          holidayName = 'Revelion';
+        if (type === 'paste') {
+          date = getEasterDate(year);
+          name = 'Paște';
+        } else if (type === 'craciun') {
+          date = new Date(year, 11, 25);
+          name = 'Crăciun';
+        } else if (type === 'revelion') {
+          date = new Date(year, 0, 1);
+          name = 'Revelion';
         }
-        if (holidayDate > currentDate) {
-          targetYear = year;
-          break;
-        }
+        if (date > currentDate) break;
       }
-      const closestWork = findClosestWorkShift(holidayDate, tura);
-      let message;
-      if (holiday === 'revelion') {
-        message = `De ${holidayName} ${targetYear} sunt ${closestWork.shift} ${closestWork.dayName}, ${closestWork.date.getDate()} ${months[closestWork.date.getMonth()]} ${closestWork.date.getFullYear()}`;
-      } else {
-        const monthName = months[closestWork.date.getMonth()];
-        message = `De ${holidayName} ${targetYear} sunt ${closestWork.shift} ${closestWork.dayName}, ${closestWork.date.getDate()} ${monthName} ${closestWork.date.getFullYear()}`;
-      }
-      document.getElementById('holidayResult').innerHTML = `${
-        message
-      }`;
+
+      const closest = findClosestWorkShift(date, tura);
+      const m = monthNamesRo[closest.date.getMonth()];
+      const y = closest.date.getFullYear();
+      const d = closest.date.getDate();
+      const text = `De ${name} ${y} sunt ${closest.shift} ${closest.dayName}, ${d} ${m} ${y}`;
+      document.getElementById('holidayResult').textContent = text;
     }
+
+    function copyFeedback() {
+      const text = document.getElementById('feedback').value.trim();
+      const status = document.getElementById('copy-status');
+      if (!text) {
+        alert("Vă rog scrieți un mesaj înainte de a copia feedbackul.");
+        return;
+      }
+      navigator.clipboard.writeText(text).then(() => {
+        status.textContent = "Feedbackul a fost copiat în clipboard.";
+      }).catch(() => {
+        status.textContent = "Copierea a eșuat.";
+      });
+    }
+
     initializeControls();
     updateCalendar();
   </script>
 </body>
-
 </html>
