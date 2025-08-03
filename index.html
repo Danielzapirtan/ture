@@ -59,23 +59,18 @@
       border-top: 1px solid #ccc;
       text-align: center;
     }
-    textarea {
-      width: 90%;
-      max-width: 500px;
-      height: 100px;
-    }
-    #copy-feedback {
+    #feedback-btn {
       margin-top: 10px;
-      padding: 8px 16px;
+      padding: 12px 24px;
       border: none;
       background-color: #4CAF50;
       color: white;
       cursor: pointer;
       border-radius: 4px;
+      font-size: 16px;
     }
-    #copy-status {
-      margin-top: 10px;
-      color: green;
+    #feedback-btn:hover {
+      background-color: #45a049;
     }
   </style>
 </head>
@@ -97,9 +92,8 @@
 
   <div id="feedback-section">
     <h3>Trimiteți feedback</h3>
-    <textarea id="feedback" placeholder="Scrieți părerea dumneavoastră aici..."></textarea><br>
-    <button id="copy-feedback" onclick="copyFeedback()">Copiați feedbackul</button>
-    <div id="copy-status"></div>
+    <p>Apăsați butonul de mai jos pentru a completa un scurt formular de feedback</p>
+    <button id="feedback-btn" onclick="openFeedbackForm()">Deschideți formularul de feedback</button>
   </div>
 
   <script>
@@ -281,18 +275,10 @@
       document.getElementById('holidayResult').textContent = text;
     }
 
-    function copyFeedback() {
-      const text = document.getElementById('feedback').value.trim();
-      const status = document.getElementById('copy-status');
-      if (!text) {
-        alert("Vă rog scrieți un mesaj înainte de a copia feedbackul.");
-        return;
-      }
-      navigator.clipboard.writeText(text).then(() => {
-        status.textContent = "Feedbackul a fost copiat în clipboard.";
-      }).catch(() => {
-        status.textContent = "Copierea a eșuat.";
-      });
+    function openFeedbackForm() {
+      // Înlocuiește cu link-ul tău real către Google Forms
+      const googleFormsUrl = "https://forms.gle/AA1Tby5WeHceqkF28";
+      window.open(googleFormsUrl, '_blank');
     }
 
     initializeControls();
