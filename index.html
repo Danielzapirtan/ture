@@ -295,7 +295,9 @@
         document.getElementById('holidayResult').textContent = text;
       else document.getElementById("holidayResult").innerHTML = ``;
       selectedYear = y;
-      selectedMonth = closest.date.getMonth();
+      selectedMonth = date.getMonth();
+      if (name)
+        selectedMonth = closest.date.getMonth();
       saveToLocalStorage();
       updateYearButtons();
       populateMonthSelect();
