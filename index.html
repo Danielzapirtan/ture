@@ -273,10 +273,12 @@
       const d = closest.date.getDate();
       const text = `De ${name} ${y} sunt ${closest.shift} ${closest.dayName}, ${d} ${m} ${y}`;
       document.getElementById('holidayResult').textContent = text;
+      selectedYear = y;
+      selectedMonth = m;
+      updateCalendar();
     }
 
     function openFeedbackForm() {
-      // Înlocuiește cu link-ul tău real către Google Forms
       const googleFormsUrl = "https://forms.gle/AA1Tby5WeHceqkF28";
       window.open(googleFormsUrl, '_blank');
     }
