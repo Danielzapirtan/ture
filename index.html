@@ -274,7 +274,7 @@
       const text = `De ${name} ${y} sunt ${closest.shift} ${closest.dayName}, ${d} ${m} ${y}`;
       document.getElementById('holidayResult').textContent = text;
       selectedYear = y;
-      selectedMonth = m;
+      selectedMonth = closest.date.getMonth();
       saveToLocalStorage();
       updateYearButtons();
       populateMonthSelect();
