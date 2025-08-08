@@ -82,6 +82,8 @@
   </div>
 
   <div class="holiday-buttons">
+    <button class="holiday-btn" onclick="checkHoliday('lcrt')">Luna crt</button>
+    <button class="holiday-btn" onclick="checkHoliday('lurm')">Luna urm</button>
     <button class="holiday-btn" onclick="checkHoliday('paste')">Paște</button>
     <button class="holiday-btn" onclick="checkHoliday('craciun')">Crăciun</button>
     <button class="holiday-btn" onclick="checkHoliday('revelion')">Revelion</button>
@@ -255,6 +257,13 @@
       })();
 
       let date, name;
+      if (type === "lcrt") {
+	date = new Date();
+        name = ''
+      } else if (type === "lurm") {
+        date = new Date(currentYear, new Date().getMonth() + 1, 1);
+        name = '';
+      } else
       for (let year = currentYear; year <= currentYear + 10; year++) {
         if (type === 'paste') {
           date = getEasterDate(year);
@@ -265,7 +274,7 @@
         } else if (type === 'revelion') {
           date = new Date(year, 0, 1);
           name = 'Revelion';
-        }
+	}
         if (date > currentDate) break;
       }
 
@@ -274,7 +283,9 @@
       const y = closest.date.getFullYear();
       const d = closest.date.getDate();
       const text = `De ${name} ${y} sunt ${closest.shift} ${closest.dayName}, ${d} ${m} ${y}`;
-      document.getElementById('holidayResult').textContent = text;
+      if (name)
+        document.getElementById('holidayResult').textContent = text;
+      else document.getElementById("holidayResult").innerHTML = ``;
       selectedYear = y;
       selectedMonth = closest.date.getMonth();
       saveToLocalStorage();
