@@ -114,6 +114,7 @@
           selectedYear = year;
           saveToLocalStorage();
           updateYearButtons();
+	  document.getElementById("holidayResult").innerHTML = ``;
           updateCalendar();
         };
         yearButtonsContainer.appendChild(button);
@@ -143,6 +144,7 @@
       monthSelect.addEventListener('change', function () {
         selectedMonth = parseInt(monthSelect.value);
         saveToLocalStorage();
+	document.getElementById("holidayResult").innerHTML = ``;
         updateCalendar();
       });
     }
