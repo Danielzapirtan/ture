@@ -263,10 +263,10 @@
 	date = new Date();
         name = ''
       } else if (type === "lless") {
-        date = new Date(selectedYear, selectedMonth - 1, 15);
+        date = new Date(selectedYear, selectedMonth - 1, new Date().getDate());
         name = '';
       } else if (type === "lgrt") {
-        date = new Date(selectedYear, selectedMonth + 1, 15);
+        date = new Date(selectedYear, selectedMonth + 1, new Date().getDate());
         name = '';
       } else if (type === "lurm") {
         date = new Date(currentYear, new Date().getMonth() + 1, 15);
