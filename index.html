@@ -82,8 +82,10 @@
   </div>
 
   <div class="holiday-buttons">
+    <button class="holiday-btn" onclick="checkHoliday('lless')">L&lt</button>
     <button class="holiday-btn" onclick="checkHoliday('lcrt')">Acum</button>
     <button class="holiday-btn" onclick="checkHoliday('lurm')">Luna urm</button>
+    <button class="holiday-btn" onclick="checkHoliday('lgrt')">L&gt</button>
     <button class="holiday-btn" onclick="checkHoliday('paste')">Paște</button>
     <button class="holiday-btn" onclick="checkHoliday('craciun')">Crăciun</button>
     <button class="holiday-btn" onclick="checkHoliday('revelion')">Revelion</button>
@@ -260,6 +262,12 @@
       if (type === "lcrt") {
 	date = new Date();
         name = ''
+      } else if (type === "lless") {
+        date = new Date(selectedYear, selectedMonth - 1);
+        name = '';
+      } else if (type === "lgrt") {
+        date = new Date(selectedYear, selectedMonth + 1);
+        name = '';
       } else if (type === "lurm") {
         date = new Date(currentYear, new Date().getMonth() + 1, 1);
         name = '';
