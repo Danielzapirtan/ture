@@ -92,6 +92,7 @@
   </div>
 
   <div id="holidayResult" class="holiday-result"></div>
+  <div id="selectedMonth"></div>
   <div id="calendarContainer"></div>
 
   <div id="feedback-section">
@@ -201,6 +202,7 @@
       }
       html += `</tr></table>`;
       document.getElementById("calendarContainer").innerHTML = html;
+      document.getElementById("selectedMonth").innerHTML = `${monthNamesRo[selectedMonth]} ${selectedYear}`;
     }
 
     function getEasterDate(year) {
