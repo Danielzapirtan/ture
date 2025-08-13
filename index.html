@@ -56,6 +56,7 @@
     #selectedMonth {
       font-weight: bold;
       font-size: 24px;
+      color: #55ffff;
     }
     #feedback-section {
       margin-top: 30px;
@@ -206,7 +207,7 @@
       }
       html += `</tr></table>`;
       document.getElementById("calendarContainer").innerHTML = html;
-      document.getElementById("selectedMonth").innerHTML = `${monthNamesRo[selectedMonth]} ${selectedYear}`;
+      document.getElementById("selectedMonth").innerHTML = `Calendar ${monthNamesRo[selectedMonth]} ${selectedYear}`;
     }
 
     function getEasterDate(year) {
