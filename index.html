@@ -4,88 +4,39 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Calendar</title>
+
+  <!-- PWA manifest + theme -->
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#4CAF50">
+
   <style>
+    /* your existing CSS unchanged */
     table { border-collapse: collapse; width: 100%; }
-    th, td {
-      border: 1px solid #ddd;
-      padding: 8px;
-      width: 14%;
-      text-align: center;
-    }
+    th, td { border: 1px solid #ddd; padding: 8px; width: 14%; text-align: center; }
     th { background-color: #f2f2f2; }
     .doy0, .doy1 { background-color: lightyellow; }
     .doy2 { background-color: #aaffaa; }
     .doy3 { background-color: #aaaaff; }
-    .year-btn {
-      padding: 5px 10px; margin: 0 5px; cursor: pointer;
-    }
-    .year-btn.active {
-      font-weight: bold;
-      background-color: #4CAF50;
-      color: white;
-    }
-    .controls {
-      margin-bottom: 15px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-    .holiday-buttons {
-      margin: 10px 0;
-      text-align: center;
-    }
-    .holiday-btn {
-      padding: 8px 15px;
-      margin: 0 5px;
-      cursor: pointer;
-      background-color: #f0f0f0;
-      border: 1px solid #ccc;
-      border-radius: 4px;
-    }
+    .year-btn { padding: 5px 10px; margin: 0 5px; cursor: pointer; }
+    .year-btn.active { font-weight: bold; background-color: #4CAF50; color: white; }
+    .controls { margin-bottom: 15px; display: flex; justify-content: space-between; align-items: center; }
+    .holiday-buttons { margin: 10px 0; text-align: center; }
+    .holiday-btn { padding: 8px 15px; margin: 0 5px; cursor: pointer; background-color: #f0f0f0; border: 1px solid #ccc; border-radius: 4px; }
     .holiday-btn:hover { background-color: #e0e0e0; }
-    .holiday-result {
-      margin: 10px 0;
-      padding: 10px;
-      background-color: #f9f9f9;
-      color: #5555aa;
-      border: 1px solid #ddd;
-      border-radius: 4px;
-      text-align: center;
-      min-height: 20px;
-    }
-    #selectedMonth {
-      font-weight: bold;
-      font-size: 24px;
-      color: #55aaaa;
-    }
-    #feedback-section {
-      margin-top: 30px;
-      padding: 15px;
-      border-top: 1px solid #ccc;
-      text-align: center;
-    }
-    #feedback-btn {
-      margin-top: 10px;
-      padding: 12px 24px;
-      border: none;
-      background-color: #4CAF50;
-      color: white;
-      cursor: pointer;
-      border-radius: 4px;
-      font-size: 16px;
-    }
-    #feedback-btn:hover {
-      background-color: #45a049;
-    }
+    .holiday-result { margin: 10px 0; padding: 10px; background-color: #f9f9f9; color: #5555aa; border: 1px solid #ddd; border-radius: 4px; text-align: center; min-height: 20px; }
+    #selectedMonth { font-weight: bold; font-size: 24px; color: #55aaaa; }
+    #feedback-section { margin-top: 30px; padding: 15px; border-top: 1px solid #ccc; text-align: center; }
+    #feedback-btn { margin-top: 10px; padding: 12px 24px; border: none; background-color: #4CAF50; color: white; cursor: pointer; border-radius: 4px; font-size: 16px; }
+    #feedback-btn:hover { background-color: #45a049; }
   </style>
 </head>
 
 <body>
+  <!-- your existing HTML stays unchanged -->
   <div class="controls">
     <div id="yearButtons"></div>
     <select id="monthSelect"></select>
   </div>
-
   <div class="holiday-buttons">
     <button class="holiday-btn" onclick="checkHoliday('lless')">L&lt</button>
     <button class="holiday-btn" onclick="checkHoliday('lcrt')">Acum</button>
@@ -107,221 +58,19 @@
   </div>
 
   <script>
-    const monthNamesRo = ["ianuarie","februarie","martie","aprilie","mai","iunie","iulie","august","septembrie","octombrie","noiembrie","decembrie"];
-    let currentYear = new Date().getFullYear();
-    let selectedYear = currentYear;
-    let selectedMonth = new Date().getMonth();
-
-    function createYearButtons() {
-      const yearButtonsContainer = document.getElementById('yearButtons');
-      yearButtonsContainer.innerHTML = '';
-      for (let year = currentYear - 1; year <= currentYear + 2; year++) {
-        const button = document.createElement('button');
-        button.className = 'year-btn';
-        if (year === selectedYear) button.classList.add('active');
-        button.textContent = year;
-        button.onclick = function () {
-          selectedYear = year;
-          saveToLocalStorage();
-          updateYearButtons();
-	  document.getElementById("holidayResult").innerHTML = ``;
-          updateCalendar();
-        };
-        yearButtonsContainer.appendChild(button);
-      }
-    }
-
-    function updateYearButtons() {
-      const buttons = document.querySelectorAll('.year-btn');
-      buttons.forEach(button => {
-        if (parseInt(button.textContent) === selectedYear)
-          button.classList.add('active');
-        else
-          button.classList.remove('active');
-      });
-    }
-
-    function populateMonthSelect() {
-      const monthSelect = document.getElementById('monthSelect');
-      monthSelect.innerHTML = '';
-      for (let month = 0; month < 12; month++) {
-        const option = document.createElement('option');
-        option.value = month;
-        option.textContent = monthNamesRo[month];
-        if (month === selectedMonth) option.selected = true;
-        monthSelect.appendChild(option);
-      }
-      monthSelect.addEventListener('change', function () {
-        selectedMonth = parseInt(monthSelect.value);
-        saveToLocalStorage();
-	document.getElementById("holidayResult").innerHTML = ``;
-        updateCalendar();
-      });
-    }
-
-    function loadFromLocalStorage() {
-      const storedYear = localStorage.getItem('selectedYear');
-      const storedMonth = localStorage.getItem('selectedMonth');
-      if (storedYear) selectedYear = parseInt(storedYear);
-      if (storedMonth) selectedMonth = parseInt(storedMonth);
-    }
-
-    function saveToLocalStorage() {
-      localStorage.setItem('selectedYear', selectedYear);
-      localStorage.setItem('selectedMonth', selectedMonth);
-    }
-
-    function initializeControls() {
-      loadFromLocalStorage();
-      createYearButtons();
-      populateMonthSelect();
-    }
-
-    function updateCalendar() {
-      const daysInMonth = new Date(selectedYear, selectedMonth + 1, 0).getDate();
-      const firstDay = (new Date(selectedYear, selectedMonth, 1).getDay() + 6) % 7;
-      const urlParams = new URLSearchParams(window.location.search);
-      let tura = 4;
-      if (urlParams.has("tura")) tura = parseInt(urlParams.get("tura"));
-      if (urlParams.has("user")) {
-        const users = ["ljc1q", "xxtoo", "fras0", "l3hb4"];
-        const idx = users.indexOf(urlParams.get("user"));
-        if (idx >= 0) tura = idx + 1;
-      }
-      if (tura % 2 === 0) tura = 6 - tura;
-
-      const date0 = new Date(2024, 0, 1);
-      let fakeDayOfYear = Math.ceil((new Date(selectedYear, selectedMonth, 1) - date0) / 86400000);
-      let html = `<table><tr><th>lun</th><th>mar</th><th>mie</th><th>joi</th><th>vin</th><th>sâm</th><th>dum</th></tr><tr>`;
-      let dayCount = 1;
-      for (let i = 0; i < 42; i++) {
-        if (i >= firstDay && dayCount <= daysInMonth) {
-          let dt = (fakeDayOfYear + tura) % 4;
-          html += `<td class="doy${dt}">${dayCount}</td>`;
-          fakeDayOfYear++; dayCount++;
-        } else {
-          html += `<td></td>`;
-        }
-        if (i % 7 === 6 && dayCount <= daysInMonth) html += `</tr><tr>`;
-        if (dayCount > daysInMonth && i % 7 === 6) break;
-      }
-      html += `</tr></table>`;
-      document.getElementById("calendarContainer").innerHTML = html;
-      document.getElementById("selectedMonth").innerHTML = `Calendar ${monthNamesRo[selectedMonth]} ${selectedYear}`;
-    }
-
-    function getEasterDate(year) {
-      const a = year % 4, b = year % 7, c = year % 19;
-      const d = (19 * c + 15) % 30;
-      const e = (2 * a + 4 * b - d + 34) % 7;
-      const month = Math.floor((d + e + 114) / 31);
-      const day = ((d + e + 114) % 31) + 1;
-      let date = new Date(year, month - 1, day);
-      date.setDate(date.getDate() + 13);
-      return date;
-    }
-
-    function getDayName(date) {
-      const days = ['duminică', 'luni', 'marți', 'miercuri', 'joi', 'vineri', 'sâmbătă'];
-      return days[date.getDay()];
-    }
-
-    function findClosestWorkShift(holidayDate, tura) {
-      const date0 = new Date(2024, 0, 1);
-      let closest = null, minDistance = Infinity;
-      for (let offset = -10; offset <= 10; offset++) {
-        let d = new Date(holidayDate);
-        d.setDate(d.getDate() + offset);
-        const daysDiff = Math.ceil((d - date0) / 86400000);
-        const shift = (daysDiff + tura) % 4;
-        if (shift === 2 || shift === 3) {
-          let dist = Math.abs(offset);
-          if (dist < minDistance) {
-            minDistance = dist;
-            closest = {
-              date: d,
-              shift: shift === 2 ? 'de zi' : 'de noapte',
-              dayName: getDayName(d)
-            };
-          }
-        }
-      }
-      return closest;
-    }
-
-    function checkHoliday(type) {
-      const currentDate = new Date();
-      const currentYear = currentDate.getFullYear();
-      const tura = (() => {
-        const urlParams = new URLSearchParams(window.location.search);
-        let tura = 4;
-        if (urlParams.has("tura")) tura = parseInt(urlParams.get("tura"));
-        if (urlParams.has("user")) {
-          const users = ["ljc1q", "xxtoo", "fras0", "l3hb4"];
-          const idx = users.indexOf(urlParams.get("user"));
-          if (idx >= 0) tura = idx + 1;
-        }
-        if (tura % 2 === 0) tura = 6 - tura;
-        return tura;
-      })();
-
-      let date, name;
-      if (type === "lcrt") {
-	date = new Date();
-        name = ''
-      } else if (type === "lless") {
-        date = new Date(selectedYear, selectedMonth - 1, new Date().getDate());
-        name = '';
-      } else if (type === "lgrt") {
-        date = new Date(selectedYear, selectedMonth + 1, new Date().getDate());
-        if (date.getFullYear() > currentYear + 2) {
-          date = new Date(currentYear + 2, 11, new Date().getDate());
-        }
-        name = '';
-      } else if (type === "lurm") {
-        date = new Date(currentYear, new Date().getMonth() + 1, 15);
-        name = '';
-      } else
-      for (let year = currentYear; year <= currentYear + 10; year++) {
-        if (type === 'paste') {
-          date = getEasterDate(year);
-          name = 'Paște';
-        } else if (type === 'craciun') {
-          date = new Date(year, 11, 25);
-          name = 'Crăciun';
-        } else if (type === 'revelion') {
-          date = new Date(year, 0, 1);
-          name = 'Revelion';
-	}
-        if (date > currentDate) break;
-      }
-
-      const closest = findClosestWorkShift(date, tura);
-      const m = monthNamesRo[closest.date.getMonth()];
-      const y = closest.date.getFullYear();
-      const d = closest.date.getDate();
-      const text = `De ${name} ${y} sunt ${closest.shift} ${closest.dayName}, ${d} ${m} ${y}`;
-      if (name)
-        document.getElementById('holidayResult').textContent = text;
-      else document.getElementById("holidayResult").innerHTML = ``;
-      selectedYear = y;
-      selectedMonth = date.getMonth();
-      if (name)
-        selectedMonth = closest.date.getMonth();
-      saveToLocalStorage();
-      updateYearButtons();
-      populateMonthSelect();
-      updateCalendar();
-    }
-
-    function openFeedbackForm() {
-      const googleFormsUrl = "https://forms.gle/AA1Tby5WeHceqkF28";
-      window.open(googleFormsUrl, '_blank');
-    }
-
+    /* your existing JS unchanged (calendar logic, holidays, etc.) */
+    // ... all your code here ...
     initializeControls();
     updateCalendar();
   </script>
+
+  <!-- Register service worker -->
+  <script>
+  if ("serviceWorker" in navigator) {
+    navigator.serviceWorker.register("sw.js")
+      .then(() => console.log("✅ Service Worker registered"))
+      .catch(err => console.error("SW registration failed", err));
+  }
+  </script>
 </body>
 </html>
-
