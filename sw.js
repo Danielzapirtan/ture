@@ -1,4 +1,4 @@
-const CACHE_NAME = "calendar-cache-v20250918-1338";
+const CACHE_NAME = "calendar-cache-v20250918-1348";
 const FILES_TO_CACHE = [
   "./",
   "./index.html",
