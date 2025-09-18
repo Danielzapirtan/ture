@@ -355,11 +355,11 @@
       initializeControls();
       updateCalendar();
       // Show fallback hint if no beforeinstallprompt fires after 3s
-      /*setTimeout(() => {
+      setTimeout(() => {
         if (!deferredPrompt) {
           document.getElementById('install-hint').style.display = 'block';
         }
-      }, 3000);*/
+      }, 3000);
     });
 
     document.addEventListener('visibilitychange', function() {
