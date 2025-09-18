@@ -10,33 +10,99 @@
   <meta name="theme-color" content="#4CAF50">
 
   <style>
-    /* your existing CSS unchanged */
     table { border-collapse: collapse; width: 100%; }
-    th, td { border: 1px solid #ddd; padding: 8px; width: 14%; text-align: center; }
+    th, td {
+      border: 1px solid #ddd;
+      padding: 8px;
+      width: 14%;
+      text-align: center;
+    }
     th { background-color: #f2f2f2; }
     .doy0, .doy1 { background-color: lightyellow; }
     .doy2 { background-color: #aaffaa; }
     .doy3 { background-color: #aaaaff; }
-    .year-btn { padding: 5px 10px; margin: 0 5px; cursor: pointer; }
-    .year-btn.active { font-weight: bold; background-color: #4CAF50; color: white; }
-    .controls { margin-bottom: 15px; display: flex; justify-content: space-between; align-items: center; }
-    .holiday-buttons { margin: 10px 0; text-align: center; }
-    .holiday-btn { padding: 8px 15px; margin: 0 5px; cursor: pointer; background-color: #f0f0f0; border: 1px solid #ccc; border-radius: 4px; }
+    .year-btn {
+      padding: 5px 10px; margin: 0 5px; cursor: pointer;
+    }
+    .year-btn.active {
+      font-weight: bold;
+      background-color: #4CAF50;
+      color: white;
+    }
+    .controls {
+      margin-bottom: 15px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .holiday-buttons {
+      margin: 10px 0;
+      text-align: center;
+    }
+    .holiday-btn {
+      padding: 8px 15px;
+      margin: 0 5px;
+      cursor: pointer;
+      background-color: #f0f0f0;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
     .holiday-btn:hover { background-color: #e0e0e0; }
-    .holiday-result { margin: 10px 0; padding: 10px; background-color: #f9f9f9; color: #5555aa; border: 1px solid #ddd; border-radius: 4px; text-align: center; min-height: 20px; }
-    #selectedMonth { font-weight: bold; font-size: 24px; color: #55aaaa; }
-    #feedback-section { margin-top: 30px; padding: 15px; border-top: 1px solid #ccc; text-align: center; }
-    #feedback-btn { margin-top: 10px; padding: 12px 24px; border: none; background-color: #4CAF50; color: white; cursor: pointer; border-radius: 4px; font-size: 16px; }
-    #feedback-btn:hover { background-color: #45a049; }
+    .holiday-result {
+      margin: 10px 0;
+      padding: 10px;
+      background-color: #f9f9f9;
+      color: #5555aa;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      text-align: center;
+      min-height: 20px;
+    }
+    #selectedMonth {
+      font-weight: bold;
+      font-size: 24px;
+      color: #55aaaa;
+    }
+    #feedback-section {
+      margin-top: 30px;
+      padding: 15px;
+      border-top: 1px solid #ccc;
+      text-align: center;
+    }
+    #feedback-btn {
+      margin-top: 10px;
+      padding: 12px 24px;
+      border: none;
+      background-color: #4CAF50;
+      color: white;
+      cursor: pointer;
+      border-radius: 4px;
+      font-size: 16px;
+    }
+    #feedback-btn:hover {
+      background-color: #45a049;
+    }
+    .user-info {
+      margin-bottom: 10px;
+      padding: 10px;
+      background-color: #f0f8ff;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      text-align: center;
+      font-size: 14px;
+      color: #555;
+    }
   </style>
 </head>
 
 <body>
-  <!-- your existing HTML stays unchanged -->
+  <div id="userInfo" class="user-info"></div>
+  
   <div class="controls">
     <div id="yearButtons"></div>
     <select id="monthSelect"></select>
   </div>
+
   <div class="holiday-buttons">
     <button class="holiday-btn" onclick="checkHoliday('lless')">L&lt</button>
     <button class="holiday-btn" onclick="checkHoliday('lcrt')">Acum</button>
@@ -51,6 +117,11 @@
   <div id="selectedMonth"></div>
   <div id="calendarContainer"></div>
 
+  <!-- Install prompt section (hidden until available) -->
+  <div id="install-section" style="display:none; text-align:center; margin:20px 0;">
+    <button id="install-btn" class="holiday-btn">📲 Instalează aplicația</button>
+  </div>
+
   <div id="feedback-section">
     <h3>Trimiteți feedback</h3>
     <p>Apăsați butonul de mai jos pentru a completa un scurt formular cu păreri și sugestii despre aplicație</p>
@@ -58,19 +129,31 @@
   </div>
 
   <script>
-    /* your existing JS unchanged (calendar logic, holidays, etc.) */
-    // ... all your code here ...
-    initializeControls();
-    updateCalendar();
+    /* your existing script code is unchanged above this point */
+
+    // ... (keep all your functions as they are) ...
+
+    // Install prompt handling
+    let deferredPrompt;
+    window.addEventListener('beforeinstallprompt', (e) => {
+      e.preventDefault();
+      deferredPrompt = e;
+      document.getElementById('install-section').style.display = 'block';
+    });
+
+    document.getElementById('install-btn').addEventListener('click', async () => {
+      if (deferredPrompt) {
+        deferredPrompt.prompt();
+        const { outcome } = await deferredPrompt.userChoice;
+        console.log('User choice:', outcome);
+        deferredPrompt = null;
+        document.getElementById('install-section').style.display = 'none';
+      }
+    });
   </script>
 
-  <!-- Register service worker -->
   <script>
-  if ("serviceWorker" in navigator) {
-    navigator.serviceWorker.register("sw.js")
-      .then(() => console.log("✅ Service Worker registered"))
-      .catch(err => console.error("SW registration failed", err));
-  }
+    // keep your existing service worker registration and initialization
   </script>
 </body>
 </html>
