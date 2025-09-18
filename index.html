@@ -63,25 +63,6 @@
       font-size: 24px;
       color: #55aaaa;
     }
-    #feedback-section {
-      margin-top: 30px;
-      padding: 15px;
-      border-top: 1px solid #ccc;
-      text-align: center;
-    }
-    #feedback-btn {
-      margin-top: 10px;
-      padding: 12px 24px;
-      border: none;
-      background-color: #4CAF50;
-      color: white;
-      cursor: pointer;
-      border-radius: 4px;
-      font-size: 16px;
-    }
-    #feedback-btn:hover {
-      background-color: #45a049;
-    }
     .user-info {
       margin-bottom: 10px;
       padding: 10px;
@@ -134,12 +115,6 @@
   <div id="install-section">
     <button id="install-btn" class="holiday-btn" style="display:none;">📲 Instalează aplicația</button>
     <div id="install-hint">Pentru a instala aplicația: deschideți meniul browserului și selectați <b>Adaugă la ecranul principal</b>.</div>
-  </div>
-
-  <div id="feedback-section">
-    <h3>Trimiteți feedback</h3>
-    <p>Apăsați butonul de mai jos pentru a completa un scurt formular cu păreri și sugestii despre aplicație</p>
-    <button id="feedback-btn" onclick="openFeedbackForm()">Deschideți formularul de feedback</button>
   </div>
 
   <script>
@@ -374,11 +349,6 @@
       updateYearButtons();
       populateMonthSelect();
       updateCalendar();
-    }
-
-    function openFeedbackForm() {
-      const googleFormsUrl = "https://forms.gle/AA1Tby5WeHceqkF28";
-      window.open(googleFormsUrl, '_blank');
     }
 
     window.addEventListener('load', function() {
