@@ -12,9 +12,34 @@ self.addEventListener("install", e => {
   );
 });
 
-// Serve from cache, fallback to network
-self.addEventListener("fetch", e => {
+// Network First strategy
+self.addEventListener('fetch', (e) => {
   e.respondWith(
-    caches.match(e.request).then(resp => resp || fetch(e.request))
+    (async () => {
+      try {
+        // First, try to get the resource from the network
+        const networkResponse = await fetch(e.request);
+        
+        // Optional: Update the cache with the fresh response
+        const cache = await caches.open(CACHE_NAME);
+        cache.put(e.request, networkResponse.clone());
+        
+        return networkResponse;
+      } catch (error) {
+        // Network failed - try to serve from cache
+        console.log('Network failed, serving from cache:', error);
+        const cachedResponse = await caches.match(e.request);
+        
+        if (cachedResponse) {
+          return cachedResponse;
+        }
+        
+        // If not in cache either, you might want to return a custom offline page
+        return new Response('Network error and no cached version available', {
+          status: 503,
+          statusText: 'Service Unavailable'
+        });
+      }
+    })()
   );
 });
