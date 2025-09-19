@@ -10,6 +10,50 @@
   <meta name="theme-color" content="#4CAF50">
 
   <style>
+    /* Messenger prompt styles */
+    #messengerPrompt {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      background: linear-gradient(to right, #0084ff, #00c4ff);
+      color: white;
+      padding: 14px 15px;
+      text-align: center;
+      z-index: 10000;
+      box-shadow: 0 3px 12px rgba(0,0,0,0.3);
+      display: none;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+      font-size: 16px;
+    }
+    #messengerPrompt button {
+      background-color: white;
+      color: #0084ff;
+      border: none;
+      padding: 10px 20px;
+      margin-left: 15px;
+      border-radius: 24px;
+      cursor: pointer;
+      font-weight: bold;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+      transition: all 0.2s ease;
+    }
+    #messengerPrompt button:hover {
+      background-color: #f0f8ff;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 8px rgba(0,0,0,0.25);
+    }
+    #messengerPrompt button:active {
+      transform: translateY(0);
+    }
+    #closePrompt {
+      background: transparent !important;
+      color: white !important;
+      margin-left: 20px;
+      font-size: 20px;
+      padding: 5px 12px !important;
+    }
+
     table { border-collapse: collapse; width: 100%; }
     th, td {
       border: 1px solid #ddd;
@@ -91,10 +135,26 @@
     #installButton:hover {
       background-color: #45a049;
     }
+    
+    /* Adjust body padding to account for messenger prompt */
+    body {
+      padding-top: 0;
+      transition: padding-top 0.3s ease;
+    }
+    body.prompt-visible {
+      padding-top: 60px;
+    }
   </style>
 </head>
 
 <body>
+  <!-- Messenger Prompt -->
+  <div id="messengerPrompt">
+    <span>💡 Pentru o experiență completă, deschide în Chrome</span>
+    <button id="openInChromeButton">Deschide acum</button>
+    <button id="closePrompt">×</button>
+  </div>
+  
   <div id="userInfo" class="user-info"></div>
   
   <div class="controls">
@@ -128,6 +188,61 @@
     // PWA Install Prompt variables
     let deferredPrompt;
     const installButton = document.getElementById('installButton');
+
+    // Function to check if we're in Messenger
+    function checkIfMessenger() {
+      // Check user agent for Facebook/Messenger in-app browser indicators
+      const ua = navigator.userAgent || navigator.vendor || window.opera;
+      const isFacebookApp = /FBAN|FBAV|FBOP|FBSN|FBSV|FBMD/i.test(ua);
+      
+      // Check for Instagram as well since it uses the same browser
+      const isInstagram = /Instagram/i.test(ua);
+      
+      // Additional check for Facebook-specific webview
+      const isFacebookWebview = ua.indexOf('FBIOS') > -1 || ua.indexOf('FB_IAB') > -1;
+      
+      return isFacebookApp || isInstagram || isFacebookWebview;
+    }
+
+    // Function to open the current URL in Chrome
+    function openInChrome() {
+      const currentUrl = encodeURIComponent(window.location.href);
+      
+      // Try Android Chrome intent first
+      window.location.href = `intent://${window.location.host}${window.location.pathname}${window.location.search}#Intent;scheme=http;package=com.android.chrome;end`;
+      
+      // Fallback for iOS and other devices
+      setTimeout(function() {
+        window.open(`googlechrome://${window.location.host}${window.location.pathname}${window.location.search}`, '_system');
+      }, 300);
+      
+      // Final fallback: instruct user to open manually
+      setTimeout(function() {
+        alert('Pentru a accesa toate funcționalitățile, vă rugăm să deschideți acest link în browserul Chrome:\n' + window.location.href);
+      }, 1000);
+    }
+
+    // Initialize Messenger prompt
+    function initMessengerPrompt() {
+      if (checkIfMessenger()) {
+        const prompt = document.getElementById('messengerPrompt');
+        prompt.style.display = 'block';
+        document.body.classList.add('prompt-visible');
+        
+        // Add event listeners
+        document.getElementById('openInChromeButton').addEventListener('click', openInChrome);
+        document.getElementById('closePrompt').addEventListener('click', function() {
+          prompt.style.display = 'none';
+          document.body.classList.remove('prompt-visible');
+        });
+        
+        // Auto-hide after 15 seconds
+        setTimeout(() => {
+          prompt.style.display = 'none';
+          document.body.classList.remove('prompt-visible');
+        }, 15000);
+      }
+    }
 
     function handleUrlParams() {
       const urlParams = new URLSearchParams(window.location.search);
@@ -419,7 +534,8 @@
     window.addEventListener('load', function() {
       initializeControls();
       updateCalendar();
-      initializePWAInstallPrompt(); // Initialize PWA install prompt
+      initializePWAInstallPrompt();
+      initMessengerPrompt(); // Initialize the Messenger prompt
     });
 
     document.addEventListener('visibilitychange', function() {
