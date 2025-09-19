@@ -2,12 +2,12 @@
   "name": "Calendar Ture",
   "short_name": "Calendar",
   "description": "Calendar pentru ture de lucru",
-  "start_url": "./", // ✅ Corrected: Relative URL within scope
+  "start_url": "./",
   "display": "standalone",
   "orientation": "portrait",
   "background_color": "#ffffff",
   "theme_color": "#4CAF50",
-  "scope": "./", // Scope is the './' (ture) directory
+  "scope": "./",
   "icons": [
     {
       "src": "icons/icon-192.png",
