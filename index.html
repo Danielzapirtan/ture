@@ -73,6 +73,24 @@
       font-size: 14px;
       color: #555;
     }
+    /* Install button styles */
+    #installButton {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      padding: 10px 15px;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+      z-index: 1000;
+      display: none; /* Hidden by default */
+    }
+    #installButton:hover {
+      background-color: #45a049;
+    }
   </style>
 </head>
 
@@ -98,11 +116,18 @@
   <div id="selectedMonth"></div>
   <div id="calendarContainer"></div>
 
+  <!-- Install Button -->
+  <button id="installButton">Instalează aplicația</button>
+
   <script>
     const monthNamesRo = ["ianuarie","februarie","martie","aprilie","mai","iunie","iulie","august","septembrie","octombrie","noiembrie","decembrie"];
     let currentYear = new Date().getFullYear();
     let selectedYear = currentYear;
     let selectedMonth = new Date().getMonth();
+    
+    // PWA Install Prompt variables
+    let deferredPrompt;
+    const installButton = document.getElementById('installButton');
 
     function handleUrlParams() {
       const urlParams = new URLSearchParams(window.location.search);
@@ -332,9 +357,69 @@
       updateCalendar();
     }
 
+    // PWA Install Prompt functionality
+    function initializePWAInstallPrompt() {
+      // Only show install prompt if not already installed as PWA
+      if (isPWA()) {
+        installButton.style.display = 'none';
+        return;
+      }
+      
+      // Listen for beforeinstallprompt event
+      window.addEventListener('beforeinstallprompt', (e) => {
+        // Prevent the mini-infobar from appearing on mobile
+        e.preventDefault();
+        
+        // Stash the event so it can be triggered later
+        deferredPrompt = e;
+        
+        // Show the install button
+        installButton.style.display = 'block';
+        
+        // Log that the PWA is installable
+        console.log('PWA is installable! Showing install button.');
+      });
+      
+      // Handle install button click
+      installButton.addEventListener('click', async () => {
+        if (!deferredPrompt) {
+          // The deferred prompt isn't available
+          return;
+        }
+        
+        // Show the install prompt
+        deferredPrompt.prompt();
+        
+        // Wait for the user to respond to the prompt
+        const { outcome } = await deferredPrompt.userChoice;
+        
+        // Optionally send analytics about the user's choice
+        console.log(`User response to the install prompt: ${outcome}`);
+        
+        // We've used the prompt, and can't use it again, so clear it
+        deferredPrompt = null;
+        
+        // Hide the install button
+        installButton.style.display = 'none';
+      });
+      
+      // Listen for app installed event
+      window.addEventListener('appinstalled', () => {
+        // Hide the install button
+        installButton.style.display = 'none';
+        
+        // Clear the deferredPrompt
+        deferredPrompt = null;
+        
+        // Log a successful installation
+        console.log('PWA was installed successfully!');
+      });
+    }
+
     window.addEventListener('load', function() {
       initializeControls();
       updateCalendar();
+      initializePWAInstallPrompt(); // Initialize PWA install prompt
     });
 
     document.addEventListener('visibilitychange', function() {
