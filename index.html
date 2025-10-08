@@ -60,11 +60,13 @@
       padding: 8px;
       width: 14%;
       text-align: center;
+      cursor: pointer;
     }
     th { background-color: #f2f2f2; }
     .doy0, .doy1 { background-color: lightyellow; }
     .doy2 { background-color: #aaffaa; }
     .doy3 { background-color: #aaaaff; }
+    .doy4 { background-color: #ffaaaa; }
     .year-btn {
       padding: 5px 10px; margin: 0 5px; cursor: pointer;
     }
@@ -226,6 +228,7 @@
     let currentYear = new Date().getFullYear();
     let selectedYear = currentYear;
     let selectedMonth = new Date().getMonth();
+    let leaveDays = [];
     
     // PWA Install Prompt variables
     let deferredPrompt;
@@ -485,13 +488,17 @@
     function loadFromLocalStorage() {
       const storedYear = localStorage.getItem('selectedYear');
       const storedMonth = localStorage.getItem('selectedMonth');
+      const storedLeaveDays = localStorage.getItem('leaveDays');
+      
       if (storedYear) selectedYear = parseInt(storedYear);
       if (storedMonth) selectedMonth = parseInt(storedMonth);
+      if (storedLeaveDays) leaveDays = JSON.parse(storedLeaveDays);
     }
 
     function saveToLocalStorage() {
       localStorage.setItem('selectedYear', selectedYear);
       localStorage.setItem('selectedMonth', selectedMonth);
+      localStorage.setItem('leaveDays', JSON.stringify(leaveDays));
     }
 
     function initializeControls() {
@@ -513,28 +520,61 @@
       }
     }
 
+    function toggleLeaveDay(year, month, day) {
+      const dateKey = `${year}-${month}-${day}`;
+      const index = leaveDays.indexOf(dateKey);
+      
+      if (index === -1) {
+        leaveDays.push(dateKey);
+      } else {
+        leaveDays.splice(index, 1);
+      }
+      
+      saveToLocalStorage();
+      updateCalendar();
+    }
+
     function updateCalendar() {
       const daysInMonth = new Date(selectedYear, selectedMonth + 1, 0).getDate();
       const firstDay = (new Date(selectedYear, selectedMonth, 1).getDay() + 6) % 7;
       let tura = getTuraFromUrl();
       const date0 = new Date(2024, 0, 1);
       let fakeDayOfYear = Math.ceil((new Date(selectedYear, selectedMonth, 1) - date0) / 86400000);
+      
       let html = `<table><tr><th>lun</th><th>mar</th><th>mie</th><th>joi</th><th>vin</th><th>sâm</th><th>dum</th></tr><tr>`;
       let dayCount = 1;
+      
       for (let i = 0; i < 42; i++) {
         if (i >= firstDay && dayCount <= daysInMonth) {
-          let dt = (fakeDayOfYear + tura) % 4;
-          html += `<td class="doy${dt}">${dayCount}</td>`;
-          fakeDayOfYear++; dayCount++;
+          const dateKey = `${selectedYear}-${selectedMonth}-${dayCount}`;
+          const isLeaveDay = leaveDays.includes(dateKey);
+          
+          // If it's a leave day, use doy4 class, otherwise calculate normally
+          let dayClass = isLeaveDay ? 'doy4' : `doy${(fakeDayOfYear + tura) % 4}`;
+          
+          html += `<td class="${dayClass}" data-day="${dayCount}">${dayCount}</td>`;
+          fakeDayOfYear++; 
+          dayCount++;
         } else {
           html += `<td></td>`;
         }
+        
         if (i % 7 === 6 && dayCount <= daysInMonth) html += `</tr><tr>`;
         if (dayCount > daysInMonth && i % 7 === 6) break;
       }
+      
       html += `</tr></table>`;
       document.getElementById("calendarContainer").innerHTML = html;
       document.getElementById("selectedMonth").innerHTML = `Calendar ${monthNamesRo[selectedMonth]} ${selectedYear}`;
+      
+      // Add click event listeners to all day cells
+      const dayCells = document.querySelectorAll('#calendarContainer td[data-day]');
+      dayCells.forEach(cell => {
+        cell.addEventListener('click', function() {
+          const day = parseInt(this.getAttribute('data-day'));
+          toggleLeaveDay(selectedYear, selectedMonth, day);
+        });
+      });
     }
 
     function getEasterDate(year) {
