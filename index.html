@@ -570,7 +570,8 @@
       const ldcount = leaveDays.length;
       const currentMonth = `${selectedYear}-${selectedMonth}-`;
       const currentmlc = leaveDays.filter(day => day.startsWith(currentMonth)).length;
-      document.getElementById("concediuTotal").innerHTML = ldcount ? `Concediu: ${currentmlc}/${ldcount}`: ``;
+      const mlc2 = ldcount ? `(${currentmlc}/${ldcount})`: ``;
+      document.getElementById("selectedMonth").innerHTML = `Calendar ${monthNamesRo[selectedMonth]} ${selectedYear} ${mlc2}`;
       
       // Add click event listeners to all day cells
       const dayCells = document.querySelectorAll('#calendarContainer td[data-day]');
