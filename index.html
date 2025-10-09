@@ -636,6 +636,7 @@
       } else if (type === "lurm") { date = new Date(currentYear, new Date().getMonth() + 1, 15); name = ''; }
       else if (type === "curm") {
         date = new Date(selectedYear, selectedMonth, 15);;
+	if (leaveDays)
 	while (true) {
 	  date = new Date(date.getFullYear(), date.getMonth() + 1, 15);
 	  if (date.getFullYear() > currentYear + 2) {
