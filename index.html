@@ -568,7 +568,9 @@
       document.getElementById("calendarContainer").innerHTML = html;
       document.getElementById("selectedMonth").innerHTML = `Calendar ${monthNamesRo[selectedMonth]} ${selectedYear}`;
       const ldcount = leaveDays.length;
-      document.getElementById("concediuTotal").innerHTML = ldcount ? `Concediu: ${ldcount} zile`: ``;
+      const currentMonth = `${selectedYear}-${selectedMonth}-`;
+      const currentmlc = leaveDays.filter(day => day.startsWith(currentMonth)).length;
+      document.getElementById("concediuTotal").innerHTML = ldcount ? `Concediu: ${currentmlc}/${ldcount}`: ``;
       
       // Add click event listeners to all day cells
       const dayCells = document.querySelectorAll('#calendarContainer td[data-day]');
