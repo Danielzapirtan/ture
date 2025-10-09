@@ -567,7 +567,7 @@
       html += `</tr></table>`;
       document.getElementById("calendarContainer").innerHTML = html;
       document.getElementById("selectedMonth").innerHTML = `Calendar ${monthNamesRo[selectedMonth]} ${selectedYear}`;
-      const ldcount = leaveDays.count();
+      const ldcount = leaveDays.length();
       document.getElementById("concediuTotal").innerHTML = ldcount ? `Concediu: ${ldcount} zile`: ``;
       
       // Add click event listeners to all day cells
