@@ -214,6 +214,7 @@
   </div>
 
   <div id="holidayResult" class="holiday-result"></div>
+  <div id="concediuTotal"></div>
   <div id="selectedMonth"></div>
   <div id="calendarContainer"></div>
 
@@ -566,6 +567,8 @@
       html += `</tr></table>`;
       document.getElementById("calendarContainer").innerHTML = html;
       document.getElementById("selectedMonth").innerHTML = `Calendar ${monthNamesRo[selectedMonth]} ${selectedYear}`;
+      const ldcount = leaveDays.count();
+      document.getElementById("concediuTotal").innerHTML = ldcount ? `Concediu: ${ldcount} zile`: ``;
       
       // Add click event listeners to all day cells
       const dayCells = document.querySelectorAll('#calendarContainer td[data-day]');
