@@ -634,7 +634,19 @@
         if (date.getFullYear() > currentYear + 2) date = new Date(currentYear + 2, 11, new Date().getDate());
         name = '';
       } else if (type === "lurm") { date = new Date(currentYear, new Date().getMonth() + 1, 15); name = ''; }
-      else
+      else if (type === "curm") {
+        date = new Date(selectedYear, selectedMonth, 15);;
+	while (true) {
+	  date = new Date(date.getFullYear(), date.getMonth() + 1, 15);
+	  if (date.getFullYear() > currentYear + 2) {
+	    date = new Date(currentYear - 1, 0, 15);
+	  }
+          const currentMonth = `${date.getFullYear()}-${date.getMonth()}-`;
+          const currentmlc = leaveDays.filter(day => day.startsWith(currentMonth)).length;
+	 if (currentmlc) break;  
+	}
+        name = '';
+      }
       for (let year = currentYear; year <= currentYear + 10; year++) {
         if (type === 'paste') { date = getEasterDate(year); name = 'Paște'; }
         else if (type === 'craciun') { date = new Date(year, 11, 25); name = 'Crăciun'; }
