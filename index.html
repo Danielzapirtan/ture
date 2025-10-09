@@ -208,7 +208,7 @@
     <button class="holiday-btn" onclick="checkHoliday('lcrt')">Acum</button>
     <button class="holiday-btn" onclick="checkHoliday('lurm')">Luna urm</button>
     <button class="holiday-btn" onclick="checkHoliday('lgrt')">L&gt</button>
-    <button class="holiday-btn" onclick="checkHoliday('curm')">Curm</button>
+    <button class="holiday-btn" onclick="checkHoliday('curm')">C urm</button>
     <button class="holiday-btn" onclick="checkHoliday('paste')">Paște</button>
     <button class="holiday-btn" onclick="checkHoliday('craciun')">Crăciun</button>
     <button class="holiday-btn" onclick="checkHoliday('revelion')">Revelion</button>
@@ -641,6 +641,8 @@
 	  if (date.getFullYear() > currentYear + 2) {
 	    date = new Date(currentYear - 1, 0, 15);
 	  }
+	  if (date.getFullYear() === selectedYear && date.getMonth() == selectedMonth)
+	    break;
           const currentMonth = `${date.getFullYear()}-${date.getMonth()}-`;
           const currentmlc = leaveDays.filter(day => day.startsWith(currentMonth)).length;
 	 if (currentmlc) break;  
