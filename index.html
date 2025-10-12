@@ -10,50 +10,6 @@
   <meta name="theme-color" content="#4CAF50">
 
   <style>
-    /* Messenger prompt styles */
-    #messengerPrompt {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      background: linear-gradient(to right, #0084ff, #00c4ff);
-      color: white;
-      padding: 14px 15px;
-      text-align: center;
-      z-index: 10000;
-      box-shadow: 0 3px 12px rgba(0,0,0,0.3);
-      display: none;
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-      font-size: 16px;
-    }
-    #messengerPrompt button {
-      background-color: white;
-      color: #0084ff;
-      border: none;
-      padding: 10px 20px;
-      margin-left: 15px;
-      border-radius: 24px;
-      cursor: pointer;
-      font-weight: bold;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-      transition: all 0.2s ease;
-    }
-    #messengerPrompt button:hover {
-      background-color: #f0f8ff;
-      transform: translateY(-2px);
-      box-shadow: 0 4px 8px rgba(0,0,0,0.25);
-    }
-    #messengerPrompt button:active {
-      transform: translateY(0);
-    }
-    #closePrompt {
-      background: transparent !important;
-      color: white !important;
-      margin-left: 20px;
-      font-size: 20px;
-      padding: 5px 12px !important;
-    }
-
     table { border-collapse: collapse; width: 100%; }
     th, td {
       border: 1px solid #ddd;
@@ -119,83 +75,13 @@
       font-size: 14px;
       color: #555;
     }
-    /* Install button styles */
-    #installButton {
-      position: fixed;
-      bottom: 20px;
-      right: 20px;
-      padding: 10px 15px;
-      background-color: #4CAF50;
-      color: white;
-      border: none;
-      border-radius: 4px;
-      cursor: pointer;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-      z-index: 1000;
-      display: none; /* Hidden by default */
-    }
-    #installButton:hover {
-      background-color: #45a049;
-    }
-    
-    /* Adjust body padding to account for messenger prompt */
     body {
-      padding-top: 0;
-      transition: padding-top 0.3s ease;
-    }
-    body.prompt-visible {
-      padding-top: 60px;
-    }
-    
-    /* Copy link button */
-    #copyLinkButton {
-      display: none;
-      position: fixed;
-      bottom: 70px;
-      right: 20px;
-      padding: 10px 15px;
-      background-color: #2196F3;
-      color: white;
-      border: none;
-      border-radius: 4px;
-      cursor: pointer;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-      z-index: 1000;
-    }
-    #copyLinkButton:hover {
-      background-color: #0b7dda;
-    }
-    
-    /* Toast notification */
-    .toast {
-      position: fixed;
-      bottom: 120px;
-      right: 20px;
-      padding: 12px 20px;
-      background-color: #333;
-      color: white;
-      border-radius: 4px;
-      z-index: 1000;
-      opacity: 0;
-      transition: opacity 0.3s;
-    }
-    .toast.show {
-      opacity: 1;
+      padding: 10px;
     }
   </style>
 </head>
 
 <body>
-  <!-- Messenger Prompt -->
-  <div id="messengerPrompt">
-    <span>💡 Pentru o experiență completă, deschide în browserul extern</span>
-    <button id="openInExternalButton">Deschide acum</button>
-    <button id="closePrompt">×</button>
-  </div>
-  
-  <!-- Toast notification -->
-  <div id="toast" class="toast">Link copiat în clipboard!</div>
-  
   <div id="userInfo" class="user-info"></div>
   
   <div class="controls">
@@ -218,174 +104,12 @@
   <div id="selectedMonth"></div>
   <div id="calendarContainer"></div>
 
-  <!-- Install Button -->
-  <button id="installButton">Instalează aplicația</button>
-  
-  <!-- Copy Link Button -->
-  <button id="copyLinkButton">Copiază link</button>
-
   <script>
     const monthNamesRo = ["ianuarie","februarie","martie","aprilie","mai","iunie","iulie","august","septembrie","octombrie","noiembrie","decembrie"];
     let currentYear = new Date().getFullYear();
     let selectedYear = currentYear;
     let selectedMonth = new Date().getMonth();
     let leaveDays = [];
-    
-    // PWA Install Prompt variables
-    let deferredPrompt;
-    const installButton = document.getElementById('installButton');
-    const copyLinkButton = document.getElementById('copyLinkButton');
-    const toast = document.getElementById('toast');
-
-    // Function to check if we're in Messenger
-    function checkIfMessenger() {
-      // Check user agent for Facebook/Messenger in-app browser indicators
-      const ua = navigator.userAgent || navigator.vendor || window.opera;
-      const isFacebookApp = /FBAN|FBAV|FBOP|FBSN|FBSV|FBMD/i.test(ua);
-      
-      // Check for Instagram as well since it uses the same browser
-      const isInstagram = /Instagram/i.test(ua);
-      
-      // Additional check for Facebook-specific webview
-      const isFacebookWebview = ua.indexOf('FBIOS') > -1 || ua.indexOf('FB_IAB') > -1;
-      
-      return isFacebookApp || isInstagram || isFacebookWebview;
-    }
-
-    // Function to detect Huawei device
-    function isHuaweiDevice() {
-      const ua = navigator.userAgent;
-      return /Huawei|HONOR/i.test(ua) || 
-             (/\bHW\b/i.test(ua) && !/Android|iPhone|iPad/i.test(ua));
-    }
-
-    // Function to show toast notification
-    function showToast(message) {
-      toast.textContent = message;
-      toast.classList.add('show');
-      setTimeout(() => {
-        toast.classList.remove('show');
-      }, 3000);
-    }
-
-    // Function to copy text to clipboard
-    function copyToClipboard(text) {
-      if (navigator.clipboard && window.isSecureContext) {
-        // Modern approach with Clipboard API
-        navigator.clipboard.writeText(text).then(() => {
-          showToast('Link copiat în clipboard!');
-        }).catch(err => {
-          fallbackCopyText(text);
-        });
-      } else {
-        // Fallback for older browsers
-        fallbackCopyText(text);
-      }
-    }
-
-    // Fallback method for copying text
-    function fallbackCopyText(text) {
-      const textArea = document.createElement("textarea");
-      textArea.value = text;
-      
-      // Avoid scrolling to bottom
-      textArea.style.top = "0";
-      textArea.style.left = "0";
-      textArea.style.position = "fixed";
-    
-      document.body.appendChild(textArea);
-      textArea.focus();
-      textArea.select();
-    
-      try {
-        const successful = document.execCommand('copy');
-        if (successful) {
-          showToast('Link copiat în clipboard!');
-        } else {
-          showToast('Nu s-a putut copia link-ul. Vă rugăm copiați-l manual.');
-        }
-      } catch (err) {
-        showToast('Nu s-a putut copia link-ul. Vă rugăm copiați-l manual.');
-      }
-    
-      document.body.removeChild(textArea);
-    }
-
-    // Function to open the current URL in appropriate browser
-    function openInExternalBrowser() {
-      const currentUrl = window.location.href;
-      
-      if (isHuaweiDevice()) {
-        // For Huawei devices, we can't rely on custom URL schemes
-        // Offer to copy the link instead
-        copyToClipboard(currentUrl);
-        
-        // Try to open in default browser (may not work on all Huawei devices)
-        try {
-          window.open(currentUrl, '_system');
-        } catch (e) {
-          // This will fail on many devices, but we've already offered the copy option
-        }
-      } else {
-        // Standard Android devices with Chrome
-        // Try Android Chrome intent first
-        try {
-          window.location.href = `intent://${window.location.host}${window.location.pathname}${window.location.search}#Intent;scheme=http;package=com.android.chrome;end`;
-        } catch (e) {
-          console.error('Chrome intent failed:', e);
-        }
-        
-        // Fallback for other browsers
-        setTimeout(function() {
-          try {
-            window.open(`googlechrome://${window.location.host}${window.location.pathname}${window.location.search}`, '_system');
-          } catch (e) {
-            console.error('Chrome URL scheme failed:', e);
-          }
-        }, 300);
-        
-        // Final fallback: instruct user to open manually
-        setTimeout(function() {
-          copyToClipboard(currentUrl);
-        }, 1000);
-      }
-    }
-
-    // Initialize Messenger prompt
-    function initMessengerPrompt() {
-      if (checkIfMessenger()) {
-        const prompt = document.getElementById('messengerPrompt');
-        const messageSpan = prompt.querySelector('span');
-        
-        // Update message for Huawei devices
-        if (isHuaweiDevice()) {
-          messageSpan.textContent = '💡 Pentru o experiență completă, deschide în browserul extern';
-          // Show copy link button for Huawei devices
-          copyLinkButton.style.display = 'block';
-        }
-        
-        prompt.style.display = 'block';
-        document.body.classList.add('prompt-visible');
-        
-        // Add event listeners
-        document.getElementById('openInExternalButton').addEventListener('click', openInExternalBrowser);
-        document.getElementById('closePrompt').addEventListener('click', function() {
-          prompt.style.display = 'none';
-          document.body.classList.remove('prompt-visible');
-        });
-        
-        // Add event listener for copy link button
-        copyLinkButton.addEventListener('click', function() {
-          copyToClipboard(window.location.href);
-        });
-        
-        // Auto-hide after 15 seconds
-        setTimeout(() => {
-          prompt.style.display = 'none';
-          document.body.classList.remove('prompt-visible');
-        }, 15000);
-      }
-    }
 
     function handleUrlParams() {
       const urlParams = new URLSearchParams(window.location.search);
@@ -551,7 +275,6 @@
           const dateKey = `${selectedYear}-${selectedMonth}-${dayCount}`;
           const isLeaveDay = leaveDays.includes(dateKey);
           
-          // If it's a leave day, use doy4 class, otherwise calculate normally
           let dayClass = isLeaveDay ? 'doy4' : `doy${(fakeDayOfYear + tura) % 4}`;
           
           html += `<td class="${dayClass}" data-day="${dayCount}">${dayCount}</td>`;
@@ -568,14 +291,12 @@
       html += `</tr></table>`;
       document.getElementById("calendarContainer").innerHTML = html;
       
-      // Update the selected month display with leave day count
       const ldcount = leaveDays.length;
       const currentMonth = `${selectedYear}-${selectedMonth}-`;
       const currentmlc = leaveDays.filter(day => day.startsWith(currentMonth)).length;
       const mlc2 = ldcount ? `(${currentmlc}/${ldcount})`: ``;
       document.getElementById("selectedMonth").innerHTML = `Calendar ${monthNamesRo[selectedMonth]} ${selectedYear} ${mlc2}`;
       
-      // Add click event listeners to all day cells
       const dayCells = document.querySelectorAll('#calendarContainer td[data-day]');
       dayCells.forEach(cell => {
         cell.addEventListener('click', function() {
@@ -692,75 +413,9 @@
       updateCalendar();
     }
 
-    // PWA Install Prompt functionality
-    function initializePWAInstallPrompt() {
-      // Only show install prompt if not already installed as PWA
-      if (isPWA()) {
-        installButton.style.display = 'none';
-        return;
-      }
-      
-      // Listen for beforeinstallprompt event
-      window.addEventListener('beforeinstallprompt', (e) => {
-        // Prevent the mini-infobar from appearing on mobile
-        e.preventDefault();
-        
-        // Stash the event so it can be triggered later
-        deferredPrompt = e;
-        
-        // For Huawei devices, show a different message
-        if (isHuaweiDevice()) {
-          installButton.textContent = 'Adaugă la ecranul principal';
-        }
-        
-        // Show the install button
-        installButton.style.display = 'block';
-        
-        // Log that the PWA is installable
-        console.log('PWA is installable! Showing install button.');
-      });
-      
-      // Handle install button click
-      installButton.addEventListener('click', async () => {
-        if (!deferredPrompt) {
-          // The deferred prompt isn't available
-          return;
-        }
-        
-        // Show the install prompt
-        deferredPrompt.prompt();
-        
-        // Wait for the user to respond to the prompt
-        const { outcome } = await deferredPrompt.userChoice;
-        
-        // Optionally send analytics about the user's choice
-        console.log(`User response to the install prompt: ${outcome}`);
-        
-        // We've used the prompt, and can't use it again, so clear it
-        deferredPrompt = null;
-        
-        // Hide the install button
-        installButton.style.display = 'none';
-      });
-      
-      // Listen for app installed event
-      window.addEventListener('appinstalled', () => {
-        // Hide the install button
-        installButton.style.display = 'none';
-        
-        // Clear the deferredPrompt
-        deferredPrompt = null;
-        
-        // Log a successful installation
-        console.log('PWA was installed successfully!');
-      });
-    }
-
     window.addEventListener('load', function() {
       initializeControls();
       updateCalendar();
-      initializePWAInstallPrompt();
-      initMessengerPrompt(); // Initialize the Messenger prompt
     });
 
     document.addEventListener('visibilitychange', function() {
