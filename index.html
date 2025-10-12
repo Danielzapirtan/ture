@@ -411,7 +411,6 @@
 
     function getTuraFromUrl() {
       let tura = 2;
-      localStorage.setItem("user", "xxtoo");
       const urlParams = new URLSearchParams(window.location.search);
       if (urlParams.has("tura")) {
         tura = parseInt(urlParams.get("tura"));
@@ -567,7 +566,8 @@
       
       html += `</tr></table>`;
       document.getElementById("calendarContainer").innerHTML = html;
-      document.getElementById("selectedMonth").innerHTML = `Calendar ${monthNamesRo[selectedMonth]} ${selectedYear}`;
+      
+      // Update the selected month display with leave day count
       const ldcount = leaveDays.length;
       const currentMonth = `${selectedYear}-${selectedMonth}-`;
       const currentmlc = leaveDays.filter(day => day.startsWith(currentMonth)).length;
@@ -627,46 +627,64 @@
       const currentDate = new Date();
       const currentYear = currentDate.getFullYear();
       const tura = getTuraFromUrl();
-      let date, name;
-      if (type === "lcrt") { date = new Date(); name = ''; }
-      else if (type === "lless") { date = new Date(selectedYear, selectedMonth - 1, new Date().getDate()); name = ''; }
-      else if (type === "lgrt") {
+      let date, name = '';
+      
+      if (type === "lcrt") { 
+        date = new Date(); 
+      } else if (type === "lless") { 
+        date = new Date(selectedYear, selectedMonth - 1, new Date().getDate()); 
+      } else if (type === "lgrt") {
         date = new Date(selectedYear, selectedMonth + 1, new Date().getDate());
         if (date.getFullYear() > currentYear + 2) date = new Date(currentYear + 2, 11, new Date().getDate());
-        name = '';
-      } else if (type === "lurm") { date = new Date(currentYear, new Date().getMonth() + 1, 15); name = ''; }
-      else if (type === "curm") {
-        date = new Date(selectedYear, selectedMonth, 15);;
-	if (leaveDays)
-	while (true) {
-	  date = new Date(date.getFullYear(), date.getMonth() + 1, 15);
-	  if (date.getFullYear() > currentYear + 2) {
-	    date = new Date(currentYear - 1, 0, 15);
-	  }
-	  if (date.getFullYear() === selectedYear && date.getMonth() == selectedMonth)
-	    break;
-          const currentMonth = `${date.getFullYear()}-${date.getMonth()}-`;
-          const currentmlc = leaveDays.filter(day => day.startsWith(currentMonth)).length;
-	 if (currentmlc) break;  
-	}
-        name = '';
+      } else if (type === "lurm") { 
+        date = new Date(currentYear, new Date().getMonth() + 1, 15); 
+      } else if (type === "curm") {
+        date = new Date(selectedYear, selectedMonth, 15);
+        if (leaveDays) {
+          while (true) {
+            date = new Date(date.getFullYear(), date.getMonth() + 1, 15);
+            if (date.getFullYear() > currentYear + 2) {
+              date = new Date(currentYear - 1, 0, 15);
+            }
+            if (date.getFullYear() === selectedYear && date.getMonth() === selectedMonth) {
+              break;
+            }
+            const currentMonth = `${date.getFullYear()}-${date.getMonth()}-`;
+            const currentmlc = leaveDays.filter(day => day.startsWith(currentMonth)).length;
+            if (currentmlc) break;  
+          }
+        }
+      } else {
+        for (let year = currentYear; year <= currentYear + 10; year++) {
+          if (type === 'paste') { 
+            date = getEasterDate(year); 
+            name = 'Paște'; 
+          } else if (type === 'craciun') { 
+            date = new Date(year, 11, 25); 
+            name = 'Crăciun'; 
+          } else if (type === 'revelion') { 
+            date = new Date(year, 0, 1); 
+            name = 'Revelion'; 
+          }
+          if (date > currentDate) break;
+        }
       }
-      for (let year = currentYear; year <= currentYear + 10; year++) {
-        if (type === 'paste') { date = getEasterDate(year); name = 'Paște'; }
-        else if (type === 'craciun') { date = new Date(year, 11, 25); name = 'Crăciun'; }
-        else if (type === 'revelion') { date = new Date(year, 0, 1); name = 'Revelion'; }
-        if (date > currentDate) break;
-      }
+      
       const closest = findClosestWorkShift(date, tura);
-      const m = monthNamesRo[closest.date.getMonth()];
-      const y = closest.date.getFullYear();
-      const d = closest.date.getDate();
-      const text = `De ${name} ${y} sunt ${closest.shift} ${closest.dayName}, ${d} ${m} ${y}`;
-      if (name) document.getElementById('holidayResult').textContent = text;
-      else document.getElementById("holidayResult").innerHTML = ``;
-      selectedYear = y;
-      selectedMonth = date.getMonth();
-      if (name) selectedMonth = closest.date.getMonth();
+      if (closest) {
+        const m = monthNamesRo[closest.date.getMonth()];
+        const y = closest.date.getFullYear();
+        const d = closest.date.getDate();
+        const text = `De ${name} ${y} sunt ${closest.shift} ${closest.dayName}, ${d} ${m} ${y}`;
+        if (name) {
+          document.getElementById('holidayResult').textContent = text;
+        } else {
+          document.getElementById("holidayResult").innerHTML = ``;
+        }
+        selectedYear = y;
+        selectedMonth = closest.date.getMonth();
+      }
+      
       saveToLocalStorage();
       updateYearButtons();
       populateMonthSelect();
