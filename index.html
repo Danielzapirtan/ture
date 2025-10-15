@@ -3,6 +3,9 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="Calendar">
   <title>Calendar</title>
 
   <!-- PWA manifest + theme -->
@@ -113,8 +116,15 @@
 
     function handleUrlParams() {
       const urlParams = new URLSearchParams(window.location.search);
-      if (urlParams.has('user')) localStorage.setItem('user', urlParams.get('user'));
-      if (urlParams.has('tura')) localStorage.setItem('tura', urlParams.get('tura'));
+      
+      // Handle user and tura parameters
+      if (urlParams.has('user')) {
+        localStorage.setItem('user', urlParams.get('user'));
+      }
+      if (urlParams.has('tura')) {
+        localStorage.setItem('tura', urlParams.get('tura'));
+      }
+      
       updateUserInfo();
     }
 
@@ -227,23 +237,36 @@
       localStorage.setItem('leaveDays', JSON.stringify(leaveDays));
     }
 
-    function initializeControls() {
-      handleUrlParams();
-      loadFromLocalStorage();
-      createYearButtons();
-      populateMonthSelect();
+    function ensureUrlParams() {
+      // Only update URL if NOT in PWA mode
       if (!isPWA()) {
         const urlParams = new URLSearchParams(window.location.search);
         const storedUser = localStorage.getItem('user');
         const storedTura = localStorage.getItem('tura');
         let urlChanged = false;
-        if (storedUser && !urlParams.has('user')) { urlParams.set('user', storedUser); urlChanged = true; }
-        if (storedTura && !urlParams.has('tura')) { urlParams.set('tura', storedTura); urlChanged = true; }
+        
+        if (storedUser && !urlParams.has('user')) { 
+          urlParams.set('user', storedUser); 
+          urlChanged = true; 
+        }
+        if (storedTura && !urlParams.has('tura')) { 
+          urlParams.set('tura', storedTura); 
+          urlChanged = true; 
+        }
+        
         if (urlChanged) {
           const newUrl = `${window.location.pathname}?${urlParams.toString()}`;
           window.history.replaceState({}, '', newUrl);
         }
       }
+    }
+
+    function initializeControls() {
+      handleUrlParams();
+      loadFromLocalStorage();
+      createYearButtons();
+      populateMonthSelect();
+      ensureUrlParams();
     }
 
     function toggleLeaveDay(year, month, day) {
@@ -419,12 +442,19 @@
     });
 
     document.addEventListener('visibilitychange', function() {
-      if (!document.hidden) updateUserInfo();
+      if (!document.hidden) {
+        updateUserInfo();
+        ensureUrlParams();
+      }
     });
 
     if ("serviceWorker" in navigator) {
       window.addEventListener('load', function() {
-        navigator.serviceWorker.register("sw.js");
+        navigator.serviceWorker.register("sw.js").then(function(registration) {
+          console.log('Service Worker registered successfully:', registration.scope);
+        }).catch(function(error) {
+          console.log('Service Worker registration failed:', error);
+        });
       });
     }
   </script>
