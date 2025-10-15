@@ -3,14 +3,19 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="default">
-  <meta name="apple-mobile-web-app-title" content="Calendar">
   <title>Calendar</title>
 
   <!-- PWA manifest + theme -->
   <link rel="manifest" href="manifest.json">
   <meta name="theme-color" content="#4CAF50">
+
+  <!-- Apple/Safari PWA Support -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="Calendar">
+  <link rel="apple-touch-icon" href="icons/icon-192.png">
+  <link rel="apple-touch-icon" sizes="192x192" href="icons/icon-192.png">
+  <link rel="apple-touch-icon" sizes="512x512" href="icons/icon-512.png">
 
   <style>
     table { border-collapse: collapse; width: 100%; }
@@ -116,15 +121,8 @@
 
     function handleUrlParams() {
       const urlParams = new URLSearchParams(window.location.search);
-      
-      // Handle user and tura parameters
-      if (urlParams.has('user')) {
-        localStorage.setItem('user', urlParams.get('user'));
-      }
-      if (urlParams.has('tura')) {
-        localStorage.setItem('tura', urlParams.get('tura'));
-      }
-      
+      if (urlParams.has('user')) localStorage.setItem('user', urlParams.get('user'));
+      if (urlParams.has('tura')) localStorage.setItem('tura', urlParams.get('tura'));
       updateUserInfo();
     }
 
@@ -237,36 +235,23 @@
       localStorage.setItem('leaveDays', JSON.stringify(leaveDays));
     }
 
-    function ensureUrlParams() {
-      // Only update URL if NOT in PWA mode
-      if (!isPWA()) {
-        const urlParams = new URLSearchParams(window.location.search);
-        const storedUser = localStorage.getItem('user');
-        const storedTura = localStorage.getItem('tura');
-        let urlChanged = false;
-        
-        if (storedUser && !urlParams.has('user')) { 
-          urlParams.set('user', storedUser); 
-          urlChanged = true; 
-        }
-        if (storedTura && !urlParams.has('tura')) { 
-          urlParams.set('tura', storedTura); 
-          urlChanged = true; 
-        }
-        
-        if (urlChanged) {
-          const newUrl = `${window.location.pathname}?${urlParams.toString()}`;
-          window.history.replaceState({}, '', newUrl);
-        }
-      }
-    }
-
     function initializeControls() {
       handleUrlParams();
       loadFromLocalStorage();
       createYearButtons();
       populateMonthSelect();
-      ensureUrlParams();
+      if (!isPWA()) {
+        const urlParams = new URLSearchParams(window.location.search);
+        const storedUser = localStorage.getItem('user');
+        const storedTura = localStorage.getItem('tura');
+        let urlChanged = false;
+        if (storedUser && !urlParams.has('user')) { urlParams.set('user', storedUser); urlChanged = true; }
+        if (storedTura && !urlParams.has('tura')) { urlParams.set('tura', storedTura); urlChanged = true; }
+        if (urlChanged) {
+          const newUrl = `${window.location.pathname}?${urlParams.toString()}`;
+          window.history.replaceState({}, '', newUrl);
+        }
+      }
     }
 
     function toggleLeaveDay(year, month, day) {
@@ -442,19 +427,12 @@
     });
 
     document.addEventListener('visibilitychange', function() {
-      if (!document.hidden) {
-        updateUserInfo();
-        ensureUrlParams();
-      }
+      if (!document.hidden) updateUserInfo();
     });
 
     if ("serviceWorker" in navigator) {
       window.addEventListener('load', function() {
-        navigator.serviceWorker.register("sw.js").then(function(registration) {
-          console.log('Service Worker registered successfully:', registration.scope);
-        }).catch(function(error) {
-          console.log('Service Worker registration failed:', error);
-        });
+        navigator.serviceWorker.register("sw.js");
       });
     }
   </script>
