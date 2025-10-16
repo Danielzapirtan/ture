@@ -2,7 +2,7 @@
   "name": "Calendar Ture",
   "short_name": "Calendar",
   "description": "Calendar pentru ture de lucru",
-  "start_url": "./?source=pwa",
+  "start_url": "./",
   "display": "standalone",
   "orientation": "portrait",
   "background_color": "#ffffff",
