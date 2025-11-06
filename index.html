@@ -274,7 +274,7 @@
       const daysInMonth = new Date(selectedYear, selectedMonth + 1, 0).getDate();
       const firstDay = (new Date(selectedYear, selectedMonth, 1).getDay() + 6) % 7;
       let tura = getTuraFromUrl();
-      const date0 = new Date(2024, 0, 1);
+      const date0 = new Date(2017, 0, 1);
       let fakeDayOfYear = Math.ceil((new Date(selectedYear, selectedMonth, 1) - date0) / 86400000);
       
       let html = `<table><tr><th>lun</th><th>mar</th><th>mie</th><th>joi</th><th>vin</th><th>sâm</th><th>dum</th></tr><tr>`;
