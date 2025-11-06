@@ -177,7 +177,7 @@
     function createYearButtons() {
       const yearButtonsContainer = document.getElementById('yearButtons');
       yearButtonsContainer.innerHTML = '';
-      for (let year = currentYear - 1; year <= currentYear + 2; year++) {
+      for (let year = currentYear - 3; year <= currentYear + 2; year++) {
         const button = document.createElement('button');
         button.className = 'year-btn';
         if (year === selectedYear) button.classList.add('active');
