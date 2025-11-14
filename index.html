@@ -1091,7 +1091,7 @@
             
             // Determine initial day type
             const isHoliday = decemberHolidays.includes(day) || saturdays.includes(day) || sundays.includes(day);
-            const isWorkDay = ((day + 7 - tura) % 4 < 2);
+            const isWorkDay = ((day + 7 - plannerShift) % 4 < 2);
             
             if (isHoliday) {
                 dayElement.classList.add("holiday");
@@ -1111,7 +1111,7 @@
 
     function toggleDayStatus(dayElement, day) {
       const isHoliday = decemberHolidays.includes(day) || saturdays.includes(day) || sundays.includes(day);
-      const isWorkDay = ((day + 7 - tura) % 4 < 2);
+      const isWorkDay = ((day + 7 - plannerShift) % 4 < 2);
       if (isWorkDay) {
         if (dayElement.classList.contains("holiday")) {
           if (dayElement.classList.contains("workday")) {
