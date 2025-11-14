@@ -486,13 +486,14 @@
       <div class="section planner-section tab-content" id="planner-tab">
         <div class="section-title">Planificator Concedii Decembrie 2025</div>
         
+	<!--
         <div class="solution-controls">
           <button id="solve-btn" class="solve-btn">Rezolvă</button>
           <button id="reset-btn" class="solve-btn" style="background-color: #FF9800;">Resetează</button>
         </div>
         
         <div id="solve-feedback" class="feedback"></div>
-        
+	-->
         <div class="planner-calendar">
           <!-- Days will be dynamically inserted here by JavaScript -->
         </div>
@@ -529,10 +530,10 @@
             <div class="legend-color" style="background-color: var(--day-off-color);"></div>
             <span>Repaus</span>
           </div>
-          <div class="legend-item">
+          <!--<div class="legend-item">
             <div class="legend-color" style="background-color: var(--solution-color); border: 2px solid #ff00ff;"></div>
-            <span>Soluție</span>
-          </div>
+	    <span>Soluție</span>
+          </div>-->
         </div>
       </div>
       
@@ -669,11 +670,11 @@
     let plannerWorkedDays = 0;
     let plannerTotalHours = 0;
 
-    // Solution variables
+/*    // Solution variables
     let isSolving = false;
     let currentSolution = null;
     let solutionTimeout = null;
-
+*/
     // Initialize holiday service
     const holidayService = new RomanianHolidays();
 
@@ -858,10 +859,10 @@
             updatePlanner2026();
         });
         
-        // Initialize solution button
+/*        // Initialize solution button
         document.getElementById('solve-btn').addEventListener('click', findSolution);
         document.getElementById('reset-btn').addEventListener('click', resetSolution);
-        
+  */      
         if (!isPWA()) {
             const urlParams = new URLSearchParams(window.location.search);
             const storedUser = localStorage.getItem('user');
@@ -1182,6 +1183,7 @@
         updateStats();
     }
 
+/*
     // Solution finding functionality
     function findSolution() {
         if (isSolving) {
@@ -1300,7 +1302,7 @@
         document.getElementById('solve-feedback').textContent = '';
         currentSolution = null;
     }
-
+*/
     // Planner 2026 functionality
     async function updatePlanner2026() {
         const calendar = document.getElementById("planner-2026-calendar");
