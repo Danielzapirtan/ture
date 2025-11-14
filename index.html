@@ -543,7 +543,6 @@
             <div class="shift-controls">
               <span>Tură: </span>
               <span id="shift-planner">3</span>
-              <button id="switch-shift-planner">Schimbă tura</button>
             </div>
           </div>
           
@@ -841,14 +840,6 @@
         
         document.getElementById('next-month').addEventListener('click', () => {
             plannerMonth = (plannerMonth + 1) % 12;
-            updatePlanner2026();
-        });
-        
-        document.getElementById('switch-shift-planner').addEventListener('click', () => {
-            plannerShift += 1;
-        if (plannerShift === 5) {
-            plannerShift = 1;
-        }
             updatePlanner2026();
         });
         
