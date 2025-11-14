@@ -1113,12 +1113,10 @@
               dayElement.classList.remove("workday");
               dayElement.classList.add("leave");
               totalHours -= hoursPerWorkedDay;
-              leaveDaysPlanner += 1;
             } else if (dayElement.classList.contains("leave")) {
               dayElement.classList.remove("leave");
               dayElement.classList.add("workday");
               totalHours += hoursPerWorkedDay;
-              leaveDaysPlanner -= 1;
             }
           } else {
             if (dayElement.classList.contains("workday")) {
@@ -1137,10 +1135,8 @@
           if (dayElement.classList.contains("holiday")) {
             if (dayElement.classList.contains("leave")) {
               dayElement.classList.remove("leave");
-              leaveDaysPlanner -= 1;
             } else {
               dayElement.classList.add("leave");
-              leaveDaysPlanner += 1;
             }
           } else {
             if (dayElement.classList.contains("leave")) {
@@ -1255,7 +1251,9 @@
 
           if (isLeaveDay) {
             dayElement.classList.add("leave");
-            currentLeaveDays++;
+            if (!isHoliday) {
+              currentLeaveDays++;
+            }
 
             // Calculate hours for leave day
             if (!isHoliday && !isWorkDay) {
