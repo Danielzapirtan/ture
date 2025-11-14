@@ -1175,6 +1175,9 @@
         // Update display
         monthYearDisplay.textContent = `${monthNamesRo[plannerMonth]} ${plannerYear}`;
 	plannerShift = getTuraFromUrl();
+	if (plannerShift % 2 === 0) {
+	    plannerShift = 6 - plannerShift;
+        }
         shiftDisplay.textContent = plannerShift;
         
         // Get holidays for the current month
