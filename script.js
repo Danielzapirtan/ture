@@ -296,7 +296,7 @@ function updateCalendar() {
       fakeDayOfYear++; 
       dayCount++;
     } else {
-      html += `<td class="doy-"></td>`;
+      html += `<td class="unclickable"></td>`;
     }
 
     if (i % 7 === 6 && dayCount <= daysInMonth) html += `</tr><tr>`;
@@ -490,7 +490,7 @@ async function renderPlanner() {
 
   for (let day = 1; day <= daysInDecember; day++) {
     const dayElement = document.createElement("div");
-    dayElement.classList.add("day");
+    dayElement.classList.add("combined-day");
     dayElement.textContent = day;
 
     // Determine initial day type
@@ -598,7 +598,8 @@ async function updatePlanner2026() {
   // Add empty cells for days before the first day of the month
   for (let i = 0; i < firstDay; i++) {
     const emptyDay = document.createElement("div");
-    emptyDay.classList.add("empty-day");
+    emptyDay.classList.add("combined-day");
+    emptyDay.classList.add("unclickable");
     calendar.appendChild(emptyDay);
   }
 
