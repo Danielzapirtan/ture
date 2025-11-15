@@ -19,7 +19,7 @@ function getRomanianHolidays(month1) {
             const date = new Date(holiday.date);
             if (date.getMonth() === month1 - 1)
               return date.getDate(); // Extract day of month
-          });
+          }).filter(day => day !== undefined); // Filter out undefined values
           resolve(holidayDates);
         } catch (error) {
           reject(error);
@@ -48,11 +48,14 @@ async function main() {
     }
     
     const daysInMonth = new Date(2026, month, 0).getDate();
-    for (let day = 1; day <= daysInMonth; day++)
-      if ((new Date(2026, month - 1, day).getDay() % 6) === 0)
-        if (!holidays.includes(day))
+    for (let day = 1; day <= daysInMonth; day++) {
+      if ((new Date(2026, month - 1, day).getDay() % 6) === 0) {
+        if (!holidays.includes(day)) {
           holidays.push(day);
-    holidays.sort();
+        }
+      }
+    }
+    holidays.sort((a, b) => a - b);
     const targetHours = 164;
     let max = 0;
     let mbest = [-Infinity, -Infinity];
@@ -86,7 +89,7 @@ async function main() {
           
           if (countHours === targetHours) {
             for (let day = 1; day <= daysInMonth; day++) {
-              const date1 = new Date(2026, month, day);
+              const date1 = new Date(2026, month - 1, day); // Fixed: month - 1 instead of month
               const ecart = Math.round((date1 - refDate) / 86400000);
               if (holidays.includes(day) && ((ecart % 4) < 2) && !leaves.includes(day)) {
                 score[0] += 1;
@@ -94,7 +97,7 @@ async function main() {
             }
           }
           
-          if (leaves.length != opt) {
+          if (leaves.length !== opt) {
             score = [0, 0];
           }
           
@@ -108,10 +111,11 @@ async function main() {
       }
       if (best[0] > max) {
         max = best[0];
-	mbest[0] = best[0];
-	mbest[1] = best[1];
-        mbestChoice[0] = bestChoice[1];
-	mopt = opt;
+        mbest[0] = best[0];
+        mbest[1] = best[1];
+        mbestChoice[0] = bestChoice[0]; // Fixed: should be bestChoice[0] not bestChoice[1]
+        mbestChoice[1] = bestChoice[1]; // Fixed: add the second element
+        mopt = opt;
       }
     }
     console.log(JSON.stringify({ month, mopt, mbest, mbestChoice }));
