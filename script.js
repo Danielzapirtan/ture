@@ -237,6 +237,17 @@ function initializeControls() {
   populateMonthSelect();
 
   // Initialize planner 2026 controls
+  document.getElementById('prev-year').addEventListener('click', () => {
+    plannerYear = (plannerYear - 1) % 10000;
+    updatePlanner2026();
+  });
+
+  document.getElementById('next-year').addEventListener('click', () => {
+    plannerYear = (plannerYear + 1) % 10000;
+    updatePlanner2026();
+  });
+
+  // Initialize planner 2026 controls
   document.getElementById('prev-month').addEventListener('click', () => {
     plannerMonth = (plannerMonth - 1 + 12) % 12;
     updatePlanner2026();
@@ -565,14 +576,16 @@ function toggleDayStatus(dayElement, day) {
 // Planner 2026 functionality
 async function updatePlanner2026() {
   const calendar = document.getElementById("planner-2026-calendar");
-  const monthYearDisplay = document.getElementById("current-month-year");
+  const monthDisplay = document.getElementById("current-month");
+  const yearDisplay = document.getElementById("current-year");
   const shiftDisplay = document.getElementById("shift-planner");
   const workedDaysDisplay = document.getElementById("worked-days");
   const leaveDaysDisplay = document.getElementById("leave-days-2026");
   const totalHoursDisplay = document.getElementById("total-hours-2026");
 
   // Update display
-  monthYearDisplay.textContent = `${monthNamesRo[plannerMonth]} ${plannerYear}`;
+  monthDisplay.textContent = `${monthNamesRo[plannerMonth]}`;
+  yearDisplay.textContent = `${plannerYear}`;
   plannerShift = getTuraFromUrl();
   if (plannerShift % 2 === 0) {
     plannerShift = 6 - plannerShift;
@@ -588,7 +601,7 @@ async function updatePlanner2026() {
 
   let targetHours = 0;
   for (let day = 1; day <= daysInMonth; day++) {
-    if (!holidays.includes(day) && (new Date(2026, plannerMonth, day).getDay() % 6) != 0)
+    if (!holidays.includes(day) && (new Date(plannerYear, plannerMonth, day).getDay() % 6) != 0)
       targetHours += 8;
   }
   document.getElementById("target-hours-2026").textContent = targetHours;
