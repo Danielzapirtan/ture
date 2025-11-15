@@ -82,6 +82,14 @@ th {
   background-color: #f2f2f2; 
 }
 
+.doy- {
+  border: 1px solid var(--border-color);
+  padding: 8px;
+  width: 14%;
+  text-align: center;
+  cursor: none;
+}
+
 .doy0, .doy1 { 
   background-color: lightyellow; 
 }
@@ -338,6 +346,18 @@ th {
   display: grid;
   grid-template-columns: repeat(7, 1fr);
   gap: 5px;
+}
+
+.empty-day {
+  border: 1px solid var(--border-color);
+  padding: 10px;
+  text-align: center;
+  cursor: none;
+  min-height: 60px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
 
 .combined-day {

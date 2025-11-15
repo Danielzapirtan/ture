@@ -296,7 +296,7 @@ function updateCalendar() {
       fakeDayOfYear++; 
       dayCount++;
     } else {
-      html += `<td></td>`;
+      html += `<td class="doy-"></td>`;
     }
 
     if (i % 7 === 6 && dayCount <= daysInMonth) html += `</tr><tr>`;
@@ -598,7 +598,7 @@ async function updatePlanner2026() {
   // Add empty cells for days before the first day of the month
   for (let i = 0; i < firstDay; i++) {
     const emptyDay = document.createElement("div");
-    emptyDay.classList.add("combined-day");
+    emptyDay.classList.add("empty-day");
     calendar.appendChild(emptyDay);
   }
 
