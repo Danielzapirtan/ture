@@ -279,7 +279,7 @@ function updateCalendar() {
   const daysInMonth = new Date(selectedYear, selectedMonth + 1, 0).getDate();
   const firstDay = (new Date(selectedYear, selectedMonth, 1).getDay() + 6) % 7;
   let tura = getTuraFromUrl();
-  const date0 = new Date(2017, 0, 1);
+  const date0 = new Date(1996, 0, 1);
   let fakeDayOfYear = Math.ceil((new Date(selectedYear, selectedMonth, 1) - date0) / 86400000);
 
   let html = `<table><tr><th>lun</th><th>mar</th><th>mie</th><th>joi</th><th>vin</th><th>sâm</th><th>dum</th></tr><tr>`;
@@ -434,7 +434,6 @@ const saturdays = [6, 13, 20, 27];
 const sundays = [7, 14, 21, 28];
 const hoursPerWorkedDay = 12;
 const hoursPerLeaveDay = 8;
-const goalHours = 164;
 let totalHours = 0;
 const tura = getTuraFromUrl();
 let leaveDaysPlanner = 0;
@@ -587,6 +586,12 @@ async function updatePlanner2026() {
   const daysInMonth = new Date(plannerYear, plannerMonth + 1, 0).getDate();
   const firstDay = (new Date(plannerYear, plannerMonth, 1).getDay() + 6) % 7;
 
+  let targetHours = 0;
+  for (let day = 1; day <= daysInMonth; day++) {
+    if (!holidays.includes(day) && (new Date(2026, plannerMonth, day).getDay() % 6) != 0)
+      targetHours += 8;
+  }
+  document.getElementById("target-hours-2026").textContent = targetHours;
   // Reset stats
   plannerWorkedDays = 0;
   plannerTotalHours = 0;
@@ -615,7 +620,7 @@ async function updatePlanner2026() {
     dayElement.appendChild(dayNumber);
 
     // Calculate shift
-    const date0 = new Date(2017, 0, 1);
+    const date0 = new Date(1996, 0, 1);
     const currentDate = new Date(plannerYear, plannerMonth, day);
     const daysDiff = Math.ceil((currentDate - date0) / 86400000);
     let shift2 = plannerShift;
