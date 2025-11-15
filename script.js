@@ -62,6 +62,7 @@ let currentYear = new Date().getFullYear();
 let selectedYear = currentYear;
 let selectedMonth = new Date().getMonth();
 let leaveDays = [];
+let refYear = 2017;
 
 // Planner 2026 variables
 let plannerYear = 2026;
@@ -290,7 +291,7 @@ function updateCalendar() {
   const daysInMonth = new Date(selectedYear, selectedMonth + 1, 0).getDate();
   const firstDay = (new Date(selectedYear, selectedMonth, 1).getDay() + 6) % 7;
   let tura = getTuraFromUrl();
-  const date0 = new Date(1996, 0, 1);
+  const date0 = new Date(refYear, 0, 1);
   let fakeDayOfYear = Math.ceil((new Date(selectedYear, selectedMonth, 1) - date0) / 86400000);
 
   let html = `<table><tr><th>lun</th><th>mar</th><th>mie</th><th>joi</th><th>vin</th><th>sâm</th><th>dum</th></tr><tr>`;
@@ -633,7 +634,7 @@ async function updatePlanner2026() {
     dayElement.appendChild(dayNumber);
 
     // Calculate shift
-    const date0 = new Date(1996, 0, 1);
+    const date0 = new Date(refYear, 0, 1);
     const currentDate = new Date(plannerYear, plannerMonth, day);
     const daysDiff = Math.ceil((currentDate - date0) / 86400000);
     let shift2 = plannerShift;
