@@ -62,10 +62,12 @@ let currentYear = new Date().getFullYear();
 let selectedYear = currentYear;
 let selectedMonth = new Date().getMonth();
 let leaveDays = [];
-let refYear = 2017;
+const refYear = 2017;
+const minYear = refYear + 1;
+const maxYear = 2037;
 
 // Planner 2026 variables
-let plannerYear = 2026;
+let plannerYear = currentYear;
 let plannerMonth = 0; // January
 let plannerLeaveDays = [];
 let plannerWorkedDays = 0;
@@ -239,12 +241,16 @@ function initializeControls() {
 
   // Initialize planner 2026 controls
   document.getElementById('prev-year').addEventListener('click', () => {
-    plannerYear = (plannerYear - 1) % 10000;
+    plannerYear = plannerYear - 1;
+	  if (plannerYear < minYear)
+		  plannerYear = minYear;
     updatePlanner2026();
   });
 
   document.getElementById('next-year').addEventListener('click', () => {
-    plannerYear = (plannerYear + 1) % 10000;
+    plannerYear = plannerYear + 1;
+	  if (plannerYear > maxYear)
+		  plannerYear = maxYear;
     updatePlanner2026();
   });
 
