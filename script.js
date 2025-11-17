@@ -842,12 +842,8 @@ async function optimizeLeaveDays() {
 
         // Calculate hours for this configuration
         for (let day = 1; day <= daysInMonth; day++) {
-          const date1 = new Date(year, month, day);
-            let shift2 = plannerShift;
-            if (shift2 % 2 === 0)
-              shift2 = 6 - shift2;
-          const ecart = (Math.round((date1 - refDate) / 86400000) + shift2) % 4;
-          
+            const date1 = new Date(year, month, day);
+            const ecart = Math.round((date1 - refDate) / 86400000) + 7 - plannerShift;
           // Check if it's a work day and not on leave
           if (((ecart % 4) < 2) && !leaves.includes(day)) {
             countHours += 12;
@@ -863,7 +859,8 @@ async function optimizeLeaveDays() {
           // Calculate score: count work days that fall on holidays
           for (let day = 1; day <= daysInMonth; day++) {
             const date1 = new Date(year, month, day);
-            const ecart = Math.round((date1 - refDate) / 86400000);
+            //const ecart = Math.round((date1 - refDate) / 86400000);
+            const ecart = Math.round((date1 - refDate) / 86400000) + 7 - plannerShift;
             
             // If it's a holiday, a work day, and not on leave
             if (holidays.includes(day) && ((ecart % 4) < 2) && !leaves.includes(day)) {
