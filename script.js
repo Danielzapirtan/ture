@@ -843,7 +843,10 @@ async function optimizeLeaveDays() {
         // Calculate hours for this configuration
         for (let day = 1; day <= daysInMonth; day++) {
           const date1 = new Date(year, month, day);
-          const ecart = Math.round((date1 - refDate) / 86400000);
+            let shift2 = plannerShift;
+            if (shift2 % 2 === 0)
+              shift2 = 6 - shift2;
+          const ecart = (Math.round((date1 - refDate) / 86400000) + shift2) % 4;
           
           // Check if it's a work day and not on leave
           if (((ecart % 4) < 2) && !leaves.includes(day)) {
