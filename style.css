@@ -1,7 +1,7 @@
 body {
   font-family: Arial, sans-serif;
   padding: 10px;
-  background-color: var(--light-bg);
+  background-color: white;
   margin: 0;
 }
 
@@ -9,11 +9,11 @@ header {
   text-align: center;
   margin-bottom: 20px;
   padding-bottom: 15px;
-  border-bottom: 1px solid var(--border-color);
+  border-bottom: 1px solid black;
 }
 
 h1 {
-  color: var(--primary-color);
+  color: black;
   margin-bottom: 10px;
 }
 
@@ -24,7 +24,7 @@ table {
 }
 
 th, td {
-  border: 1px solid var(--border-color);
+  border: 1px solid black;
   padding: 8px;
   width: 14%;
   text-align: center;
@@ -53,10 +53,6 @@ th {
   background-color: #aaaaff; 
 }
 
-.doy4 { 
-  background-color: var(--leave-color); 
-}
-
 .controls {
   margin-bottom: 15px;
   display: flex;
@@ -68,17 +64,17 @@ th {
   padding: 5px 10px; 
   margin: 0 5px; 
   cursor: pointer;
-  border: 1px solid var(--border-color);
+  border: 1px solid blue;
   border-radius: 4px;
   background-color: white;
 }
 
 .year-btn.active {
   font-weight: bold;
-  background-color: var(--primary-color);
+  background-color: green;
   color: white;
 }
-
+/
 #selectedMonth {
   font-weight: bold;
   font-size: 24px;
@@ -91,7 +87,7 @@ th {
   margin-bottom: 10px;
   padding: 10px;
   background-color: #f0f8ff;
-  border: 1px solid var(--border-color);
+  border: 1px solid black;
   border-radius: 4px;
   text-align: center;
   font-size: 14px;
