@@ -66,7 +66,6 @@ function createYearButtons() {
       selectedYear = year;
       saveToLocalStorage();
       updateYearButtons();
-      document.getElementById("holidayResult").innerHTML = ``;
       updateCalendar();
     };
     yearButtonsContainer.appendChild(button);
@@ -96,7 +95,6 @@ function populateMonthSelect() {
   monthSelect.addEventListener('change', function () {
     selectedMonth = parseInt(monthSelect.value);
     saveToLocalStorage();
-    document.getElementById("holidayResult").innerHTML = ``;
     updateCalendar();
   });
 }
