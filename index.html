@@ -61,16 +61,6 @@
       gap: 20px;
     }
 
-    @media (min-width: 768px) {
-      .app-container {
-        flex-direction: row;
-      }
-
-      .calendar-section, .planner-section {
-        flex: 1;
-      }
-    }
-
     .section {
       background-color: white;
       border-radius: 8px;
@@ -131,6 +121,7 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
+      flex-wrap: wrap;
     }
 
     .year-btn {
@@ -151,15 +142,19 @@
     .holiday-buttons {
       margin: 10px 0;
       text-align: center;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 5px;
     }
 
     .holiday-btn {
       padding: 8px 15px;
-      margin: 0 5px;
       cursor: pointer;
       background-color: #f0f0f0;
       border: 1px solid var(--border-color);
       border-radius: 4px;
+      font-size: 0.9rem;
     }
 
     .holiday-btn:hover { 
@@ -196,42 +191,6 @@
       color: #555;
     }
 
-    /* Planner Styles */
-    .planner-calendar {
-      display: grid;
-      grid-template-columns: repeat(7, 1fr);
-      gap: 5px;
-      margin: 20px 0;
-    }
-
-    .day {
-      border: 1px solid var(--border-color);
-      padding: 8px;
-      text-align: center;
-      cursor: pointer;
-      min-height: 40px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      position: relative;
-    }
-
-    .day.workday {
-      background-color: var(--workday-color);
-    }
-
-    .day.day-off {
-      background-color: var(--day-off-color);
-    }
-
-    .day.holiday {
-      background-color: var(--holiday-color);
-    }
-
-    .day.leave {
-      background-color: var(--leave-color);
-    }
-
     .stats {
       display: flex;
       justify-content: space-between;
@@ -239,10 +198,14 @@
       padding: 10px;
       background-color: #f9f9f9;
       border-radius: 4px;
+      flex-wrap: wrap;
     }
 
     .stat-item {
       text-align: center;
+      margin: 5px;
+      flex: 1;
+      min-width: 120px;
     }
 
     .stat-value {
@@ -257,21 +220,6 @@
       justify-content: center;
       gap: 10px;
       margin: 15px 0;
-    }
-
-    #switch-shift {
-      padding: 8px 15px;
-      background-color: var(--secondary-color);
-      color: white;
-      border: none;
-      border-radius: 4px;
-      cursor: pointer;
-      font-size: 1rem;
-    }
-
-    #shift {
-      font-weight: bold;
-      color: var(--secondary-color);
     }
 
     .legend {
@@ -294,40 +242,6 @@
       border: 1px solid var(--border-color);
     }
 
-    .tab-container {
-      margin-bottom: 20px;
-    }
-
-    .tabs {
-      display: flex;
-      border-bottom: 1px solid var(--border-color);
-    }
-
-    .tab {
-      padding: 10px 20px;
-      cursor: pointer;
-      border: 1px solid transparent;
-      border-bottom: none;
-      border-radius: 4px 4px 0 0;
-      background-color: #f0f0f0;
-    }
-
-    .tab.active {
-      background-color: white;
-      border-color: var(--border-color);
-      font-weight: bold;
-    }
-
-    .tab-content {
-      display: none;
-      padding: 15px 0;
-    }
-
-    .tab-content.active {
-      display: block;
-    }
-
-    /* Combined Planner Styles */
     .combined-planner {
       display: flex;
       flex-direction: column;
@@ -339,6 +253,8 @@
       justify-content: space-between;
       align-items: center;
       margin-bottom: 15px;
+      flex-wrap: wrap;
+      gap: 10px;
     }
 
     .month-navigation {
@@ -360,6 +276,7 @@
       display: flex;
       justify-content: space-around;
       margin: 15px 0;
+      flex-wrap: wrap;
     }
 
     .combined-calendar {
@@ -452,6 +369,32 @@
       color: #721c24;
       border: 1px solid #f5c6cb;
     }
+
+    @media (max-width: 768px) {
+      .controls, .combined-controls {
+        flex-direction: column;
+        align-items: stretch;
+      }
+      
+      .year-btn {
+        margin: 2px;
+        padding: 3px 6px;
+      }
+      
+      .holiday-btn {
+        padding: 6px 10px;
+        font-size: 0.8rem;
+      }
+      
+      .combined-day {
+        min-height: 50px;
+        padding: 5px;
+      }
+      
+      .stat-item {
+        min-width: 100px;
+      }
+    }
   </style>
 </head>
 
@@ -462,42 +405,10 @@
       <div id="userInfo" class="user-info"></div>
     </header>
 
-    <div class="tab-container">
-      <div class="tabs">
-        <div class="tab active" data-tab="calendar">Calendar</div>
-        <div class="tab" data-tab="planner">Planificator Concedii</div>
-      </div>
-    </div>
-
     <div class="app-container">
-      <!-- Calendar Section -->
-      <div class="section calendar-section tab-content active" id="calendar-tab">
-        <div class="section-title">Calendar Schimburi</div>
-
-        <div class="controls">
-          <div id="yearButtons"></div>
-          <select id="monthSelect"></select>
-        </div>
-
-        <div class="holiday-buttons">
-          <button class="holiday-btn" onclick="checkHoliday('lless')">L&lt</button>
-          <button class="holiday-btn" onclick="checkHoliday('lcrt')">Acum</button>
-          <button class="holiday-btn" onclick="checkHoliday('lurm')">Luna urm</button>
-          <button class="holiday-btn" onclick="checkHoliday('lgrt')">L&gt</button>
-          <button class="holiday-btn" onclick="checkHoliday('curm')">C urm</button>
-          <button class="holiday-btn" onclick="checkHoliday('paste')">Paște</button>
-          <button class="holiday-btn" onclick="checkHoliday('craciun')">Crăciun</button>
-          <button class="holiday-btn" onclick="checkHoliday('revelion')">Revelion</button>
-        </div>
-
-        <div id="holidayResult" class="holiday-result"></div>
-        <div id="selectedMonth"></div>
-        <div id="calendarContainer"></div>
-      </div>
-
-      <!-- Planner Section -->
-      <div class="section tab-content" id="planner-tab">
-        <div class="section-title">Planificator Concedii</div>
+      <!-- Combined Calendar and Planner Section -->
+      <div class="section">
+        <div class="section-title">Calendar și Planificator Concedii</div>
 
         <div class="combined-planner">
           <div class="combined-controls">
@@ -508,7 +419,7 @@
             </div>
             <div class="year-navigation">
               <button class="nav-btn" id="prev-year">&lt;</button>
-              <span id="current-year">2026</span>
+              <span id="current-year">2024</span>
               <button class="nav-btn" id="next-year">&gt;</button>
             </div>
             <div class="shift-controls">
@@ -516,6 +427,25 @@
               <span id="shift-planner">3</span>
             </div>
           </div>
+
+          <div class="controls">
+            <div id="yearButtons"></div>
+            <select id="monthSelect"></select>
+          </div>
+
+          <div class="holiday-buttons">
+            <button class="holiday-btn" onclick="checkHoliday('lless')">L&lt</button>
+            <button class="holiday-btn" onclick="checkHoliday('lcrt')">Acum</button>
+            <button class="holiday-btn" onclick="checkHoliday('lurm')">Luna urm</button>
+            <button class="holiday-btn" onclick="checkHoliday('lgrt')">L&gt</button>
+            <button class="holiday-btn" onclick="checkHoliday('curm')">C urm</button>
+            <button class="holiday-btn" onclick="checkHoliday('paste')">Paște</button>
+            <button class="holiday-btn" onclick="checkHoliday('craciun')">Crăciun</button>
+            <button class="holiday-btn" onclick="checkHoliday('revelion')">Revelion</button>
+          </div>
+
+          <div id="holidayResult" class="holiday-result"></div>
+          <div id="selectedMonth"></div>
 
           <div class="optimization-controls">
             <button class="optimize-btn" id="optimize-leave">Optimizează Concediu</button>
@@ -639,37 +569,13 @@
 
     // Planner variables
     let plannerYear = currentYear;
-    let plannerMonth = 0; // January
+    let plannerMonth = selectedMonth;
     let plannerLeaveDays = [];
     let plannerWorkedDays = 0;
     let plannerTotalHours = 0;
 
     // Initialize holiday service
     const holidayService = new RomanianHolidays();
-
-    // Tab functionality
-    document.addEventListener('DOMContentLoaded', function() {
-      const tabs = document.querySelectorAll('.tab');
-      const tabContents = document.querySelectorAll('.tab-content');
-
-      tabs.forEach(tab => {
-        tab.addEventListener('click', () => {
-          // Remove active class from all tabs and contents
-          tabs.forEach(t => t.classList.remove('active'));
-          tabContents.forEach(c => c.classList.remove('active'));
-
-          // Add active class to clicked tab and corresponding content
-          tab.classList.add('active');
-          const tabId = tab.getAttribute('data-tab');
-          document.getElementById(`${tabId}-tab`).classList.add('active');
-
-          // If switching to planner, update it
-          if (tabId === 'planner') {
-            updatePlanner();
-          }
-        });
-      });
-    });
 
     function handleUrlParams() {
       const urlParams = new URLSearchParams(window.location.search);
@@ -737,10 +643,11 @@
         button.textContent = year;
         button.onclick = function () {
           selectedYear = year;
+          plannerYear = year;
           saveToLocalStorage();
           updateYearButtons();
           document.getElementById("holidayResult").innerHTML = ``;
-          updateCalendar();
+          updatePlanner();
         };
         yearButtonsContainer.appendChild(button);
       }
@@ -768,9 +675,10 @@
       }
       monthSelect.addEventListener('change', function () {
         selectedMonth = parseInt(monthSelect.value);
+        plannerMonth = selectedMonth;
         saveToLocalStorage();
         document.getElementById("holidayResult").innerHTML = ``;
-        updateCalendar();
+        updatePlanner();
       });
     }
 
@@ -813,26 +721,34 @@
       // Initialize planner controls
       document.getElementById('prev-year').addEventListener('click', () => {
         plannerYear = plannerYear - 1;
+        selectedYear = plannerYear;
         if (plannerYear < minYear)
           plannerYear = minYear;
+        updateYearButtons();
         updatePlanner();
       });
 
       document.getElementById('next-year').addEventListener('click', () => {
         plannerYear = plannerYear + 1;
+        selectedYear = plannerYear;
         if (plannerYear > maxYear)
           plannerYear = maxYear;
+        updateYearButtons();
         updatePlanner();
       });
 
       // Initialize planner controls
       document.getElementById('prev-month').addEventListener('click', () => {
         plannerMonth = (plannerMonth - 1 + 12) % 12;
+        selectedMonth = plannerMonth;
+        populateMonthSelect();
         updatePlanner();
       });
 
       document.getElementById('next-month').addEventListener('click', () => {
         plannerMonth = (plannerMonth + 1) % 12;
+        selectedMonth = plannerMonth;
+        populateMonthSelect();
         updatePlanner();
       });
 
@@ -851,66 +767,6 @@
           window.history.replaceState({}, '', newUrl);
         }
       }
-    }
-
-    function toggleLeaveDay(year, month, day) {
-      const dateKey = `${year}-${month}-${day}`;
-      const index = leaveDays.indexOf(dateKey);
-
-      if (index === -1) {
-        leaveDays.push(dateKey);
-      } else {
-        leaveDays.splice(index, 1);
-      }
-
-      saveToLocalStorage();
-      updateCalendar();
-    }
-
-    function updateCalendar() {
-      const daysInMonth = new Date(selectedYear, selectedMonth + 1, 0).getDate();
-      const firstDay = (new Date(selectedYear, selectedMonth, 1).getDay() + 6) % 7;
-      let tura = getTuraFromUrl();
-      const date0 = new Date(refYear, 0, 1);
-      let fakeDayOfYear = Math.ceil((new Date(selectedYear, selectedMonth, 1) - date0) / 86400000);
-
-      let html = `<table><tr><th>lun</th><th>mar</th><th>mie</th><th>joi</th><th>vin</th><th>sâm</th><th>dum</th></tr><tr>`;
-      let dayCount = 1;
-
-      for (let i = 0; i < 42; i++) {
-        if (i >= firstDay && dayCount <= daysInMonth) {
-          const dateKey = `${selectedYear}-${selectedMonth}-${dayCount}`;
-          const isLeaveDay = leaveDays.includes(dateKey);
-
-          let dayClass = isLeaveDay ? 'doy4' : `doy${(fakeDayOfYear + tura) % 4}`;
-
-          html += `<td class="${dayClass}" data-day="${dayCount}">${dayCount}</td>`;
-          fakeDayOfYear++; 
-          dayCount++;
-        } else {
-          html += `<td class="unclickable"></td>`;
-        }
-
-        if (i % 7 === 6 && dayCount <= daysInMonth) html += `</tr><tr>`;
-        if (dayCount > daysInMonth && i % 7 === 6) break;
-      }
-
-      html += `</tr></table>`;
-      document.getElementById("calendarContainer").innerHTML = html;
-
-      const ldcount = leaveDays.length;
-      const currentMonth = `${selectedYear}-${selectedMonth}-`;
-      const currentmlc = leaveDays.filter(day => day.startsWith(currentMonth)).length;
-      const mlc2 = ldcount ? `(${currentmlc}/${ldcount})`: ``;
-      document.getElementById("selectedMonth").innerHTML = `Calendar ${monthNamesRo[selectedMonth]} ${selectedYear} ${mlc2}`;
-
-      const dayCells = document.querySelectorAll('#calendarContainer td[data-day]');
-      dayCells.forEach(cell => {
-        cell.addEventListener('click', function() {
-          const day = parseInt(this.getAttribute('data-day'));
-          toggleLeaveDay(selectedYear, selectedMonth, day);
-        });
-      });
     }
 
     function getEasterDate(year) {
@@ -1011,13 +867,15 @@
           document.getElementById("holidayResult").innerHTML = ``;
         }
         selectedYear = y;
+        plannerYear = y;
         selectedMonth = closest.date.getMonth();
+        plannerMonth = selectedMonth;
       }
 
       saveToLocalStorage();
       updateYearButtons();
       populateMonthSelect();
-      updateCalendar();
+      updatePlanner();
     }
 
     // Planner functionality
@@ -1052,6 +910,7 @@
           targetHours += 8;
       }
       document.getElementById("target-hours").textContent = targetHours;
+      
       // Reset stats
       plannerWorkedDays = 0;
       plannerTotalHours = 0;
@@ -1134,7 +993,7 @@
           if (!isHoliday && !isWorkDay) {
             plannerTotalHours += 8; // 8 hours for leave on holiday/day off
           } else if (!isHoliday && isWorkDay) {
-            plannerTotalHours += 8; // 4 hours for leave on work day
+            plannerTotalHours += 8; // 8 hours for leave on work day
           }
         } else if (isWorkDay) {
           plannerWorkedDays++;
@@ -1151,6 +1010,13 @@
       workedDaysDisplay.textContent = plannerWorkedDays;
       leaveDaysDisplay.textContent = currentLeaveDays;
       totalHoursDisplay.textContent = plannerTotalHours;
+
+      // Update selected month display
+      const ldcount = plannerLeaveDays.length;
+      const currentMonth = `${plannerYear}-${plannerMonth}-`;
+      const currentmlc = plannerLeaveDays.filter(day => day.startsWith(currentMonth)).length;
+      const mlc2 = ldcount ? `(${currentmlc}/${ldcount})`: ``;
+      document.getElementById("selectedMonth").innerHTML = `Calendar ${monthNamesRo[plannerMonth]} ${plannerYear} ${mlc2}`;
 
       // Save to localStorage
       saveToLocalStorage();
@@ -1345,10 +1211,9 @@
       }
     }
 
-    // Initialize both apps
+    // Initialize the app
     window.addEventListener('load', function() {
       initializeControls();
-      updateCalendar();
       updatePlanner();
     });
 
