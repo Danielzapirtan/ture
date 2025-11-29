@@ -29,6 +29,7 @@
       --holiday-color: #ffcccc;
       --leave-color: #ccffcc;
       --day-off-color: #ffebcc;
+      --drawer-bg: #f9f9f9;
     }
 
     body {
@@ -36,6 +37,7 @@
       padding: 10px;
       background-color: var(--light-bg);
       margin: 0;
+      padding-bottom: 80px; /* Space for bottom menu */
     }
 
     .container {
@@ -137,6 +139,39 @@
       font-weight: bold;
       background-color: var(--primary-color);
       color: white;
+    }
+
+    /* Drawer styles */
+    .drawer {
+      position: fixed;
+      bottom: 70px;
+      left: 0;
+      right: 0;
+      background-color: var(--drawer-bg);
+      border-top: 1px solid var(--border-color);
+      padding: 15px;
+      transform: translateY(100%);
+      transition: transform 0.3s ease;
+      z-index: 100;
+      box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
+    }
+
+    .drawer.open {
+      transform: translateY(0);
+    }
+
+    .drawer-toggle {
+      position: absolute;
+      top: -40px;
+      left: 50%;
+      transform: translateX(-50%);
+      background-color: var(--primary-color);
+      color: white;
+      border: none;
+      border-radius: 20px 20px 0 0;
+      padding: 8px 20px;
+      cursor: pointer;
+      font-size: 0.9rem;
     }
 
     .holiday-buttons {
@@ -323,6 +358,36 @@
       background-color: var(--leave-color);
     }
 
+    /* Bottom menu */
+    .bottom-menu {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background-color: white;
+      border-top: 1px solid var(--border-color);
+      padding: 10px;
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      z-index: 1000;
+      box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
+    }
+
+    .menu-btn {
+      padding: 8px 15px;
+      background-color: var(--secondary-color);
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 0.9rem;
+    }
+
+    .menu-btn.active {
+      background-color: var(--primary-color);
+    }
+
     /* Optimization Controls */
     .optimization-controls {
       margin: 15px 0;
@@ -394,6 +459,16 @@
       .stat-item {
         min-width: 100px;
       }
+      
+      .bottom-menu {
+        flex-wrap: wrap;
+        gap: 5px;
+      }
+      
+      .menu-btn {
+        padding: 6px 10px;
+        font-size: 0.8rem;
+      }
     }
   </style>
 </head>
@@ -411,7 +486,13 @@
         <div class="section-title">Calendar și Planificator Concedii</div>
 
         <div class="combined-planner">
-          <div class="combined-controls">
+          <!-- Calendar grid at the top -->
+          <div class="combined-calendar" id="planner-calendar">
+            <!-- Days will be dynamically inserted here by JavaScript -->
+          </div>
+
+          <!-- Single year/month control -->
+          <div class="controls">
             <div class="month-navigation">
               <button class="nav-btn" id="prev-month">&lt;</button>
               <span id="current-month">Ianuarie</span>
@@ -422,36 +503,9 @@
               <span id="current-year">2024</span>
               <button class="nav-btn" id="next-year">&gt;</button>
             </div>
-            <div class="shift-controls">
-              <span>Tură: </span>
-              <span id="shift-planner">3</span>
-            </div>
           </div>
 
-          <div class="controls">
-            <div id="yearButtons"></div>
-            <select id="monthSelect"></select>
-          </div>
-
-          <div class="holiday-buttons">
-            <button class="holiday-btn" onclick="checkHoliday('lless')">L&lt</button>
-            <button class="holiday-btn" onclick="checkHoliday('lcrt')">Acum</button>
-            <button class="holiday-btn" onclick="checkHoliday('lurm')">Luna urm</button>
-            <button class="holiday-btn" onclick="checkHoliday('lgrt')">L&gt</button>
-            <button class="holiday-btn" onclick="checkHoliday('curm')">C urm</button>
-            <button class="holiday-btn" onclick="checkHoliday('paste')">Paște</button>
-            <button class="holiday-btn" onclick="checkHoliday('craciun')">Crăciun</button>
-            <button class="holiday-btn" onclick="checkHoliday('revelion')">Revelion</button>
-          </div>
-
-          <div id="holidayResult" class="holiday-result"></div>
-          <div id="selectedMonth"></div>
-
-          <div class="optimization-controls">
-            <button class="optimize-btn" id="optimize-leave">Optimizează Concediu</button>
-            <div id="optimization-result" class="optimization-result"></div>
-          </div>
-
+          <!-- Stats and other info -->
           <div class="combined-stats">
             <div class="stat-item">
               <div>Zile Lucrate</div>
@@ -471,8 +525,16 @@
             </div>
           </div>
 
-          <div class="combined-calendar" id="planner-calendar">
-            <!-- Days will be dynamically inserted here by JavaScript -->
+          <div class="shift-controls">
+            <span>Tură: </span>
+            <span id="shift-planner">3</span>
+          </div>
+
+          <div id="selectedMonth"></div>
+
+          <div class="optimization-controls">
+            <button class="optimize-btn" id="optimize-leave">Optimizează Concediu</button>
+            <div id="optimization-result" class="optimization-result"></div>
           </div>
 
           <div class="legend">
@@ -496,6 +558,30 @@
         </div>
       </div>
     </div>
+  </div>
+
+  <!-- Holiday buttons drawer -->
+  <div class="drawer" id="holiday-drawer">
+    <button class="drawer-toggle" id="drawer-toggle">Sărbători</button>
+    <div class="holiday-buttons">
+      <button class="holiday-btn" onclick="checkHoliday('lless')">L&lt</button>
+      <button class="holiday-btn" onclick="checkHoliday('lcrt')">Acum</button>
+      <button class="holiday-btn" onclick="checkHoliday('lurm')">Luna urm</button>
+      <button class="holiday-btn" onclick="checkHoliday('lgrt')">L&gt</button>
+      <button class="holiday-btn" onclick="checkHoliday('curm')">C urm</button>
+      <button class="holiday-btn" onclick="checkHoliday('paste')">Paște</button>
+      <button class="holiday-btn" onclick="checkHoliday('craciun')">Crăciun</button>
+      <button class="holiday-btn" onclick="checkHoliday('revelion')">Revelion</button>
+    </div>
+    <div id="holidayResult" class="holiday-result"></div>
+  </div>
+
+  <!-- Bottom menu -->
+  <div class="bottom-menu">
+    <button class="menu-btn" id="menu-holidays">Sărbători</button>
+    <button class="menu-btn" id="menu-optimize">Optimizează</button>
+    <button class="menu-btn" id="menu-stats">Statistici</button>
+    <button class="menu-btn" id="menu-settings">Setări</button>
   </div>
 
   <script>
@@ -635,21 +721,23 @@
 
     function createYearButtons() {
       const yearButtonsContainer = document.getElementById('yearButtons');
-      yearButtonsContainer.innerHTML = '';
-      for (let year = currentYear - 3; year <= currentYear + 2; year++) {
-        const button = document.createElement('button');
-        button.className = 'year-btn';
-        if (year === selectedYear) button.classList.add('active');
-        button.textContent = year;
-        button.onclick = function () {
-          selectedYear = year;
-          plannerYear = year;
-          saveToLocalStorage();
-          updateYearButtons();
-          document.getElementById("holidayResult").innerHTML = ``;
-          updatePlanner();
-        };
-        yearButtonsContainer.appendChild(button);
+      if (yearButtonsContainer) {
+        yearButtonsContainer.innerHTML = '';
+        for (let year = currentYear - 3; year <= currentYear + 2; year++) {
+          const button = document.createElement('button');
+          button.className = 'year-btn';
+          if (year === selectedYear) button.classList.add('active');
+          button.textContent = year;
+          button.onclick = function () {
+            selectedYear = year;
+            plannerYear = year;
+            saveToLocalStorage();
+            updateYearButtons();
+            document.getElementById("holidayResult").innerHTML = ``;
+            updatePlanner();
+          };
+          yearButtonsContainer.appendChild(button);
+        }
       }
     }
 
@@ -660,25 +748,6 @@
           button.classList.add('active');
         else
           button.classList.remove('active');
-      });
-    }
-
-    function populateMonthSelect() {
-      const monthSelect = document.getElementById('monthSelect');
-      monthSelect.innerHTML = '';
-      for (let month = 0; month < 12; month++) {
-        const option = document.createElement('option');
-        option.value = month;
-        option.textContent = monthNamesRo[month];
-        if (month === selectedMonth) option.selected = true;
-        monthSelect.appendChild(option);
-      }
-      monthSelect.addEventListener('change', function () {
-        selectedMonth = parseInt(monthSelect.value);
-        plannerMonth = selectedMonth;
-        saveToLocalStorage();
-        document.getElementById("holidayResult").innerHTML = ``;
-        updatePlanner();
       });
     }
 
@@ -715,8 +784,41 @@
     function initializeControls() {
       handleUrlParams();
       loadFromLocalStorage();
-      createYearButtons();
-      populateMonthSelect();
+
+      // Initialize drawer toggle
+      const drawer = document.getElementById('holiday-drawer');
+      const drawerToggle = document.getElementById('drawer-toggle');
+      
+      drawerToggle.addEventListener('click', () => {
+        drawer.classList.toggle('open');
+      });
+
+      // Close drawer when clicking outside
+      document.addEventListener('click', (e) => {
+        if (!drawer.contains(e.target) && !e.target.matches('#menu-holidays')) {
+          drawer.classList.remove('open');
+        }
+      });
+
+      // Initialize bottom menu buttons
+      document.getElementById('menu-holidays').addEventListener('click', () => {
+        drawer.classList.toggle('open');
+      });
+
+      document.getElementById('menu-optimize').addEventListener('click', () => {
+        optimizeLeaveDays();
+      });
+
+      document.getElementById('menu-stats').addEventListener('click', () => {
+        // Scroll to stats section
+        document.querySelector('.combined-stats').scrollIntoView({ behavior: 'smooth' });
+      });
+
+      document.getElementById('menu-settings').addEventListener('click', () => {
+        // Show settings or info
+        alert('Setări aplicație:\n- Utilizator: ' + (localStorage.getItem('user') || 'nesetat') + 
+              '\n- Tură: ' + (localStorage.getItem('tura') || 'nesetat'));
+      });
 
       // Initialize planner controls
       document.getElementById('prev-year').addEventListener('click', () => {
@@ -741,14 +843,12 @@
       document.getElementById('prev-month').addEventListener('click', () => {
         plannerMonth = (plannerMonth - 1 + 12) % 12;
         selectedMonth = plannerMonth;
-        populateMonthSelect();
         updatePlanner();
       });
 
       document.getElementById('next-month').addEventListener('click', () => {
         plannerMonth = (plannerMonth + 1) % 12;
         selectedMonth = plannerMonth;
-        populateMonthSelect();
         updatePlanner();
       });
 
@@ -874,8 +974,10 @@
 
       saveToLocalStorage();
       updateYearButtons();
-      populateMonthSelect();
       updatePlanner();
+      
+      // Close the drawer after selection
+      document.getElementById('holiday-drawer').classList.remove('open');
     }
 
     // Planner functionality
