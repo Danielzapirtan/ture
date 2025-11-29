@@ -908,6 +908,123 @@
       return closest;
     }
 
+function checkHoliday(type) {
+  const currentDate = new Date();
+  const currentYear = currentDate.getFullYear();
+  const tura = getTuraFromUrl();
+  let date, name = '';
+
+  if (type === "lcrt") { 
+    date = new Date(); 
+  } else if (type === "lless") { 
+    date = new Date(selectedYear, selectedMonth - 1, new Date().getDate()); 
+  } else if (type === "lgrt") {
+    date = new Date(selectedYear, selectedMonth + 1, new Date().getDate());
+    if (date.getFullYear() > currentYear + 2) date = new Date(currentYear + 2, 11, new Date().getDate());
+  } else if (type === "lurm") { 
+    date = new Date(currentYear, new Date().getMonth() + 1, 15); 
+  } else if (type === "curm") {
+    // Start from the next month
+    let checkYear = selectedYear;
+    let checkMonth = selectedMonth + 1;
+    
+    // If we're in December, move to January of next year
+    if (checkMonth > 11) {
+      checkMonth = 0;
+      checkYear++;
+    }
+    
+    // Search for a month with at least one leave day
+    let found = false;
+    let maxIterations = 24; // Prevent infinite loop (2 years max)
+    
+    while (maxIterations > 0 && !found) {
+      maxIterations--;
+      
+      // Check if this month has any leave days
+      const monthPrefix = `${checkYear}-${checkMonth}-`;
+      const monthLeaveDays = plannerLeaveDays.filter(day => day.startsWith(monthPrefix));
+      
+      if (monthLeaveDays.length > 0) {
+        // Found a month with leave days
+        found = true;
+        selectedYear = checkYear;
+        plannerYear = checkYear;
+        selectedMonth = checkMonth;
+        plannerMonth = checkMonth;
+        
+        saveToLocalStorage();
+        updateYearButtons();
+        updatePlanner();
+        return;
+      }
+      
+      // Move to next month
+      checkMonth++;
+      if (checkMonth > 11) {
+        checkMonth = 0;
+        checkYear++;
+      }
+      
+      // Don't search beyond maxYear
+      if (checkYear > maxYear) {
+        break;
+      }
+    }
+    
+    // If no month with leave days found, just move to next month
+    if (!found) {
+      selectedYear = checkYear;
+      plannerYear = checkYear;
+      selectedMonth = checkMonth;
+      plannerMonth = checkMonth;
+      
+      saveToLocalStorage();
+      updateYearButtons();
+      updatePlanner();
+    }
+    return;
+  } else {
+    for (let year = currentYear; year <= currentYear + 10; year++) {
+      if (type === 'paste') { 
+        date = getEasterDate(year); 
+        name = 'Paște'; 
+      } else if (type === 'craciun') { 
+        date = new Date(year, 11, 25); 
+        name = 'Crăciun'; 
+      } else if (type === 'revelion') { 
+        date = new Date(year, 0, 1); 
+        name = 'Revelion'; 
+      }
+      if (date > currentDate) break;
+    }
+  }
+
+  const closest = findClosestWorkShift(date, tura);
+  if (closest) {
+    const m = monthNamesRo[closest.date.getMonth()];
+    const y = closest.date.getFullYear();
+    const d = closest.date.getDate();
+    const text = `De ${name} ${y} sunt ${closest.shift} ${closest.dayName}, ${d} ${m} ${y}`;
+    if (name) {
+      document.getElementById('holidayResult').textContent = text;
+    } else {
+      document.getElementById("holidayResult").innerHTML = ``;
+    }
+    selectedYear = y;
+    plannerYear = y;
+    selectedMonth = closest.date.getMonth();
+    plannerMonth = selectedMonth;
+  }
+
+  saveToLocalStorage();
+  updateYearButtons();
+  updatePlanner();
+  
+  // Close the drawer after selection
+  //document.getElementById('holiday-drawer').classList.remove('open');
+}
+
     function checkHoliday(type) {
       const currentDate = new Date();
       const currentYear = currentDate.getFullYear();
