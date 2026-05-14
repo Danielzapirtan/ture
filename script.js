@@ -701,7 +701,7 @@ async function updatePlanner2026() {
       }
     } else if (isWorkDay) {
       plannerWorkedDays++;
-      plannerTotalHours += 12; // 12 hours for work day
+      plannerTotalHours -= 12; // 12 hours for work day
     }
 
     // Add click event
