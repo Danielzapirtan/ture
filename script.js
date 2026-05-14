@@ -695,9 +695,9 @@ async function updatePlanner2026() {
 
       // Calculate hours for leave day
       if (!isHoliday && !isWorkDay) {
-        plannerTotalHours += 8; // 8 hours for leave on holiday/day off
+        plannerTotalHours -= 8;
       } else if (!isHoliday && isWorkDay) {
-        plannerTotalHours += 8; // 4 hours for leave on work day
+        plannerTotalHours -= 20;
       }
     } else if (isWorkDay) {
       plannerWorkedDays++;
