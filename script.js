@@ -692,16 +692,13 @@ async function updatePlanner2026() {
       if (!isHoliday) {
         currentLeaveDays++;
       }
-
-      // Calculate hours for leave day
-      if (!isHoliday && !isWorkDay) {
-        plannerTotalHours -= 8;
-      } else if (!isHoliday && isWorkDay) {
-        plannerTotalHours -= 20;
+    } else {
+      if (!isHoliday) {
+        plannerTotalHours += 8;
       }
-    } else if (isWorkDay) {
-      plannerWorkedDays++;
-      plannerTotalHours += 12; // 12 hours for work day
+      if (isWorkDay) {
+        plannerWorkedDays += 1;
+      }
     }
 
     // Add click event
