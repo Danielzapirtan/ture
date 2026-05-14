@@ -694,7 +694,7 @@ async function updatePlanner2026() {
       }
     } else {
       if (!isHoliday) {
-        plannerTotalHours += 8;
+        plannerTotalHours += 12;
       }
       if (isWorkDay) {
         plannerWorkedDays += 1;
