@@ -7,7 +7,7 @@ SHIFT=$3
 if [ $YEAR -gt 2037 ]; then
   exit
 fi
-YEARCODE=2
+YEARCODE=6
 yy=2026
 while [ $yy -lt $YEAR ]; do
   YEARCODE=$(($YEARCODE + 1))
