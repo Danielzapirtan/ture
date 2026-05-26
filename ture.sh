@@ -4,10 +4,22 @@ USER="$1"
 YEAR=$2
 SHIFT=$3
 
-if [ $YEAR -gt 2027 ]; then
+if [ $YEAR -gt 2037 ]; then
   exit
 fi
+YEARCODE=2
+yy=2026
+while [ $yy -lt $YEAR ]; do
+  YEARCODE=$(($YEARCODE + 1))
+  if [ $(($yy % 4)) -eq 0 ]; then
+    YEARCODE=$(($YEARCODE + 1))
+  fi
+  yy=$(($yy + 1))
+done
 NUMDAYSM="31 28 31 30 31 30 31 31 30 31 30 31"
+if [ $(($YEAR % 4)) -eq 0 ]; then
+  NUMDAYSM="31 29 31 30 31 30 31 31 30 31 30 31"
+fi
 echo "Calendar ture anul $YEAR $USER"
 echo
 echo -n "    "
@@ -28,7 +40,7 @@ for m in $(seq 1 12); do
   fi
   for d in $(seq 1 $numdays); do
     shifts="Z N - -"
-    offset=$(($d + $YEAR - $SHIFT))
+    offset=$(($d + $YEARCODE - $SHIFT))
     mm=1
     while [ $mm -lt $m ]; do
       numdays0=$(echo $NUMDAYSM | cut -d' ' -f $mm)
