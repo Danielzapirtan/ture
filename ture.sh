@@ -4,9 +4,6 @@ USER="$1"
 YEAR=$2
 SHIFT=$3
 
-SHIFT=3
-YEAR=2026
-
 NUMDAYSM="31 28 31 30 31 30 31 31 30 31 30 31"
 echo "Calendar ture anul $YEAR $USER"
 echo
@@ -28,7 +25,7 @@ for m in $(seq 1 12); do
   fi
   for d in $(seq 1 $numdays); do
     shifts="Z N - -"
-    offset=$(($d + $SHIFT))
+    offset=$(($d + 6 - $SHIFT))
     mm=1
     while [ $mm -lt $m ]; do
       numdays0=$(echo $NUMDAYSM | cut -d' ' -f $mm)
