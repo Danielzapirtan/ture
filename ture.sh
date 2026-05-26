@@ -28,7 +28,7 @@ for m in $(seq 1 12); do
   fi
   for d in $(seq 1 $numdays); do
     shifts="Z N - -"
-    offset=$d
+    offset=$(($d + $SHIFT))
     mm=1
     while [ $mm -lt $m ]; do
       numdays0=$(echo $NUMDAYSM | cut -d' ' -f $mm)
