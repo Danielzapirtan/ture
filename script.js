@@ -58,7 +58,7 @@ function generateCalendar() {
       calendarHTML += "</tr><tr>";
     }
 
-    if (dayCount > daysInMonth && i % 7 == 6) {
+    if (dayCount > daysInMonth && i % 7 === 6) {
       break;
     }
   }
