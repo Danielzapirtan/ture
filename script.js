@@ -1,0 +1,68 @@
+const yearSelector = document.getElementById("yearSelector");
+const minYear = new Date().getFullYear();
+const maxYear = 2037;
+yearSelector.value = minYear;
+yearSelector.mim = minYear;
+yearSelector.max = maxYear;
+yearSelector.step = 1;
+const monthSelector = document.getElementById("monthSelector");
+monthSelector.value = new Date().getMonth() + 1;
+monthSelector.min = 1;
+monthSelector.max = 12;
+monthSelector.step = 1;
+let year = minYear;
+let month = monthSelector.value;
+generateCalendar();
+
+function generateCalendar() {
+  year = yearSelector.value;
+  if (year < minYear || year > maxYear) {
+    year = new Date().getFullYear();
+    document.getElementById("yearSelector").value = year;
+  }
+  month = monthSelector.value - 1;
+  if (month < 0 || month > 11) {
+    month = new Date().getMonth();
+    document.getElementById("monthSelector").value = month + 1;
+  }
+  const daysInMonth = new Date(year, month + 1, 0).getDate();
+  const firstDay = (new Date(year, month, 1).getDay() + 6) % 7;
+  const queryString = window.location.search;
+  const urlParams = new URLSearchParams(queryString);
+
+  let tura = null;
+
+  if (urlParams.has("user")) {
+    const userValue = urlParams.get("user");
+    const users = [ "ljc1q", "xxtoo", "fras0", "l3hb4" ];
+    tura = 5 - users.indexOf(userValue);
+  }
+  var date1 = new Date(year, month, 1);
+  var date0 = new Date(2024, 0, 1);
+  var doy = Math.ceil((date1 - date0) / 86400000);
+  let calendarHTML =
+    "<table><tr><th>lun</th><th>mar</th><th>mie</th><th>joi</th><th>vin</th><th>sâm</th><th>dum</th></tr><tr>";
+  let dayCount = 1;
+  for (let i = 0; i < 42; i++) {
+    if (i >= firstDay && dayCount <= daysInMonth) {
+      let dt = (doy + tura) % 4;
+      let doyClass = `doy${dt}`;
+      calendarHTML += `<td class="${doyClass}">${dayCount}</td>`;
+      doy++;
+      dayCount++;
+    } else {
+      calendarHTML += "<td></td>";
+    }
+
+    if (i % 7 === 6 && dayCount <= daysInMonth) {
+      calendarHTML += "</tr><tr>";
+    }
+
+    if (dayCount > daysInMonth && i % 7 == 6) {
+      break;
+    }
+  }
+
+  calendarHTML += "</tr></table>";
+  document.getElementById("calendarContainer").innerHTML = calendarHTML;
+}
