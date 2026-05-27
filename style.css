@@ -3,11 +3,12 @@ select, #yearSelector, #monthSelector,
 table, th, td {
   font-family: Arial, sans-serif;
   font-size: 17px;
-  margin: 20px;
+  margin: 20px; 
 }
 
 table {
-  width: 350px;
+  min-width: 63vw;
+  max-width: 63vw;
   border-collapse: collapse;
   margin-top: 20px;
 }
@@ -17,7 +18,8 @@ td {
   border: 1px solid #ddd;
   padding: 8px;
   text-align: center;
-  width: 50px;
+  min-width: 9vw;
+  max-width: 9vw;
 }
 
 th {
