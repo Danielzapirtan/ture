@@ -24,7 +24,6 @@ th {
   background-color: #f2f2f2;
 }
 
-/* CSS for background colors based on doy % 4 */
 td.doy0 {
   background-color: white;
 }
