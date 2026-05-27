@@ -1,25 +1,32 @@
+* {
+  --margin-left: 5vw;
+  --width: calc(100vw - var(--margin-left));
+  --padding: 2vw;
+  --border: 0.2vw;
+  --cell-width: calc(var(--width) / 7 - 2 * var(--padding) - 2 * var(--border));
+}
+
 body, label,
 select, #yearSelector, #monthSelector,
 table, th, td {
   font-family: Arial, sans-serif;
   font-size: 17px;
-  margin: 20px; 
 }
 
 table {
-  min-width: 63vw;
-  max-width: 63vw;
+  min-width: var(--width);
+  max-width: var(--width);
   border-collapse: collapse;
   margin-top: 20px;
 }
 
 th,
 td {
-  border: 1px solid #ddd;
-  padding: 8px;
+  border: var(--border) solid #ddd;
+  padding: var(--padding);
   text-align: center;
-  min-width: 9vw;
-  max-width: 9vw;
+  min-width: var(--cell-width);
+  max-width: var(--cell-width);
 }
 
 th {
