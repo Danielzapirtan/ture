@@ -390,8 +390,8 @@
       if (urlParams.has("user")) {
         tura = 1 + users.indexOf(urlParams.get("user"));
       }
-      if (tura % 2 === 0)
-        tura = 6 - tura;
+      /*if (tura % 2 === 0)
+        tura = 6 - tura;*/
       shiftSelect.value = tura;
       updateCalendar();
     }
