@@ -389,8 +389,6 @@
       let tura = 2;
       if (urlParams.has("user")) {
         tura = 1 + users.indexOf(urlParams.get("user"));
-	if (tura === 5)
-	  tura = 1;
 	if (tura % 2 === 0)
 	  tura = 6 - tura;
       }
