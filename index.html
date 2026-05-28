@@ -276,7 +276,8 @@
         for (let d = 1; d <= numdays; d++) {
           // offset calculation exactly as bash:
           // offset=$(($d + $YEARCODE - $SHIFT))
-          let offset = d + YEARCODE - shiftParam;
+	  let tura = shiftParam;
+          let offset = d + YEARCODE - tura;
 
           // inner while: mm=1; while [ $mm -lt $m ]; do numdays0=... offset=$(($offset + $numdays0)); mm=$(($mm +1)); done
           let mm = 1;
@@ -388,10 +389,10 @@
       const users = [ "ljc1q", "xxtoo", "fras0", "l3hb4" ];
       let tura = 2;
       if (urlParams.has("user")) {
-        tura = 5 - users.indexOf(urlParams.get("user"));
-	if (tura === 5)
-	  tura = 1;
+        tura = 1 + users.indexOf(urlParams.get("user"));
       }
+      /*if (tura % 2 === 0)
+        tura = 6 - tura;*/
       shiftSelect.value = tura;
       updateCalendar();
     }

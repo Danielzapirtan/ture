@@ -277,8 +277,6 @@
           // offset calculation exactly as bash:
           // offset=$(($d + $YEARCODE - $SHIFT))
 	  let tura = shiftParam;
-	  if (tura % 2 === 0)
-	    tura = 6 - tura;
           let offset = d + YEARCODE - tura;
 
           // inner while: mm=1; while [ $mm -lt $m ]; do numdays0=... offset=$(($offset + $numdays0)); mm=$(($mm +1)); done
