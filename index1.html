@@ -235,6 +235,8 @@
     function generateCalendar(user, year, shiftParam) {
       // shiftParam is 1..4 (bash SHIFT)
       // Bash: if [ $YEAR -gt 2037 ]; then exit (we'll handle gracefully)
+      if (shiftParam % 2 === 0)
+        shiftParam = 6 - shiftParam;
       if (year > 2037) {
         throw new Error("Anul nu poate depăși 2037 (limită bash originală).");
       }
@@ -389,8 +391,6 @@
       let tura = 2;
       if (urlParams.has("user")) {
         tura = 1 + users.indexOf(urlParams.get("user"));
-	if (tura % 2 === 0)
-	  tura = 6 - tura;
       }
       shiftSelect.value = tura;
       updateCalendar();
