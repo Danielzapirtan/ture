@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <title>Calendar ture • shift rotation</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      font-family: 'Segoe UI', 'Roboto', 'Fira Code', monospace, system-ui, sans-serif;
+    }
+    body {
+      background: #f4f7fb;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 1.5rem;
+      margin: 0;
+    }
+    .calendar-card {
+      max-width: 95vw;
+      width: fit-content;
+      background: #ffffff;
+      border-radius: 2rem;
+      box-shadow: 0 20px 35px rgba(0, 0, 0, 0.08), 0 8px 18px rgba(0, 20, 40, 0.08);
+      padding: 2rem 2rem 2.2rem;
+      transition: all 0.2s ease;
+    }
+    h2 {
+      font-weight: 500;
+      font-size: 1.9rem;
+      letter-spacing: 0.5px;
+      color: #1e293b;
+      margin: 0 0 0.2rem 0;
+      display: flex;
+      align-items: baseline;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      border-bottom: 2px solid #e9eef2;
+      padding-bottom: 0.7rem;
+    }
+    .user-badge {
+      background: #1e293b;
+      color: white;
+      padding: 0.2rem 1rem;
+      border-radius: 3rem;
+      font-size: 1.3rem;
+      font-weight: 600;
+      margin-left: 0.5rem;
+    }
+    .year-highlight {
+      font-weight: 650;
+      color: #0f3b5e;
+      background: #e5f0ff;
+      padding: 0.1rem 1.2rem;
+      border-radius: 2rem;
+      margin-left: 0.2rem;
+    }
+    .controls {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 1.2rem;
+      margin: 1.2rem 0 1.8rem;
+      background: #f8fafd;
+      padding: 0.9rem 1.2rem;
+      border-radius: 1.5rem;
+    }
+    .controls label {
+      font-weight: 600;
+      font-size: 0.9rem;
+      color: #334155;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+    input, select {
+      padding: 0.55rem 0.8rem;
+      border: 1px solid #cfdde7;
+      border-radius: 2rem;
+      font-size: 0.95rem;
+      background: white;
+      font-weight: 500;
+      color: #0b2b3f;
+      outline: none;
+      transition: 0.2s;
+      font-family: 'Fira Code', monospace;
+    }
+    input:focus, select:focus {
+      border-color: #1e4b6c;
+      box-shadow: 0 0 0 3px rgba(30, 75, 108, 0.15);
+    }
+    button {
+      background: #1e3b4f;
+      border: none;
+      color: white;
+      font-weight: 600;
+      padding: 0.6rem 1.6rem;
+      border-radius: 2.5rem;
+      font-size: 0.95rem;
+      letter-spacing: 0.3px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+      background: #0f2c3d;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+      transition: background 0.2s, transform 0.1s;
+      border: 1px solid #1e445b;
+    }
+    button:hover {
+      background: #1d4052;
+    }
+    .calendar-output {
+      background: #f9fbfd;
+      border-radius: 1.2rem;
+      padding: 1.5rem 1rem 1rem 1rem;
+      overflow-x: auto;
+      border: 1px solid #e2e8f0;
+      font-family: 'Fira Code', 'Courier New', monospace;
+      font-size: 1.33vw;
+      line-height: 1.6;
+      color: #1e293b;
+      white-space: pre;
+      background: #ffffff;
+      box-shadow: inset 0 1px 5px rgba(0,0,0,0.02);
+    }
+    .legend {
+      font-weight: 700;
+      font-size: 3.4vw;
+    }
+    .day-header {
+      font-weight: 700;
+      font-size: 1.34vw;
+      color: #0b3b4e;
+      white-space: pre;
+    }
+    .shift-Z { color: #b45309; font-weight: 700; }  /* Z - could be morning */
+    .shift-N { color: #0f5c6b; font-weight: 700; }  /* N - night */
+    .shift-dash { color: #6b7280; }                 /* - free/rest */
+    .row-marker {
+      font-weight: 700;
+      color: #1e3a5f;
+      background: #eef4ff;
+      /*padding: 0 0.3rem;*/
+      /*border-radius: 4px;*/
+    }
+    .error-message {
+      color: #b91c1c;
+      font-weight: 500;
+      margin-top: 0.3rem;
+    }
+    @media (max-width: 650px) {
+      .calendar-card {
+        padding: 1.5rem;
+      }
+      .controls {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+    }
+  </style>
+</head>
+<body>
+<div class="calendar-card">
+  <h2>
+    📅 Calendar ture
+    <span class="user-badge" id="displayUser">utilizator</span>
+    <span class="year-highlight" id="displayYear">2026</span>
+  </h2>
+
+  <div class="controls">
+    <label>👤 Nume <input type="text" id="userInput" placeholder="ex: Andrei" value="Andrei" style="width:120px;"></label>
+    <label>📆 An <input type="number" id="yearInput" value="2026" min="2026" max="2099" step="1" style="width:90px;"></label>
+    <label>🔄 Shift start (1-4)
+      <select id="shiftSelect">
+        <option value="1">1 (Z/N/-/-)</option>
+        <option value="2" selected>2 (N/-/-/Z)</option>
+        <option value="3">3 (-/-/Z/N)</option>
+        <option value="4">4 (-/Z/N/-)</option>
+      </select>
+    </label>
+    <button id="generateBtn">⟳ Generează calendar</button>
+  </div>
+  <div id="calendarContainer" class="calendar-output">
+    <!-- dynamic calendar output appears here -->
+  </div>
+  <div id="errorMsg" class="error-message"></div>
+  <div style="margin-top: 0.8rem; font-size:0.8rem; color:#475569;">
+    ⬤ Z = tură zi &nbsp; ⬤ N = tură noapte &nbsp; — = liber
+  </div>
+</div>
+
+<script>
+  (function() {
+    // --- DOM elements ---
+    const userInput = document.getElementById('userInput');
+    const yearInput = document.getElementById('yearInput');
+    const shiftSelect = document.getElementById('shiftSelect');
+    const generateBtn = document.getElementById('generateBtn');
+    const calendarContainer = document.getElementById('calendarContainer');
+    const displayUser = document.getElementById('displayUser');
+    const displayYear = document.getElementById('displayYear');
+    const errorEl = document.getElementById('errorMsg');
+
+    // --- Helper: compute YEARCODE exactly as in bash ---
+    function computeYearCode(year) {
+      // Bash: YEARCODE=6 ; yy=2026 ; while [ $yy -lt $YEAR ]; do YEARCODE=$(($YEARCODE + 1)); if [ $(($yy % 4)) -eq 0 ]; then YEARCODE=$(($YEARCODE + 1)); fi; yy=$(($yy + 1)); done
+      let yearCode = 6;
+      let yy = 2026;
+      while (yy < year) {
+        yearCode = yearCode + 1;
+        if (yy % 4 === 0) {
+          yearCode = yearCode + 1;
+        }
+        yy = yy + 1;
+      }
+      return yearCode;
+    }
+
+    // --- Get days per month array depending on leap year ---
+    function getDaysArray(year) {
+      // Bash: NUMDAYSM="31 28 31 30 31 30 31 31 30 31 30 31"
+      // if leap year: "31 29 31 30 31 30 31 31 30 31 30 31"
+      const base = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+      if (year % 4 === 0) {
+        return [31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+      }
+      return base;
+    }
+
+    // --- Main calendar generation (pure logic from bash) ---
+    function generateCalendar(user, year, shiftParam) {
+      // shiftParam is 1..4 (bash SHIFT)
+      // Bash: if [ $YEAR -gt 2037 ]; then exit (we'll handle gracefully)
+      if (year > 2037) {
+        throw new Error("Anul nu poate depăși 2037 (limită bash originală).");
+      }
+      if (year < 2026) {
+        throw new Error("Anul minim este 2026 (conform scriptului).");
+      }
+
+      const YEARCODE = computeYearCode(year);
+      const NUMDAYSM = getDaysArray(year); // array of 12 numbers
+
+      // shifts string: "Z N - -"
+      const shiftsList = ["Z", "N", "-", "-"];
+
+      // Build header: echo -n "    " + days 01..31
+      let headerDays = "";
+      for (let d = 1; d <= 31; d++) {
+        let dayStr = d < 10 ? "0" + d : "" + d;
+        headerDays += dayStr + " ";
+      }
+      // Final header: 4 spaces + days
+      const headerLine = "    " + headerDays.trimEnd();
+
+      const lines = [];
+      lines.push(headerLine);
+
+      // For each month 1..12
+      for (let m = 1; m <= 12; m++) {
+        const numdays = NUMDAYSM[m - 1]; // zero-indexed array
+        // month label: if m<10 -> "0m  " else "m  "
+        let monthLabel;
+        if (m < 10) {
+          monthLabel = "0" + m.toString() + " ";
+        } else {
+          monthLabel = m.toString() + " ";
+        }
+
+        let rowContent = "";
+
+        for (let d = 1; d <= numdays; d++) {
+          // offset calculation exactly as bash:
+          // offset=$(($d + $YEARCODE - $SHIFT))
+          let offset = d + YEARCODE - shiftParam;
+
+          // inner while: mm=1; while [ $mm -lt $m ]; do numdays0=... offset=$(($offset + $numdays0)); mm=$(($mm +1)); done
+          let mm = 1;
+          while (mm < m) {
+            const numdays0 = NUMDAYSM[mm - 1];
+            offset = offset + numdays0;
+            mm = mm + 1;
+          }
+
+          // offset=$((($offset % 4) + 1))
+          const index = ((offset % 4) + 1); // 1..4
+          // nshift = shiftsList[index-1]  (bash cut -d' ' -f $offset)
+          const shiftChar = shiftsList[index - 1];
+
+          // Add with spaces around (like bash echo -n " $nshift ")
+          rowContent += " " + shiftChar + " ";
+        }
+
+        // Combine month label + row content (trim trailing spaces but keep structure)
+        lines.push(monthLabel + rowContent.trimEnd());
+      }
+
+      return lines.join("\n");
+    }
+
+    // --- Render with HTML spans for colors (preserves whitespace) ---
+    function renderToHTML(calendarText, user, year) {
+      if (!calendarText) return "<pre>⚠️ Nimic de afișat</pre>";
+
+      const lines = calendarText.split("\n");
+      if (lines.length === 0) return "<pre></pre>";
+
+      // First line is header with days
+      let htmlOutput = `<div class="legend">Calendar ture anul ${displayYear.textContent} ${displayUser.textContent}</div>`;
+      
+      // Process header line (index 0)
+      if (lines[0]) {
+        htmlOutput += `<span class="day-header">${escapeHTML(lines[0])}</span>\n`;
+      }
+
+      // Process each month line
+      for (let i = 1; i < lines.length; i++) {
+        const line = lines[i];
+        if (line === undefined) continue;
+        
+        // We want to color the shift letters Z, N, - but keep spacing.
+        // Simple approach: replace specific patterns with spans.
+        // The line format: "01  " + " Z  N  -  - ..."
+        // We'll extract month part and then replace shift tokens.
+        const monthPart = line.substring(0, 4); // "01  " or "12  "
+        const rest = line.substring(3);
+        
+        // Colorize shift tokens: careful to replace standalone Z, N, - with spans.
+        // They are surrounded by spaces. We'll replace " Z " , " N " , " - " with colored spans.
+        let coloredRest = rest
+          .replace(/ Z ?/g, ' <span class="shift-Z">Z</span> ')
+          .replace(/ N ?/g, ' <span class="shift-N">N</span> ')
+          .replace(/ - ?/g, ' <span class="shift-dash">-</span> ');
+        
+        // Also handle possible leading/trailing spaces after replacement (keep structure)
+        // Rebuild line
+        htmlOutput += `<span class="row-marker">${escapeHTML(monthPart)}</span>${coloredRest}\n`;
+      }
+
+      return htmlOutput;
+    }
+
+    function escapeHTML(str) {
+      return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+    }
+
+    // --- Update UI ---
+    function updateCalendar() {
+      try {
+        const user = userInput.value.trim() || "Utilizator";
+        const year = parseInt(yearInput.value, 10);
+        const shift = parseInt(shiftSelect.value, 10);
+
+        if (isNaN(year) || year < 2026 || year > 2037) {
+          throw new Error("Anul trebuie să fie între 2026 și 2037.");
+        }
+        if (isNaN(shift) || shift < 1 || shift > 4) {
+          throw new Error("Shift-ul trebuie să fie 1, 2, 3 sau 4.");
+        }
+
+        // Update header badges
+        displayUser.textContent = user;
+        displayYear.textContent = year;
+
+        const rawCalendar = generateCalendar(user, year, shift);
+        const htmlCalendar = renderToHTML(rawCalendar, user, year);
+        calendarContainer.innerHTML = `<pre style="margin:0; font-family: inherit; background: transparent;">${htmlCalendar}</pre>`;
+        errorEl.textContent = "";
+      } catch (err) {
+        calendarContainer.innerHTML = `<pre style="color:#b91c1c;">⚠️ Eroare</pre>`;
+        errorEl.textContent = err.message;
+        displayUser.textContent = userInput.value.trim() || "?";
+        displayYear.textContent = yearInput.value || "?";
+      }
+    }
+
+    // --- Initial default (matching bash example: year 2026, user Andrei, shift 2) ---
+    function setDefaultsAndRun() {
+      // default values like in example: user="Andrei", year=2026, shift=2
+      userInput.value = "Andrei";
+      yearInput.value = "2026";
+      shiftSelect.value = "2";
+      const urlParams =  new URLSearchParams(window.location.search);
+      const users = [ "ljc1q", "xxtoo", "fras0", "l3hb4" ];
+      let tura = 2;
+      if (urlParams.has("user")) {
+        tura = 5 - users.indexOf(urlParams.get("user"));
+	if (tura === 5)
+	  tura = 1;
+      }
+      shiftSelect.value = tura;
+      updateCalendar();
+    }
+
+    // Event listeners
+    generateBtn.addEventListener('click', updateCalendar);
+    // Optional: update on Enter key
+    yearInput.addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') updateCalendar();
+    });
+    userInput.addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') updateCalendar();
+    });
+
+    // Run on page load
+    setDefaultsAndRun();
+  })();
+</script>
+</body>
+</html>
