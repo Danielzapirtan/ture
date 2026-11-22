@@ -28,7 +28,7 @@ function renderCalendar() {
     const daysInMonth = new Date(year, month + 1, 0).getDate();
     monthCalendar.innerHTML = `${month + 1}: `;
     for (let day = 1; day <= daysInMonth; day++)
-      if (isWorkDay(year, month, day)) {
+      if (isWorkDay(year, month - 1, day)) {
         monthCalendar.innerHTML += `${day} `;
       }
     monthCalendar.innerHTML += `<br/>`;
