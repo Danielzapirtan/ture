@@ -17,7 +17,7 @@ function getTura() {
 const tura = getTura();
 
 function isWorkDay(year, month, day) {
-  const diffDate = Math.round((new Date(year, month, day) - new Date(2026, 0, 0)) / 86400000.0);
+  const diffDate = Math.round((new Date(year, month, day) - new Date(2025, 0, 0)) / 86400000.0);
   return (((diffDate + 6 - tura) % 4) > 1);
 }
 
