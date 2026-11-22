@@ -1,10 +1,12 @@
-const yearInput = document.getElementById("yearinput");
+const yearEl = document.getElementById("year");
 const calendarContainer = document.getElementById("calendarcontainer");
+const up = document.getElementById("up");
+const down = document.getElementById("down");
 
 const startYear = new Date().getFullYear();
 const endYear = 2037;
 
-yearInput.value = startYear;
+yearEl.value = startYear;
 let year = startYear;
 
 function getTura() {
@@ -36,9 +38,19 @@ function renderCalendar() {
   }
 }
 
-yearInput.addEventListener("change", (event) => {
+up.addEventListener("click", (event) => {
   event.preventDefault();
-  year = yearInput.value;
+  year++;
+  if (year > endYear) year = endYear;
+  yearEl.indexHTML = `${year}`;
+  renderCalendar();
+});
+
+down.addEventListener("click", (event) => {
+  event.preventDefault();
+  year--;
+  if (year < starYear) year = startYear;
+  yearEl.indexHTML = `${year}`;
   renderCalendar();
 });
 
