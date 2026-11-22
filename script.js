@@ -41,7 +41,9 @@ function renderCalendar() {
 up.addEventListener("click", (event) => {
   event.preventDefault();
   year++;
-  if (year > endYear) year = endYear;
+  if (year > endYear) { 
+    year = endYear;
+  }
   yearEl.innerHTML = `${year}`;
   renderCalendar();
 });
@@ -49,7 +51,9 @@ up.addEventListener("click", (event) => {
 down.addEventListener("click", (event) => {
   event.preventDefault();
   year--;
-  if (year < starYear) year = startYear;
+  if (year < startYear) {
+    year = startYear;
+  }
   yearEl.innerHTML = `${year}`;
   renderCalendar();
 });
