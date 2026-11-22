@@ -17,16 +17,16 @@ function getTura() {
 const tura = getTura();
 
 function isWorkDay(year, month, day) {
-  const diffDate = Math.round((new Date(year, month - 1, day) - new Date(2026, 0, 0)) / 86400000.0);
+  const diffDate = Math.round((new Date(year, month, day) - new Date(2026, 0, 0)) / 86400000.0);
   return (((diffDate + 6 - tura) % 4) > 1);
 }
 
 function renderCalendar() {
   calendarContainer.innerHTML = ``;
-  for (let month = 1; month <= 12; month++) {
+  for (let month = 0; month <= 11; month++) {
     const monthCalendar = document.createElement("div");
-    const daysInMonth = new Date(year, month, 0).getDate();
-    monthCalendar.innerHTML = `${month}: `;
+    const daysInMonth = new Date(year, month + 1, 0).getDate();
+    monthCalendar.innerHTML = `${month + 1}: `;
     for (let day = 1; day <= daysInMonth; day++)
       if (isWorkDay(year, month, day)) {
         monthCalendar.innerHTML += `${day} `;
