@@ -42,7 +42,7 @@ up.addEventListener("click", (event) => {
   event.preventDefault();
   year++;
   if (year > endYear) year = endYear;
-  yearEl.indexHTML = `${year}`;
+  yearEl.innerHTML = `${year}`;
   renderCalendar();
 });
 
@@ -50,7 +50,7 @@ down.addEventListener("click", (event) => {
   event.preventDefault();
   year--;
   if (year < starYear) year = startYear;
-  yearEl.indexHTML = `${year}`;
+  yearEl.innerHTML = `${year}`;
   renderCalendar();
 });
 
