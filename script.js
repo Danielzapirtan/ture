@@ -32,7 +32,7 @@ function renderCalendar() {
     for (let day = 1; day <= daysInMonth; day++)
       if (isWorkDay(year, month, day) > 1) {
 	const weekDay = new Date(year, month, day).getDay();
-	const bgcolor = weekDay > 4;
+	const bgcolor = weekDay % 6 === 0;
 	const color = (isWorkDay(year, month, day) < 3) ? "white" : "black";
 	if (!bgcolor)
 	      monthCalendar.innerHTML += `<span class="blue ${color}">${day}&nbsp</span>`;
