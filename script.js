@@ -6,14 +6,10 @@ const ydown = document.getElementById("ydown");
 const mup = document.getElementById("mup");
 const mdown = document.getElementById("mdown");
 
-const startYear = new Date().getFullYear();
-const startMonth = new Date().getMonth();
-const endYear = Math.min(2037, startYear + 3);
+const nowDate = Temporal.Now.plainDateISO();
 
-yearEl.value = startYear;
-monthEl.value = startMonth + 1;
-let year = startYear;
-let month = startMonth;
+yearEl.value = nowDate.year;
+monthEl.value = nowDate.month;
 
 function getTura() {
   const url = window.location.search;
@@ -24,9 +20,16 @@ function getTura() {
 
 const tura = getTura();
 
-function isWorkDay(year, month, day) {
-  const diffDate = Math.round((new Date(year, month, day) - new Date(2025, 0, 0)) / 86400000.0);
-  return ((diffDate + 9 - tura) % 4);
+function isWorkDay(date) {
+  const refDate = Temporal.PlainDate.from({ year: 2025, month: 1, day: 1});
+  const diffDate = date.since(refDate);
+  if (diffDate.years > 0)
+    return date.subtract({days: 364}).since(refDate);
+  if (diffDate.months > 0)
+    return date.subtract({days: 28}).since(refDate);
+  if (diffDate.days > 0)
+    return (diffDate.days + 6 - tura) % 4;
+  return 0;
 }
 
 function addCell(el, fg, bg, tc) {
@@ -39,27 +42,34 @@ function addCell(el, fg, bg, tc) {
 }
 
 function renderCalendar() {
+  const year = yearEl.innerHTML;
+  const month = monthEl.innerHTML;
   calendarContainer.innerHTML = ``;
   const head = document.createElement("div");
   head.classList.add("row");
   head.innerHTML = ``;
-  addCell(head, "#222", "#ddd", "Lun");
-  addCell(head, "#222", "#ddd", "Mar");
-  addCell(head, "#222", "#ddd", "Mie");
-  addCell(head, "#222", "#ddd", "Joi");
-  addCell(head, "#222", "#ddd", "Vin");
-  addCell(head, "#222", "#ddd", "Sam");
-  addCell(head, "#222", "#ddd", "Dum");
+  addCell(head, "#222", "#ddd", "lun");
+  addCell(head, "#222", "#ddd", "mar");
+  addCell(head, "#222", "#ddd", "mie");
+  addCell(head, "#222", "#ddd", "joi");
+  addCell(head, "#222", "#ddd", "vin");
+  addCell(head, "#222", "#ddd", "sam");
+  addCell(head, "#222", "#ddd", "dum");
   calendarContainer.appendChild(head);
-  const firstDay = (new Date(year, month, 1).getDay() + 6) % 7;
-  const daysInMonth = new Date(year, month + 1, 0).getDate();
+  const std = Temporal.PlainDate.from({year: year, month: month, day:1});
+  const firstDay = (std.dayOfWeek + 6) % 7;
+  const daysInMonth = std.daysInMonth;
   for (let week = 0; week < 6; week++) {
     const row = document.createElement("div");
     row.classList.add("row");
     row.innerHTML = ``;
     for (let wday = 0; wday < 7; wday++) {
       const day = week * 7 + wday - firstDay + 1;
-      const wDay = isWorkDay(year, month, day);
+      let wDay = 3;
+      if (day >= 1 && day <= daysInMonth) {
+        const then1 = Temporal.PlainDate.from({year: year, month: month, day: day});
+        wDay = isWorkDay(then1);
+      }
       const sc = [ "lightgreen", "lightblue", "lightyellow", "lightyellow", ];
       const bg = sc[wDay];
       let fg;
@@ -81,52 +91,50 @@ function renderCalendar() {
 
 yup.addEventListener("click", (event) => {
   event.preventDefault();
+  let year = yearEl.innerHTML;
   year++;
-  if (year > endYear) { 
-    year = endYear;
-  }
   yearEl.innerHTML = `${year}`;
   renderCalendar();
 });
 
 ydown.addEventListener("click", (event) => {
   event.preventDefault();
+  let year = yearEl.innerHTML;
   year--;
-  if (year < startYear) {
-    year = startYear;
-  }
+  if (year < 2026)
+    year = 2026;
   yearEl.innerHTML = `${year}`;
   renderCalendar();
 });
 
 mup.addEventListener("click", (event) => {
   event.preventDefault();
+  let month = monthEl.innerHTML;
+  let year = yearEl.innerHTML;
   month++;
-  if (month > 11) { 
-    month = 0;
+  if (month > 12) { 
+    month = 1;
     year++;
-    if (year > endYear) {
-      year = endYear;
-      month = 11;
-    }
   }
-  monthEl.innerHTML = `${month + 1}`;
+  monthEl.innerHTML = `${month}`;
   yearEl.innerHTML = `${year}`;
   renderCalendar();
 });
 
 mdown.addEventListener("click", (event) => {
   event.preventDefault();
+  let month = monthEl.innerHTML;
+  let year = yearEl.innerHTML;
   month--;
-  if (month < 0) {
-    month = 11;
+  if (month < 1) {
+    month = 12;
     year--;
-    if (year < startYear) {
-      year = startYear;
-      month = 0;
+    if (year < 2026) {
+      year = 2026;
+      month = 1;
     }
   }
-  monthEl.innerHTML = `${month + 1}`;
+  monthEl.innerHTML = `${month}`;
   yearEl.innerHTML = `${year}`;
   renderCalendar();
 });
