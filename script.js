@@ -20,7 +20,7 @@ const tura = getTura();
 
 function isWorkDay(year, month, day) {
   const diffDate = Math.round((new Date(year, month, day) - new Date(2025, 0, 0)) / 86400000.0);
-  return (((diffDate + 7 - tura) % 4) > 1);
+  return ((diffDate + 7 - tura) % 4);
 }
 
 function renderCalendar() {
@@ -30,19 +30,20 @@ function renderCalendar() {
     const daysInMonth = new Date(year, month + 1, 0).getDate();
     monthCalendar.innerHTML = `${String(month + 101).slice(1)}: `;
     for (let day = 1; day <= daysInMonth; day++)
-      if (isWorkDay(year, month, day)) {
+      if (isWorkDay(year, month, day) > 1) {
 	const weekDay = new Date(year, month, day).getDay();
-	const color = weekDay > 4;
-	if (!color)
-	      monthCalendar.innerHTML += `<span class=blue>${day}&nbsp</span>`;
+	const bgcolor = weekDay > 4;
+	const color = (isWorkDay(year, month, day) < 3) ? "white" : "black";
+	if (!bgcolor)
+	      monthCalendar.innerHTML += `<span class="blue ${color}">${day}&nbsp</span>`;
 	else if (weekDay === 5)
-	      monthCalendar.innerHTML += `<span class=green>${day}&nbsp</span>`;
+	      monthCalendar.innerHTML += `<span class=green ${color}">${day}&nbsp</span>`;
 	else
-	      monthCalendar.innerHTML += `<span class=red>${day}&nbsp</span>`;
+	      monthCalendar.innerHTML += `<span class=red ${color}">${day}&nbsp</span>`;
       }
     monthCalendar.innerHTML += `<br/>`;
     calendarContainer.appendChild(monthCalendar);
-  }
+    }
 }
 
 up.addEventListener("click", (event) => {
