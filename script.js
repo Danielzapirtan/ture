@@ -78,31 +78,7 @@ function renderCalendar() {
       break;
   }
 }
-/*
-function renderCalendar() {
-  calendarContainer.innerHTML = ``;
-  for (let month = 0; month <= 11; month++) {
-    const monthCalendar = document.createElement("div");
-    const daysInMonth = new Date(year, month + 1, 0).getDate();
-    monthCalendar.innerHTML = `${String(month + 101).slice(1)}: `;
-    for (let day = 1; day <= daysInMonth; day++)
-      if (isWorkDay(year, month, day) > 1) {
-        const day1 = String(day + 100).slice(1);
-	const weekDay = new Date(year, month, day).getDay();
-	const bgcolor = weekDay % 6 === 0;
-	const color = (isWorkDay(year, month, day) < 3) ? "white" : "black";
-	if (!bgcolor)
-	      monthCalendar.innerHTML += `<span class="blue ${color}">${day1}&nbsp</span>`;
-	else if (weekDay === 6)
-	      monthCalendar.innerHTML += `<span class="green ${color}">${day1}&nbsp</span>`;
-	else
-	      monthCalendar.innerHTML += `<span class="red ${color}">${day1}&nbsp</span>`;
-      }
-    monthCalendar.innerHTML += `<br/>`;
-    calendarContainer.appendChild(monthCalendar);
-    }
-}
-*/
+
 yup.addEventListener("click", (event) => {
   event.preventDefault();
   year++;
