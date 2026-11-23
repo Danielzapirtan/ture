@@ -8,7 +8,7 @@ const mdown = document.getElementById("mdown");
 
 const startYear = new Date().getFullYear();
 const startMonth = new Date().getMonth();
-const endYear = 2037;
+const endYear = Math.min(2037, startYear + 3);
 
 yearEl.value = startYear;
 monthEl.value = startMonth + 1;
