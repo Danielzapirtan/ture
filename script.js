@@ -127,9 +127,15 @@ mup.addEventListener("click", (event) => {
   event.preventDefault();
   month++;
   if (month > 11) { 
-    month = 11;
+    month = 0;
+    year++;
+    if (year > endYear) {
+      year = endYear;
+      month = 11;
+    }
   }
   monthEl.innerHTML = `${month + 1}`;
+  yearEl.innerHTML = `${year}`;
   renderCalendar();
 });
 
@@ -137,9 +143,15 @@ mdown.addEventListener("click", (event) => {
   event.preventDefault();
   month--;
   if (month < 0) {
-    month = 0;
+    month = 11;
+    year--;
+    if (year < startYear) {
+      year = startYear;
+      month = 0;
+    }
   }
   monthEl.innerHTML = `${month + 1}`;
+  yearEl.innerHTML = `${year}`;
   renderCalendar();
 });
 
