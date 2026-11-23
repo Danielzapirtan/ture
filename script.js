@@ -28,10 +28,17 @@ function renderCalendar() {
   for (let month = 0; month <= 11; month++) {
     const monthCalendar = document.createElement("div");
     const daysInMonth = new Date(year, month + 1, 0).getDate();
-    monthCalendar.innerHTML = `${month + 1}: `;
+    monthCalendar.innerHTML = `${String(month + 101).slice(1)}: `;
     for (let day = 1; day <= daysInMonth; day++)
       if (isWorkDay(year, month, day)) {
-        monthCalendar.innerHTML += `${day} `;
+	const weekDay = new Date(year, month, day).getDay();
+	const color = weekDay > 4;
+	if (!color)
+	      monthCalendar.innerHTML += `<span class=blue>${day}&nbsp</span>`;
+	else if (weekDay === 5)
+	      monthCalendar.innerHTML += `<span class=green>${day}&nbsp</span>`;
+	else
+	      monthCalendar.innerHTML += `<span class=red>${day}&nbsp</span>`;
       }
     monthCalendar.innerHTML += `<br/>`;
     calendarContainer.appendChild(monthCalendar);

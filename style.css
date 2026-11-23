@@ -1,8 +1,18 @@
 * {
-  font-size: 17pt;
+  font-size: 4mm;
 }
 
 button {
   background-color: olive;
   color: white;
+}
+
+.red {
+  background-color: #faa;
+}
+.green {
+  background-color: #afa;
+}
+.blue {
+  background-color: #aaf;
 }
