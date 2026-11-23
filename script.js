@@ -36,7 +36,7 @@ function renderCalendar() {
 	const color = (isWorkDay(year, month, day) < 3) ? "white" : "black";
 	if (!bgcolor)
 	      monthCalendar.innerHTML += `<span class="blue ${color}">${day}&nbsp</span>`;
-	else if (weekDay === 5)
+	else if (weekDay === 6)
 	      monthCalendar.innerHTML += `<span class="green ${color}">${day}&nbsp</span>`;
 	else
 	      monthCalendar.innerHTML += `<span class="red ${color}">${day}&nbsp</span>`;
