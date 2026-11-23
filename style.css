@@ -10,35 +10,14 @@ button {
   width: 4vw;
 }
 
-.calendarcontainer {
-  margin: 10mm;
-  min-width: 85mm;
-  align: center;
-}
-
-.red {
-  background-color: #faa;
-}
-.green {
-  background-color: #afa;
-}
-.blue {
-  background-color: #aaf;
-}
-.white {
-  color: #aa5555;
-}
-.black {
-  color: #000000;
-}
-
 .row {
-  height: 10mm;
-  min-width: 80mm;
+  display: flex;
+  flex-direction: row;
 }
 
 .cell {
-  min-width: 10mm;
-  border: 2px solid #111;
-  padding: 20px 10px;
+  border: 1px solid #222;
+  min-width: 13vw;
+  max-width: 13vw;
+  text-align: center;
 }
