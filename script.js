@@ -37,9 +37,9 @@ function renderCalendar() {
 	if (!bgcolor)
 	      monthCalendar.innerHTML += `<span class="blue ${color}">${day}&nbsp</span>`;
 	else if (weekDay === 5)
-	      monthCalendar.innerHTML += `<span class=green ${color}">${day}&nbsp</span>`;
+	      monthCalendar.innerHTML += `<span class="green ${color}">${day}&nbsp</span>`;
 	else
-	      monthCalendar.innerHTML += `<span class=red ${color}">${day}&nbsp</span>`;
+	      monthCalendar.innerHTML += `<span class="red ${color}">${day}&nbsp</span>`;
       }
     monthCalendar.innerHTML += `<br/>`;
     calendarContainer.appendChild(monthCalendar);
